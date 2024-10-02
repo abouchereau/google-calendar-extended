@@ -1,0 +1,76 @@
+= Général
+groupe:fk
+date:date
+ville:String
+codePostal:string
+nomEvenement:string
+payant:boolean
+suiviDevisContrat:enum
+dateEnvoi:date
+montant:float
+feuilleDeRoute:enum
+heureConcerts:string
+
+
+= Horaires
+lieuRdv:string
+heureDebutConcert:time
+heureBalance:time
+heureRdvRepas:time
+heureArrivee:time
+heureDepart:time [calculé]
+heureRetour:time 
+
+
+= Equipe
+equipeMusiciens:list[user]
+equipeTechnique:list[user]
+
+= Set
+tempsChargementMinutes:integer
+infoSets:string
+
+= Transport
+vehicule:enum
+dateDepartCrafter:date
+dateRetourCrafter:date
+vehiculesPerso:list[user]
+
+= Trajet
+adresseDepart:string
+adresseArrivee:string
+distanceKm:integer [calculé]
+dureeMinutes:integer [calculé]
+
+= Repas
+= Horaires /Repas
+repas:enum
+nbVegetariens:integer
+nbSansGlut:integer
+nbLact:integer
+allergies:string
+repas1:string
+horaireRepas1:time
+repas2:string
+horaireRepas2:time
+repas3:string
+horaireRepas3:time
+
+= Hébergement
+dateArriveeHebergement:dateTime
+adresseHebergement:string
+contactHebergement:string
+
+
+
+
+= Contacts
+contactTechnique:string
+contactAccueil:string
+contactOrga:string
+= Communication
+envoiKitCom: enum
+contactCom: string
+lien:string
+= Precisions
+precisions:string

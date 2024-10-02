@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="/js/const.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/vue-router.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/vue3-sfc-loader.js"></script>
+    <script src="/js/filter.js"></script>
+    <script src="/js/main.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <title>Google Calendar Extended</title>
+</head>
+<body>
+<div id="app">
+    <app></app>
+</div>
+<script>
+    const { loadModule } = window['vue3-sfc-loader'];
+
+    const routes = [
+        { path: '/', component: () => loadModule('./components/page/Panel.vue', Utils.loadModuleOptions()) },
+    ];
+
+    const router = VueRouter.createRouter({
+        history: VueRouter.createWebHashHistory(),
+        routes
+    });
+    let main = new Main();
+    const vueApp = Vue.createApp({
+        components: {
+            'navbar': Vue.defineAsyncComponent( ()=>loadModule('./components/block/Navbar.vue', Utils.loadModuleOptions())),
+            'app': Vue.defineAsyncComponent( () => loadModule('./components/App.vue', Utils.loadModuleOptions()) )
+        }
+    })
+    vueApp.use(router);
+
+    //why this works only as global component ?? don't know
+    vueApp.config.globalProperties.$main = main;
+    vueApp.mount('#app');
+</script>
+<script src="/js/bootstrap.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "@types/gapi": "^0.0.47",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "googleapis": "^105.0.0",
+    "node-fetch": "^3.3.2"
+  }
+}
