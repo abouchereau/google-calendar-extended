@@ -1,3 +1,5 @@
 /node_modules/
 /token.json
+/credentials.json
 /token-old.json
+/.idea/
