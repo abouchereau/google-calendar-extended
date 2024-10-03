@@ -1,3 +1,13 @@
+= Champs CAL
+id:int key
+eventId:string
+calId:string
+calName:string,
+summary:string
+dateStart:date
+data:text
+
+
 = Général
 groupe:fk
 date:date
