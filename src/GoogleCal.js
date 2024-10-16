@@ -2,6 +2,7 @@ const fs = require('fs').promises;
 const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
 const Const = require('../public/js/const');
+const Sql = require('./Sql.js');
 
 module.exports = class GoogleCal {
 
@@ -14,8 +15,12 @@ module.exports = class GoogleCal {
     CREDENTIALS_PATH = __dirname+"/../credentials.json"
     EXCLUDE_CALS = ['Numéros de semaine'];
 
-    calsList = [];
-    fullEventList = [];
+    sql = null;
+    client = null;
+
+    constructor() {
+        this.sql = new Sql();
+    }
 
     async loadSavedCredentialsIfExist() {
         try {
@@ -40,6 +45,12 @@ module.exports = class GoogleCal {
         await fs.writeFile(this.TOKEN_PATH, payload);
     }
 
+    async getClient() {
+        if (this.client == null) {
+            this.client = await this.authorize();
+        }
+        return this.client;
+    }
 
     async authorize() {
         let client = await this.loadSavedCredentialsIfExist();
@@ -56,13 +67,43 @@ module.exports = class GoogleCal {
         return client;
     }
 
+    async loadAllEvents() {
+        const auth = await this.getClient();
+        const calendar = google.calendar({version: 'v3', auth});
+        const res = await calendar.calendarList.list({});      
+        await this.sql.truncate();
+        for (let cal of res.data.items) {
+            if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
+                this.sql.insertCal(cal);               
+                const res = await calendar.events.list({
+                    calendarId: cal.id, 
+                    //maxResults: 1000,
+                    singleEvents: true,
+                    orderBy: 'startTime',
+                });
+                const events = res.data.items.map(a=>this.mapEvent(a, cal));
+                if (events && events.length > 0) {
+                    for (let event of events) {
+                        await this.sql.insertEvent(event);
+                    }
+                    
+                }
+            }
+        }
+        //TODO ne s'arrête pas :/
+    }
+
+    _insertCalDb(cal) {
+        this.sql.insertCal(this._mapCal(cal));
+    }
+
     async _loadAll(auth) {
         const calendar = google.calendar({version: 'v3', auth});
         const res = await calendar.calendarList.list({});      
         this.calsList = [];
         this.fullEventList = [];
         for (let cal of res.data.items) {    
-            if (!this.EXCLUDE_CALS.includes(cal.summary)) {                
+            if (!this.EXCLUDE_CALS.includes(cal.summary)) {     
                 const res = await calendar.events.list({
                     calendarId: cal.id, 
                     maxResults: 1000,
@@ -73,7 +114,8 @@ module.exports = class GoogleCal {
                 if (events && events.length > 0) {
                     this.fullEventList = this.fullEventList.concat(events);
                 }
-                this.calsList.push(cal);
+                this.sql.insertCal(cal);
+
             }
         }        
     }
@@ -83,16 +125,11 @@ module.exports = class GoogleCal {
         if (x.extendedProperties != null && x.extendedProperties.private != null) {
             data = x.extendedProperties.private;
         }                
-        let date = new Date(x.start.dateTime || x.start.date);
-        return {
-            "id": x.id, 
-            "calId": cal.id,
-            "calName": cal.summary,
-            "summary": x.summary,
-            "date": date,
-            "data": data
-        };
-    }   
+        let date = new Date(x.start.dateTime || x.start.date);       
+        return [x.id, cal.id, x.summary, date, JSON.stringify(data)];
+    } 
+    
+    
 
 
     async listCalendars() {
@@ -104,53 +141,34 @@ module.exports = class GoogleCal {
     }
 
 
-    async updateEvent() {
+    async updateEvent(id, calId, item) {
+        
+        console.log("ITEM", item);
         const auth = await this.getClient();
         const calendar = google.calendar({version: 'v3', auth});
-
-        /*const res = await calendar.events.patch({        
-            "calendarId": 'primary',   
-            "eventId": "bc9trtm6e26lgd1tpn8ni0nir4_20241006",
+        let data = {        
+            "calendarId": calId,   
+            "eventId": id,
             "requestBody" : {
                 "extendedProperties": {
-                    "private": {
-                        "crafter": "O",
-                        "equipe":"Gilles Chauprade, Guillaume Trocmé"
-                    }
+                    "private": item
                 }
             }
-        });*/
+        };
+        console.log("DATA", data);
+        const res = await calendar.events.patch(data);
+
         const res2 = await calendar.events.get({
-            calendarId: 'primary',   
-            eventId: "bc9trtm6e26lgd1tpn8ni0nir4_20241006",
+            calendarId: calId,   
+            eventId: id,
         });
         console.log(res2.data.extendedProperties.private);
-        
+        return res2.data.extendedProperties.private;
 
     }
 
-    dataIsLoaded() {
-        return Object.keys(this.fullEventList).length > 0;
-    }
+    
 
 
-    async filteredList(cal=null, year=null, month=null) {
-        if (!this.dataIsLoaded()) {
-            let client = await this.authorize();
-            await this._loadAll(client);
-        }
-        let filteredList = [...this.fullEventList ];
-        if (cal!=null) {
-            filteredList = filteredList.filter(a=>a.calId==cal);
-        }
-        if (year!=null) {
-            //console.log(a.date.getYear());
-            filteredList = filteredList.filter(a=>a.date.getFullYear()==year);            
-        }
-        if (month!=null) {
-            filteredList = filteredList.filter(a=>a.date.getMonth()==parseInt(month)-1);
-        }       
-        return filteredList;
-    }
 
 }

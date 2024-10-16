@@ -3,10 +3,83 @@ class Const {
     static get GOOGLE_KEY() {return "AIzaSyAzl_5-yQOIDNTpnVV9LOJqUBRI08FrQMM";}
     static get FIRST_YEAR() {return 2010;}    
     static get LAST_YEAR() {return new Date().getFullYear();}
-    static get BANDS() {return [
-        //{"name":"Fanfare", "calId":"to11pvq2q69m27am45fjggvkpk%40group.calendar.google.com", "slug":"fanfare"}
-        {"name":"Fanfare", "calId":"tfcb4r1u9mu389qi41oo1nlsek@group.calendar.google.com", "slug":"fanfare"}        
+    static get BASE_API() {return location.protocol + '//' + location.hostname+":3615";}
+    static get MONTH_LIST() {return [
+        "janvier", 
+        "février", 
+        "mars", 
+        "avril", 
+        "mai", 
+        "juin", 
+        "juillet", 
+        "août", 
+        "septembre", 
+        "octobre", 
+        "novembre", 
+        "décembre"
     ];}
+    static get DAY_LIST() {return [
+        "lundi", 
+        "mardi", 
+        "mercredi", 
+        "jeudi", 
+        "vendredi", 
+        "samedi", 
+        "dimanche", 
+    ];}
+
+
+    static get OBJ_EMPTY() {
+        return {ville:"",
+            codePostal:"",
+            nomEvenement:"",
+            payant:"",
+            suiviDevisContrat:"",
+            dateEnvoi:"",
+            montant:"",
+            feuilleDeRoute:"",
+            heureConcerts:"",
+            lieuRdv:"",
+            heureDebutConcert:"",
+            heureBalance:"",
+            heureRdvRepas:"",
+            heureArrivee:"",
+            heureDepart:"", 
+            heureRetour:"", 
+            equipeMusiciens:"",
+            equipeTechnique:"",
+            tempsChargementMinutes:"",
+            infoSets:"",
+            vehicule:"",
+            dateDepartCrafter:"",
+            dateRetourCrafter:"",
+            vehiculesPerso:"",
+            adresseDepart:"",
+            adresseArrivee:"",
+            distanceKm:"",
+            dureeMinutes:"",
+            repas:"",
+            nbVegetariens:"",
+            nbSansGlut:"",
+            nbLact:"",
+            allergies:"",
+            repas1:"",
+            horaireRepas1:"",
+            repas2:"",
+            horaireRepas2:"",
+            repas3:"",
+            horaireRepas3:"",
+            dateArriveeHebergement:"",
+            adresseHebergement:"",
+            contactHebergement:"",
+            contactTechnique:"",
+            contactAccueil:"",
+            contactOrga:"",
+            envoiKitCom: "",
+            contactCom: "",
+            lien:"",
+            precisions:""};
+    }
 }
 
 /*

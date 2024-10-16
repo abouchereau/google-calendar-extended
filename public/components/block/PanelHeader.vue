@@ -1,17 +1,29 @@
 <template>
-    <div>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav class="fixed-top navbar bg-primary">
         <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-4 offset-md-4 text-center">
+          <div class="row align-items-center" style="width:100%/*why?*/">
+            <div class="text-end col text-light">
+              Calendrier
+            </div>
+            <div class="col">
               <select class="form-control" @change="e=>$emit('onChange')" v-model="$main.filter.cal">
                 <option value="">Tous</option>
-                <option v-for="(cal, index) in cals" :value="cal.id" :key="index">{{ cal.summary }}</option>
+                <option v-for="(cal, index) in cals" :value="cal.id" :key="index" v-bind:style="{color:cal.color_front, backgroundColor:cal.color_back}">{{ cal.summary }}</option>
               </select>
             </div>
-          </div>   
-          <div class="row">
-            <div class="col-md-4 offset-md-4 text-center">
+            <div class="text-end col text-light">
+              Mois
+            </div>
+            <div class="col">
+              <select class="form-control" @change="e=>$emit('onChange')" v-model="$main.filter.month">
+                <option value="-1">Tout</option>
+                <option v-for="(mois, index) in monthList" :value="index">{{ mois }}</option>
+              </select>
+            </div>
+            <div class="text-end col text-light">
+              Année
+            </div>
+            <div class="col">
               <select class="form-control" @change="e=>$emit('onChange')" v-model="$main.filter.year">
                 <option value="-1">Tout</option>
                 <option v-for="n in (yearMax - yearMin +1)" :value="yearMax - n + 1">{{ yearMax - n +1 }}</option>
@@ -20,7 +32,8 @@
           </div>
         </div>
       </nav>
-    </div>
+      <div style="height:60px;"></div>
+    
   </template>
   
   <script>
@@ -31,7 +44,9 @@
         cals: [],
         appName: Const.APP_NAME,
         yearMin: Const.FIRST_YEAR,
-        yearMax: Const.LAST_YEAR
+        yearMax: Const.LAST_YEAR,
+        monthList: Const.MONTH_LIST,
+        
       }
     },
     async mounted() {

@@ -10,7 +10,7 @@ data:text
 
 = Général
 groupe:fk
-date:date
+#date:date
 ville:String
 codePostal:string
 nomEvenement:string
