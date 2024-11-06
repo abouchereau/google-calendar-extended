@@ -14,15 +14,17 @@ const corsOptions = {
     optionsSuccessStatus: 200 // For legacy browser support
 };
 //const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+/*
 const key = fs.readFileSync(__dirname + '/selfsigned.key');
 const cert = fs.readFileSync(__dirname + '/selfsigned.crt');
-const options = {key, cert};
+const options = {key, cert};*/
+const options = {};
 const port = 3615;
 
 app.use(cors(corsOptions));
 app.use(express.json());
 let server = null;
-if (process.platform=="win32") {//local
+if (true) {//process.platform=="win32") {//local
     server = http.createServer(options, app).listen(port, function(){
         console.log("Express server listening on port " + port);
       });
