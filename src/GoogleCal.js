@@ -75,9 +75,9 @@ module.exports = class GoogleCal {
         for (let cal of res.data.items) {
             if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
                 this.sql.insertCal(cal);               
-                const res = await calendar.events.list({
+                const res = await calendar.events.list({                    
                     calendarId: cal.id, 
-                    //maxResults: 1000,
+                    maxResults: 2000,
                     singleEvents: true,
                     orderBy: 'startTime',
                 });
