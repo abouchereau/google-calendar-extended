@@ -3,7 +3,7 @@ class Const {
     static get GOOGLE_KEY() {return "AIzaSyAzl_5-yQOIDNTpnVV9LOJqUBRI08FrQMM";}
     static get FIRST_YEAR() {return 2010;}    
     static get LAST_YEAR() {return new Date().getFullYear();}
-    static get BASE_API() {return location.hostname=="localhost"?"http://localhost:3615":"http://node.lasaugrenue.fr:3615";}
+    static get BASE_API() {return location.hostname=="localhost"?"http://localhost:3615":"https://node.lasaugrenue.fr";}
     static get MONTH_LIST() {return [
         "janvier", 
         "février", 

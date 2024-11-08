@@ -167,6 +167,9 @@ module.exports = class GoogleCal {
 
     }
 
+    async syncLastDates() {
+        
+    }
     
 
 
