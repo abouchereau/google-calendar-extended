@@ -74,7 +74,7 @@ app.post("/updateEvent/:id",async (req, res)=> {
     delete item.summary;
     delete item.event_id;
     await gCal.updateEvent(req.params.id, cal_id, item);  
-    await sql.updateEvent(req.params.id, item);    
+    await sql.updateEventData(req.params.id, item);    
     res.send(req.body);
 });
   

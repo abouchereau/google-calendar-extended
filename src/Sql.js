@@ -61,7 +61,19 @@ module.exports = class Sql {
         );
     }
 
+    async createOrUpdateEvent(event) {
+        let nb = await this._query("select id from event where event_id=?", event[0]);
+        if (nb.length==1) {
+            await this.updateEvent(event);
+        }
+        else {
+            await this.insertEvent(event);
+        }
+    }
+
     async insertCal(cal) {
+        //TODO : if not exists
+
         await this._query(
             "insert into cal(cal_id, color_front, color_back, summary) values(?,?,?,?)",
             [cal.id, cal.foregroundColor, cal.backgroundColor, cal.summary]
@@ -98,10 +110,17 @@ module.exports = class Sql {
         return event;        
     }
 
-    async updateEvent(eventId, data) {
+    async updateEventData(eventId, data) {
         return await this._query(
             "update event set data=? where event_id=?",
             [JSON.stringify(data), eventId]
+        );
+    }
+
+    async updateEvent(event) {
+        return await this._query(
+            "update event set summary=?, date_start=?, data=? where event_id=?",
+            [event[2], event[3], event[4], event[0]]
         );
     }
 

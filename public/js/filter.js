@@ -19,7 +19,7 @@ class Filter {
             obj.year = this.year;
         }
         if (this.month != -1) {
-            obj.month = this.month;
+            obj.month = this.month+1;
         }
         return new URLSearchParams(obj).toString();
     }

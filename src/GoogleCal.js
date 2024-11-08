@@ -71,7 +71,7 @@ module.exports = class GoogleCal {
         const auth = await this.getClient();
         const calendar = google.calendar({version: 'v3', auth});
         const res = await calendar.calendarList.list({});      
-        await this.sql.truncate();
+       // await this.sql.truncate();
         for (let cal of res.data.items) {
             if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
                 this.sql.insertCal(cal);               
