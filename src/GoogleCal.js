@@ -60,7 +60,9 @@ export default class GoogleCal {
         console.log("loadSavedCredentialsIfExist");
         try {
             const content = await fs.readFile(this.TOKEN_PATH);
+            console.log("loadSavedCredentialsIfExist2");
             const credentials = JSON.parse(content);
+            console.log("loadSavedCredentialsIfExist3");
             return google.auth.fromJSON(credentials);
         } catch (err) {
             return null;
