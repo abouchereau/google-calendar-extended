@@ -15,7 +15,7 @@ CREATE TABLE `cal` (
   `color_back` varchar(7) NOT NULL,
   `summary` varchar(255) NOT NULL,  
   PRIMARY KEY (`id`),
-  KEY `cal_id` (`cal_id`)  
+  UNIQUE KEY `cal_id` (`cal_id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -28,7 +28,7 @@ CREATE TABLE `event` (
   `date_start` datetime DEFAULT NULL,
   `data` text DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `cal_id` (`cal_id`),
+  UNIQUE KEY `cal_id_event_id` (`cal_id`,`event_id`),
   CONSTRAINT `dates_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal` (`cal_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

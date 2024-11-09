@@ -1,10 +1,9 @@
-const fs = require('fs');
-const http = require('http');
-const https = require('https');
-const express = require("express");
-const GoogleCal = require("./GoogleCal");
-const cors = require("cors");
-const Sql = require("./Sql");
+import http from 'http';
+import express from "express";;
+import GoogleCal from "./GoogleCal.js";
+import cors from "cors";
+import SqlEvent from "./SqlEvent.js";
+import SqlCal from "./SqlCal.js";
 
 
 
@@ -20,27 +19,18 @@ const port = 3615;
 app.use(cors(corsOptions));
 app.use(express.json());
 let server = null;
-if (process.platform=="win32") {//local
-    server = http.createServer({}, app).listen(port, function(){
-        console.log("Express server listening on port " + port);
-      });
-} else {//serveur
-    const key = fs.readFileSync(__dirname + '/selfsigned.key');
-    const cert = fs.readFileSync(__dirname + '/selfsigned.crt');
-    const options = {key, cert};
-    server = https.createServer(options, app).listen(port, function(){
-        console.log("Express server listening on port " + port);
-      });
-}
-
-
-
+server = http.createServer({}, app).listen(port, function(){
+    console.log("Express server listening on port " + port);
+});
 
 const gCal = new GoogleCal();
-const sql = new Sql();
+const sqlEvent = new SqlEvent();
+const sqlCal = new SqlCal();
 
 app.get("/loadAllEvents",async (req, res)=> {
-    await gCal.loadAllEvents();
+    const dateMin   = req.query.dateMin==null?"2020-01-01":req.query.dateMin;
+    const dateMax  = req.query.dateMax==null?"2020-01-02":req.query.dateMax;
+    await gCal.loadAllEvents(dateMin, dateMax);
 });
 
 app.get("/loadLastEvents",async (req, res)=> {
@@ -48,21 +38,21 @@ app.get("/loadLastEvents",async (req, res)=> {
 });
 
 app.get("/getEventList",async (req, res)=> {           
-    const cal   = req.query.cal==null?null:parseInt(req.query.cal); //y a mieux à faire ?
+    const cal   = req.query.cal==null?null:parseInt(req.query.cal); 
     const year  = req.query.year==null?null:parseInt(req.query.year);
     const month = req.query.month==null?null:parseInt(req.query.month);
-    let list = await sql.getEventList(cal, year, month);
+    let list = await sqlEvent.getEventList(cal, year, month);
     res.send(list);
 });
 
 app.get("/getEvent/:id",async (req, res)=> {           
-    let event = await sql.getEvent(req.params.id);
+    let event = await sqlEvent.getEvent(req.params.id);
     res.send(event);
 });
 
 
 app.get("/getCalList",async (req, res)=> {            
-    let list = await sql.getCalList();
+    let list = await sqlCal.getCalList();
     res.send(list);
 });
 
@@ -74,8 +64,6 @@ app.post("/updateEvent/:id",async (req, res)=> {
     delete item.summary;
     delete item.event_id;
     await gCal.updateEvent(req.params.id, cal_id, item);  
-    await sql.updateEventData(req.params.id, item);    
+    await sqlEvent.updateEventData(req.params.id, item);    
     res.send(req.body);
 });
-  
-//server.listen(3615,()=>{console.log("Le serveur est lancé");})

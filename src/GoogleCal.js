@@ -1,10 +1,16 @@
-const fs = require('fs').promises;
-const {authenticate} = require('@google-cloud/local-auth');
-const {google} = require('googleapis');
-const Const = require('../public/js/const');
-const Sql = require('./Sql.js');
+import fs from 'fs';//).promises;
+import {authenticate} from '@google-cloud/local-auth';
+import {google} from 'googleapis';
+import SqlEvent from './SqlEvent.js';
+import SqlCal from './SqlCal.js';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-module.exports = class GoogleCal {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+
+export default class GoogleCal {
 
     SCOPES = [
         'https://www.googleapis.com/auth/calendar.readonly',
@@ -15,11 +21,13 @@ module.exports = class GoogleCal {
     CREDENTIALS_PATH = __dirname+"/../credentials.json"
     EXCLUDE_CALS = ['Numéros de semaine'];
 
-    sql = null;
+    sqlEvent = null;
+    sqlCal = null;
     client = null;
 
     constructor() {
-        this.sql = new Sql();
+        this.sqlEvent = new SqlEvent();
+        this.sqlCal = new SqlCal();
     }
 
     async loadSavedCredentialsIfExist() {
@@ -67,15 +75,17 @@ module.exports = class GoogleCal {
         return client;
     }
 
-    async loadAllEvents() {
+    async loadAllEvents(dateMin='2000-01-01', dateMax="2036-01-01") {
         const auth = await this.getClient();
         const calendar = google.calendar({version: 'v3', auth});
         const res = await calendar.calendarList.list({});      
        // await this.sql.truncate();
         for (let cal of res.data.items) {
             if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
-                this.sql.insertCal(cal);               
-                const res = await calendar.events.list({                    
+                this.sqlCal.insertOrUpdateCal(cal);               
+                const res = await calendar.events.list({      
+                    timeMin: dateMin+"T00:00:00-01:00",      
+                    timeMax: dateMax+"T00:00:00-01:00",
                     calendarId: cal.id, 
                     maxResults: 2000,
                     singleEvents: true,
@@ -84,17 +94,13 @@ module.exports = class GoogleCal {
                 const events = res.data.items.map(a=>this.mapEvent(a, cal));
                 if (events && events.length > 0) {
                     for (let event of events) {
-                        await this.sql.insertEvent(event);
+                        await this.sqlEvent.insertOrUpdateEvent(event);
                     }
                     
                 }
             }
         }
         //TODO ne s'arrête pas :/
-    }
-
-    _insertCalDb(cal) {
-        this.sql.insertCal(this._mapCal(cal));
     }
 
     async _loadAll(auth) {
@@ -114,7 +120,7 @@ module.exports = class GoogleCal {
                 if (events && events.length > 0) {
                     this.fullEventList = this.fullEventList.concat(events);
                 }
-                this.sql.insertCal(cal);
+                this.sqlCal.insertOrUpdateCal(cal);
 
             }
         }        

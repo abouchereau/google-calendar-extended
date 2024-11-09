@@ -7,7 +7,7 @@ class Filter {
     constructor() {
         const today = new Date();
         this.year = today.getFullYear();
-        this.month = today.getMonth()+1;
+        this.month = today.getMonth();
     }
 
     getUrlParams() {

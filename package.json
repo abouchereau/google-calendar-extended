@@ -1,4 +1,5 @@
 {
+  "type" : "module",
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
     "@types/gapi": "^0.0.47",
