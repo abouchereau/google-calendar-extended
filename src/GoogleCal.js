@@ -19,7 +19,33 @@ export default class GoogleCal {
     ];
     TOKEN_PATH = __dirname+"/../token.json";
     CREDENTIALS_PATH = __dirname+"/../credentials.json"
-    EXCLUDE_CALS = ['Numéros de semaine'];
+    EXCLUDE_CALS = [
+        'Numéros de semaine',
+        "djefcaire@gmail.com",
+        "m.torsat@gmail.com",
+        "communicationlasaugrenue@gmail.com",
+        "Indispo gilles",
+        "Atelier de Fabrication",
+        "Espace Chapiteau",
+        "Halle",
+        "Indispo Simon",
+        "Caterings",
+        "renaud.detruit@gmail.com",
+        "Salle de Danse",
+        "Studio d'enregistrement",
+        "suckdaheadbrassband@gmail.com",
+        "jeanguyo88@gmail.com",
+        "benoist.pasquier@gmail.com",
+        "37 ème Parallèle",
+        "EVEN / FEST /",
+        "Agenda Océane",
+        "florentsepchat@gmail.com",
+        "Indispo/Absences Max",
+        "agendacollectifsaugrenue@gmail.com",
+        "Indisponibilités",
+        "production.la.saugrenue@gmail.com",
+        "agendacollectifsaugrenue@gmail.com",
+    ];
 
     sqlEvent = null;
     sqlCal = null;
@@ -82,6 +108,7 @@ export default class GoogleCal {
        // await this.sql.truncate();
         for (let cal of res.data.items) {
             if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
+                console.log("--CAL--", cal.summary);
                 this.sqlCal.insertOrUpdateCal(cal);               
                 const res = await calendar.events.list({      
                     timeMin: dateMin+"T00:00:00-01:00",      
@@ -95,11 +122,13 @@ export default class GoogleCal {
                 if (events && events.length > 0) {
                     for (let event of events) {
                         await this.sqlEvent.insertOrUpdateEvent(event);
-                    }
-                    
+                        console.log(event[2]);
+                    }                    
                 }
+                console.log("--END CAL--", cal.summary);
             }
         }
+        console.log("-----FIN-----");
         //TODO ne s'arrête pas :/
     }
 
