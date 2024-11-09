@@ -3,7 +3,7 @@ import SqlBase from "./SqlBase.js";
 
 export default class SqlEvents extends SqlBase {
 
-    async createOrUpdateEvent(event) {
+    async insertOrUpdateEvent(event) {
         await this._query("INSERT INTO event (event_id, cal_id, summary, date_start, data) "+
                 "VALUES (?,?,?,?,?) "+
                 "ON DUPLICATE KEY UPDATE "+
