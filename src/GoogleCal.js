@@ -107,8 +107,11 @@ export default class GoogleCal {
     async loadAllEvents(dateMin='2000-01-01', dateMax="2036-01-01") {
         console.log("loadAllEvents", dateMin, dateMax);
         const auth = await this.getClient();
+        console.log("loadAllEvents2");
         const calendar = google.calendar({version: 'v3', auth});
+        console.log("loadAllEvents3");
         const res = await calendar.calendarList.list({});      
+        console.log("loadAllEvents4");
        // await this.sql.truncate();
         for (let cal of res.data.items) {
             if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
