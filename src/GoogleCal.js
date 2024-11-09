@@ -56,7 +56,8 @@ export default class GoogleCal {
         this.sqlCal = new SqlCal();
     }
 
-    async loadSavedCredentialsIfExist() {
+    async loadSavedCredentialsIfExist() {        
+        console.log("loadSavedCredentialsIfExist");
         try {
             const content = await fs.readFile(this.TOKEN_PATH);
             const credentials = JSON.parse(content);
@@ -80,6 +81,7 @@ export default class GoogleCal {
     }
 
     async getClient() {
+        console.log("getClient");
         if (this.client == null) {
             this.client = await this.authorize();
         }
@@ -87,6 +89,7 @@ export default class GoogleCal {
     }
 
     async authorize() {
+        console.log("authorize");
         let client = await this.loadSavedCredentialsIfExist();
         if (client) {
             return client;
@@ -102,6 +105,7 @@ export default class GoogleCal {
     }
 
     async loadAllEvents(dateMin='2000-01-01', dateMax="2036-01-01") {
+        console.log("loadAllEvents", dateMin, dateMax);
         const auth = await this.getClient();
         const calendar = google.calendar({version: 'v3', auth});
         const res = await calendar.calendarList.list({});      
