@@ -1,4 +1,4 @@
-import fs from 'fs';//).promises;
+import { promises as fs } from 'fs';
 import {authenticate} from '@google-cloud/local-auth';
 import {google} from 'googleapis';
 import SqlEvent from './SqlEvent.js';
