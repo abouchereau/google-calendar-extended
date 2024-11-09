@@ -57,7 +57,7 @@ export default class GoogleCal {
     }
 
     async loadSavedCredentialsIfExist() {        
-        console.log("loadSavedCredentialsIfExist");
+        console.log("loadSavedCredentialsIfExist", this.TOKEN_PATH);
         try {
             const content = await fs.readFile(this.TOKEN_PATH);
             console.log("loadSavedCredentialsIfExist2");
