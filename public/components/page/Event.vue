@@ -1,51 +1,12 @@
 <template>     
     <event-header />  
-    <div class="container-fluid">
+    <div class="container-fluid" :key="refreshKey">
         <div class="row">
             <div class="col col-sm-6 col-xs-12">
-                <div class="card">
-                    <div class="card-header">
-                        Général
-                    </div>
-                    
-                    <div class="card-body">                        
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-4 col-sm-12">
-                                <input disabled id="date" placeholder="Date" type="text" v-model="item.date_start"  class="form-control" />
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-sm-12">
-                                <input id="codePostal" placeholder="Code Postal" type="text" v-model="item.codePostal" class="form-control" />
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-sm-12">
-                                <input id="ville" placeholder="Ville" type="text" v-model="item.ville" class="form-control" />
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-sm-12">
-                                <input disabled id="nomEvenement" placeholder="Nom de l'événement" type="text" v-model="item.summary" class="form-control" />
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-sm-12">
-                                <div class="form-check form-switch">
-                                    <label class="form-check-label" for="payant">Payant ?</label>
-                                    <input id="payant" placeholder="Payant" type="checkbox"  class="form-check-input">                      
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-sm-12">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <event-general />  
             </div>
             <div class="col-sm-6 col-xs-12">
-                <div class="card">
-                    <div class="card-header">
-                        Horaires
-                    </div>
-                    
-                    <div class="card-body">                        
-                        <div class="row">
-                           
-                        </div>
-                    </div>
-                </div>
+                <event-horaires />
             </div>
         </div> 
         <div class="row mt-3">
@@ -57,23 +18,32 @@
 </template>
 
 <script>
+
 export default {
-  name: 'panel',
+  name: 'event',
+  inject: ['showSpinner', 'hideSpinner'],
   components: {
-     'event-header': Vue.defineAsyncComponent( ()=>loadModule('../components/block/EventHeader.vue', Utils.loadModuleOptions()))
+     'event-header': Vue.defineAsyncComponent( ()=>loadModule('/components/block/EventHeader.vue', Utils.loadModuleOptions())),
+     'event-general': Vue.defineAsyncComponent( ()=>loadModule('/components/block/EventGeneral.vue', Utils.loadModuleOptions())),
+     'event-horaires': Vue.defineAsyncComponent( ()=>loadModule('/components/block/EventHoraires.vue', Utils.loadModuleOptions()))
   },
   data() {
     return {
-        item: {}
+        editable: this.$route.name=="event-edit",
+        refreshKey: 0
     }
   },
   async mounted() {
-    this.item = await this.$main.getEvent(this.$route.params.id);
-    //console.log(this.item);
+    this.showSpinner();
+    this.$main.item = await this.$main.getEvent(this.$route.params.id);            
+    this.refreshKey++;   
+    this.hideSpinner();
   },
   methods: {
     async updateEvent() {
-        await this.$main.updateEvent(this.$route.params.id, {...this.item});
+        this.showSpinner();
+        await this.$main.updateEvent(this.$route.params.id, {...this.$main.item});               
+        this.hideSpinner();
     }
   }
 }

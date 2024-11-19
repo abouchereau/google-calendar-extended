@@ -3,7 +3,7 @@
         <div class="container-fluid">
           <div class="row align-items-center">
             <div class="text-end col text-light">
-                <RouterLink  to="/">HOME</RouterLink>
+                <RouterLink  to="/"><i class="bi-house-door-fill" style="font-size: 1.5rem;"></i></RouterLink>
             </div>
           </div>
         </div>

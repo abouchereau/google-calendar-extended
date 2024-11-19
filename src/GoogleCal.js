@@ -45,6 +45,7 @@ export default class GoogleCal {
         "Indisponibilités",
         "production.la.saugrenue@gmail.com",
         "agendacollectifsaugrenue@gmail.com",
+        "Occupation du labo"
     ];
 
     sqlEvent = null;
@@ -185,8 +186,7 @@ export default class GoogleCal {
     }
 
 
-    async updateEvent(id, calId, item) {
-        
+    async updateEvent(id, calId, item) {        
         console.log("ITEM", item);
         const auth = await this.getClient();
         const calendar = google.calendar({version: 'v3', auth});
@@ -210,12 +210,6 @@ export default class GoogleCal {
         return res2.data.extendedProperties.private;
 
     }
-
-    async syncLastDates() {
-        
-    }
-    
-
 
 
 }

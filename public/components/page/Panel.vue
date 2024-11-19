@@ -26,6 +26,7 @@
 <script>
 export default {
   name: 'panel',
+  inject: ['showSpinner', 'hideSpinner'],
   components: {
      'panel-header': Vue.defineAsyncComponent( ()=>loadModule('./components/block/PanelHeader.vue', Utils.loadModuleOptions()))
   },
@@ -38,10 +39,12 @@ export default {
   },
   methods: {
    async reloadList(e) {
+      this.showSpinner();
       this.list = await this.$main.loadAllEvents();
+      this.hideSpinner();
     },
     calNameFromId(id) {      
-      this.$router.push({name:"event", params: {id : id}});
+      this.$router.push({name:"event-edit", params: {id : id}});
     },
     dayFullName(date) {
       let str = '<div class="lh-sm" style="font-size:75%">'+Const.DAY_LIST[(date.getDay()+6)%7]+'</div>';

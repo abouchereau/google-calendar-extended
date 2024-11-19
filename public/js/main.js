@@ -1,9 +1,10 @@
 class Main {
 
 
-
     constructor() {
         this.filter = new Filter();
+        this.isLoading = false;
+        this.item = {};
     }
 
     async loadAllEvents() {

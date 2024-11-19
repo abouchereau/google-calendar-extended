@@ -4,3 +4,30 @@
 .form-control::placeholder {
     opacity: 0.5;  
   }
+.overlay{
+    z-index:5000;
+    position:absolute;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(0,0,0,0.2)
+}
+
+.saug-spinner {
+    width: 4rem;
+    height:4rem;
+    position:absolute;
+    left:calc(50% - 2rem);    
+    top:calc(50% - 2rem);
+}
+.navbar{
+    padding-top:10px;
+    padding-bottom: 10px;
+}
+label {
+    font-size:0.75rem;
+    color:#999;
+}
+.input-group-text {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0
+}

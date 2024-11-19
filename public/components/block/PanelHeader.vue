@@ -39,6 +39,7 @@
   <script>
   export default {
     name: 'panel',
+    inject: ['showSpinner', 'hideSpinner'],
     data() {
       return {
         cals: [],
@@ -50,7 +51,9 @@
       }
     },
     async mounted() {
+      this.showSpinner();
       this.cals = await this.$main.loadCals(); 
+      this.hideSpinner();
       this.$emit('onChange');
       this.refresh++;
     }

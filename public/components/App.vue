@@ -1,22 +1,39 @@
-<template>
+<template>    
+    <spinner v-if="spinnerVisible"></spinner>
     <router-view></router-view>
-  </template>
+</template>
 
 <script>
-
 
 export default {
   name: 'app',
   components: {
-    // 'log-midi-out': Vue.defineAsyncComponent( ()=>loadModule('./components/block/LogMidiOut.vue', Utils.loadModuleOptions())),
+     'spinner': Vue.defineAsyncComponent( ()=>loadModule('/components/block/Spinner.vue', Utils.loadModuleOptions())),
   },
   data() {
     return {
       appName: Const.APP_NAME,
+      spinnerVisible: false,
+
     }
   },
   mounted() {
+    this.$router.beforeEach((to, from, next) => {
+        this.spinnerVisible = true;
+        next();
+    });
+    this.$router.afterEach(() => {
+       this.spinnerVisible = false;
+    });
+
+  },
+  provide() {
+    return {
+      showSpinner: () => (this.spinnerVisible = true),
+      hideSpinner: () => (this.spinnerVisible = false),
+    };
   }
+  
 }
 </script>
 <style>
