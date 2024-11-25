@@ -83,7 +83,7 @@ app.post("/calculateRoute",async (req, res)=>{
     catch(e) {
         res.send('Problème lors de la récupération ces coordonnées de l\'adresse d\'arrivée. '+e.message);
     }
-    let routeCalc = await route.calculateRoute(coordDepart, coordArrivee, vehicle);
+    let routeCalc = await route.calculateRoute(coordDepart, coordArrivee, "drive");
     res.send(routeCalc);
     
 });
