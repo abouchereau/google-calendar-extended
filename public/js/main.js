@@ -16,7 +16,7 @@ class Main {
     async getEvent(id) {
         let res = await fetch(Const.BASE_API+"/getEvent/"+id);
         let event = await res.json();
-        event.date_start = new Date(event.date_start);
+       // event.date_start = new Date(event.date_start);
         event = { ...Const.OBJ_EMPTY, ...event };
         return event;
     }
@@ -29,6 +29,23 @@ class Main {
     async updateEvent(id, data) {  
         data = Utils.removeEmptyValues(data);      
         let resp = await fetch(Const.BASE_API+"/updateEvent/"+id, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+        return resp.json();
+    }
+
+    async calculateRoute() {     
+        let data =  {
+            "depart":this.item.adresseDepart,
+            "arrivee":this.item.adresseArrivee,
+            "mode":"",
+        };
+        let resp = await fetch(Const.BASE_API+"/calculateRoute", {
             method: 'POST',
             headers: {
               'Accept': 'application/json',

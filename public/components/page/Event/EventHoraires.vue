@@ -34,7 +34,11 @@
                     <label>Heure Retour</label>
                     <input :disabled="!editable" id="heureRetour" type="time" step="300" v-model="$main.item.heureRetour"  class="form-control" />
                 </div>
-               
+
+                <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+                    <label>Infos Set</label>
+                    <textarea :disabled="!editable" id="heureConcerts" v-model="$main.item.infoSets"  class="form-control" />  
+                </div>
             </div>
         </div>
     </div>

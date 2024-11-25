@@ -4,6 +4,7 @@ import GoogleCal from "./GoogleCal.js";
 import cors from "cors";
 import SqlEvent from "./SqlEvent.js";
 import SqlCal from "./SqlCal.js";
+import Route from "./Route.js";
 
 
 const app = express();
@@ -24,6 +25,7 @@ server = http.createServer({}, app).listen(port, function(){
 const gCal = new GoogleCal();
 const sqlEvent = new SqlEvent();
 const sqlCal = new SqlCal();
+const route = new Route();
 
 app.get("/loadAllEvents",async (req, res)=> {
     const dateMin   = req.query.dateMin==null?"2020-01-01":req.query.dateMin;
@@ -63,4 +65,12 @@ app.post("/updateEvent/:id",async (req, res)=>{
     await gCal.updateEvent(req.params.id, cal_id, item);  
     await sqlEvent.updateEventData(req.params.id, item);    
     res.send(req.body);
+});
+
+app.post("/calculateRoute",async (req, res)=>{        
+    let item = req.body;
+    let coordDepart = await route.getCoord(item.depart);
+    //let coordArrivee = await route.getCoord(item.arrivee);
+    console.log(item); 
+    res.send('ok');
 });

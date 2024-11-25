@@ -1,0 +1,6 @@
+- feuille de route auto
+- calendrier crafter
+- heure départ auto
+- lien dans la description du caldendrier
+- refesh button
+- authentification mode writer

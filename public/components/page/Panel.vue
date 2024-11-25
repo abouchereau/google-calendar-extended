@@ -21,6 +21,7 @@
 
       </table>
     </div>
+    <panel-footer />  
 </template>
 
 <script>
@@ -28,7 +29,8 @@ export default {
   name: 'panel',
   inject: ['showSpinner', 'hideSpinner'],
   components: {
-     'panel-header': Vue.defineAsyncComponent( ()=>loadModule('./components/block/PanelHeader.vue', Utils.loadModuleOptions()))
+     'panel-header': Vue.defineAsyncComponent( ()=>loadModule('./components/page/Panel/PanelHeader.vue', Utils.loadModuleOptions())),
+     'panel-footer': Vue.defineAsyncComponent( ()=>loadModule('./components/page/Panel/PanelFooter.vue', Utils.loadModuleOptions()))
   },
   data() {
     return {

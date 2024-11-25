@@ -80,6 +80,10 @@ class Const {
             lien:"",
             precisions:""};
     }
+
+    static get MUSICIENS() {
+        
+    }
 }
 
 /*
