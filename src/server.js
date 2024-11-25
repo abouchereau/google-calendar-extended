@@ -69,7 +69,21 @@ app.post("/updateEvent/:id",async (req, res)=>{
 
 app.post("/calculateRoute",async (req, res)=>{        
     let item = req.body;
-    let coordDepart = await route.getCoord(item.depart);
-    //let coordArrivee = await route.getCoord(item.arrivee);
-    res.send('ok');
+    let coordDepart = null;
+    let coordArrivee = null;
+    try {
+        coordDepart = await route.getCoord(item.depart);
+    }
+    catch(e) {
+        res.send('Problème lors de la récupération ces coordonnées de l\'adresse de départ. '+e.message);
+    }    
+    try {
+        coordArrivee = await route.getCoord(item.arrivee);
+    }
+    catch(e) {
+        res.send('Problème lors de la récupération ces coordonnées de l\'adresse d\'arrivée. '+e.message);
+    }
+    let routeCalc = await route.calculateRoute(coord1, coord2, vehicle);
+
+    
 });
