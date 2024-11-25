@@ -71,6 +71,5 @@ app.post("/calculateRoute",async (req, res)=>{
     let item = req.body;
     let coordDepart = await route.getCoord(item.depart);
     //let coordArrivee = await route.getCoord(item.arrivee);
-    console.log(item); 
     res.send('ok');
 });

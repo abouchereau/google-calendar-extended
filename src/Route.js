@@ -12,8 +12,8 @@ export default class Route {
             }
             else {                
                 let url = "https://api.geoapify.com/v1/geocode/search?text="+address+"&format=json&apiKey="+Route.API_KEY;        
-                fetch(url).then(result=>{
-                    console.log(result.json);
+                fetch(url).then(async result=>{
+                    console.log(await result.json());
                     resolve(result.json);
                 }).catch(failure);
             }

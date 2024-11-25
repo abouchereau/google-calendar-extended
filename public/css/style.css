@@ -15,7 +15,7 @@ body {
   }
 .overlay{
     z-index:5000;
-    position:absolute;
+    position:fixed;
     width:100vw;
     height:100vh;
     background-color:rgba(0,0,0,0.2)
@@ -24,7 +24,7 @@ body {
 .saug-spinner {
     width: 4rem;
     height:4rem;
-    position:absolute;
+    position:fixed;
     left:calc(50% - 2rem);    
     top:calc(50% - 2rem);
 }
@@ -58,7 +58,7 @@ html {
     margin-bottom: 60px;
   }
   .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
