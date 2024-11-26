@@ -58,12 +58,9 @@ export default class GoogleCal {
     }
 
     async loadSavedCredentialsIfExist() {        
-        console.log("loadSavedCredentialsIfExist", this.TOKEN_PATH);
         try {
             const content = await fs.readFile(this.TOKEN_PATH);
-            console.log("loadSavedCredentialsIfExist2");
             const credentials = JSON.parse(content);
-            console.log("loadSavedCredentialsIfExist3");
             return google.auth.fromJSON(credentials);
         } catch (err) {
             return null;
@@ -84,7 +81,6 @@ export default class GoogleCal {
     }
 
     async getClient() {
-        console.log("getClient");
         if (this.client == null) {
             this.client = await this.authorize();
         }
@@ -92,7 +88,6 @@ export default class GoogleCal {
     }
 
     async authorize() {
-        console.log("authorize");
         let client = await this.loadSavedCredentialsIfExist();
         if (client) {
             return client;
@@ -110,11 +105,8 @@ export default class GoogleCal {
     async loadAllEvents(dateMin='2000-01-01', dateMax="2036-01-01") {
         console.log("loadAllEvents", dateMin, dateMax);
         const auth = await this.getClient();
-        console.log("loadAllEvents2");
         const calendar = google.calendar({version: 'v3', auth});
-        console.log("loadAllEvents3");
-        const res = await calendar.calendarList.list({});      
-        console.log("loadAllEvents4");
+        const res = await calendar.calendarList.list({});   
        // await this.sql.truncate();
         for (let cal of res.data.items) {
             if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
@@ -132,14 +124,12 @@ export default class GoogleCal {
                 if (events && events.length > 0) {
                     for (let event of events) {
                         await this.sqlEvent.insertOrUpdateEvent(event);
-                        console.log(event[2]);
                     }                    
                 }
                 console.log("--END CAL--", cal.summary);
             }
         }
         console.log("-----FIN-----");
-        //TODO ne s'arrête pas :/
     }
 
     async _loadAll(auth) {
@@ -186,8 +176,7 @@ export default class GoogleCal {
     }
 
 
-    async updateEvent(id, calId, item) {        
-        console.log("ITEM", item);
+    async updateEvent(id, calId, item) {   
         const auth = await this.getClient();
         const calendar = google.calendar({version: 'v3', auth});
         let data = {        
@@ -199,14 +188,12 @@ export default class GoogleCal {
                 }
             }
         };
-        console.log("DATA", data);
         const res = await calendar.events.patch(data);
 
         const res2 = await calendar.events.get({
             calendarId: calId,   
             eventId: id,
         });
-        console.log(res2.data.extendedProperties.private);
         return res2.data.extendedProperties.private;
 
     }
