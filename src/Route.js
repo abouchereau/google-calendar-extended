@@ -1,9 +1,13 @@
 import fetch from "node-fetch";
 
+//TODO sécuriser les appels 
+
 export default class Route {
 
     static get API_KEY() {return "ac08a4ec270c4f59826a0b899c53a655"}
     static get COORD_37E() {return [47.43884406514186, 0.6852362850402961];}
+
+    lastCall = 0;
 
     async getCoord(address) {
         return new Promise((resolve, failure)=> {
