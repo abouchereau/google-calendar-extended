@@ -17,13 +17,16 @@
                 </div>
             </div>                   
             <div class="row">
-                <div class="col text-center">                    
+                <div class="col-xl-4 offset-xl-4 col-lg-4 col-sm-12 py-1 text-center">                    
                     <button class="btn btn-success" @click="computeTrajet"><i class="fa-solid fa-route"></i> Calculer Trajet</button>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-sm-12 py-1 text-end">                    
+                    <button class="btn btn-info" @click="goGoogleMaps"><i class="fa-solid fa-map-location"></i> Carte</button>
                 </div>
             </div>                      
             <div class="row">
                 <div class="col-xl-3 offset-xl-3 col-lg-4 col-sm-12 py-1">                      
-                    <label>Distance en km (calculée)</label>
+                    <label>Distance Km (calculée)</label>
                     <input disabled id="distanceKm" type="text" v-model="$main.item.distanceKm"  class="form-control" />              
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">                      
@@ -71,6 +74,10 @@ export default {
         this.$main.item.dureeMinutes = Math.floor(route["duree"]/60)+"h"+("00"+(route["duree"]%60)).slice(-2);
         this.refreshAdr++;
         this.hideSpinner();
+    },
+    goGoogleMaps() {
+        let url = "https://www.google.com/maps/search/?api=1&query="+this.$main.item.adresseArrivee.replaceAll(" ","+").replaceAll("\n","+");
+        window.open(url);
     }
     
   }
