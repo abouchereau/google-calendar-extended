@@ -69,11 +69,30 @@ export default class Route {
             let url = "https://api.geoapify.com/v1/routing?waypoints="+coord1[0]+","+coord1[1]+"|"+coord2[0]+","+coord2[1]+"&mode="+vehicle+"&format=json&apiKey="+Route.API_KEY;    
             fetch(url).then(async result=>{
                 let json = await result.json();                    
-                console.log(json);
-                resolve("");
+                let distance = Math.round(json['results'][0]['distance']/1000);
+                let duree = Math.round(json['results'][0]['time']/60);
+                resolve({"distance":distance,"duree":duree});
             }).catch(failure);    
         });
 
     }
+
+    /*
+    {
+  results: [
+    {
+      mode: 'drive',
+      waypoints: [Array],
+      units: 'metric',
+      distance: 14293,
+      distance_units: 'meters',
+      time: 919.001,
+      legs: [Array],
+      geometry: [Array]
+    }
+  ],
+  properties: { mode: 'drive', waypoints: [ [Object], [Object] ], units: 'metric' }
+}
+*/
 
 }

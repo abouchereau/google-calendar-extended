@@ -43,7 +43,7 @@ class Main {
         let data =  {
             "depart":this.item.adresseDepart,
             "arrivee":this.item.adresseArrivee,
-            "mode":"",
+            "mode":this.item.vehicule=="3"?"drive":"light_truck",
         };
         let resp = await fetch(Const.BASE_API+"/calculateRoute", {
             method: 'POST',
@@ -53,7 +53,7 @@ class Main {
             },
             body: JSON.stringify(data)
           });
-        return resp.json();
+        return await resp.json();
     }
 
 }

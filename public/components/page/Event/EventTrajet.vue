@@ -67,6 +67,9 @@ export default {
         }
         this.showSpinner();
         let route = await this.$main.calculateRoute();
+        this.$main.item.distanceKm = route["distance"].toString();
+        this.$main.item.dureeMinutes = Math.floor(route["duree"]/60)+"h"+("00"(route["duree"]%60)).slice(-2);
+        this.refreshAdr++;
         this.hideSpinner();
     }
     
