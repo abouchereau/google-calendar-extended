@@ -7,9 +7,10 @@
         <div class="card-body">                        
             <div class="row">
                 <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
-                    <label>Adresse Départ</label>
+                    <button :disabled="!editable" class="btn btn-outline-primary btn-sm float-end" @click="set37e" style="padding-top:1px;padding-bottom:1px;"><i class="fa-solid fa-arrow-down"></i> 37//</button>
+                    <label>Adresse Départ</label>  
                     <textarea rows="3" :disabled="!editable" id="adresseDepart" style="" v-model="$main.item.adresseDepart"  class="form-control" :key="refreshAdr" />  
-                    <button :disabled="!editable" class="btn btn-outline-primary btn-sm" @click="set37e"><i class="fa-solid fa-arrow-up"></i> 37//</button>
+                   
                 </div>
                 <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
                     <label>Adresse Arrivée</label>

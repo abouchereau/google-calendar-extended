@@ -8,14 +8,24 @@
             <th>Heure</th>
             <th>Calendrier</th>
             <th>Evénement</th>
+            <th>Trajet</th>
+            <th>Crafter</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in list" :key="item.id" @click="calNameFromId(item.event_id)" class="cursor-pointer">
             <td class="text-center" v-html="dayFullName(item.date_start)"></td>       
-            <td>{{ item.hour }}</td>
+            <td>{{ item.heureDebutConcert }}</td>
             <td class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ item.cal_summary }}</td>     
-            <td class="align-middle">{{ item.summary }}</td>
+            <td class="align-middle">{{ item.summary }}</td>            
+            <td class="align-middle">{{ item.dureeMinutes }}</td>   
+            <td class="align-middle">
+              <div v-if="item.vehicule!=null && item.vehicule==1">
+                <div><i class="fa fa-square-caret-right text-warning"></i> <span v-if="item.dateDepartCrafter">{{ dayCrafter(item.dateDepartCrafter)}}</span><span class="text-danger" v-else>N.C.</span></div>
+                <div><i class="fa fa-square-caret-left text-success"></i> <span  v-if="item.dateRetourCrafter">{{ dayCrafter(item.dateRetourCrafter)}}</span><span class="text-danger" v-else>N.C.</span></div>
+              </div>
+              <span v-else>Non</span>
+              </td>
           </tr>
         </tbody>
 
@@ -57,6 +67,11 @@ export default {
       if (this.$main.filter.year==-1) {
         str += '<div class="lh-sm" style="font-size:75%">'+date.getFullYear()+'</div>';
       }
+      return str;
+    },
+    dayCrafter(dateStr){
+      let date = new Date(dateStr);
+      let str = Const.DAY_LIST[(date.getDay()+6)%7]+" "+date.getDate()+" à "+date.getUTCHours()+"h"+("0"+date.getUTCMinutes()).slice(-2);
       return str;
     }
   }
