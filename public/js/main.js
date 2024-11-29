@@ -83,6 +83,20 @@ class Main {
       });
     }
 
+    async refreshAllDates() {
+      const obj = {"dateMin":"2010-01-01"};
+      const params = new URLSearchParams(obj).toString();
+      const resp = await fetch(Const.BASE_API+"/loadAllEvents?"+params, {
+        method: 'GET',
+        headers: {
+          'Authorization': "Bearer "+this.getToken(),
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+    }
+
+
     isAuthenticated() {
         const token = localStorage.getItem('token');
         if (!token) {
