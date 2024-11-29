@@ -71,7 +71,7 @@ class Main {
     }
 
     async refreshDates() {
-      const obj = {"minDate":new Date().toISOString().split('T')[0]};
+      const obj = {"dateMin":new Date().toISOString().split('T')[0]};
       const params = new URLSearchParams(obj).toString();
       const resp = await fetch(Const.BASE_API+"/loadAllEvents?"+params, {
         method: 'GET',
