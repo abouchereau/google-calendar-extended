@@ -8,7 +8,13 @@ class Main {
     }
 
     async loadAllEvents() {
-        let res = await fetch(Const.BASE_API+"/getEventList?"+this.filter.getUrlParams());
+        let res = await fetch(Const.BASE_API+"/getEventList?"+this.filter.getUrlParams(), {
+            method: 'GET',
+            headers: {
+            'Authorization': "Bearer "+this.getToken(),
+            'Content-Type': 'application/json'
+            }
+        });
         let json = await res.json();
         return json.map(x=>{x.date_start=new Date(x.date_start);return x})
     }
@@ -22,7 +28,13 @@ class Main {
     }
 
     async loadCals() {
-        let res = await fetch(Const.BASE_API+"/getCalList");
+        let res = await fetch(Const.BASE_API+"/getCalList", {
+            method: 'GET',
+            headers: {
+                'Authorization': "Bearer "+this.getToken(),
+                'Content-Type': 'application/json'
+            }
+      });
         return await res.json();
     }
 
@@ -31,6 +43,7 @@ class Main {
         let resp = await fetch(Const.BASE_API+"/updateEvent/"+id, {
             method: 'POST',
             headers: {
+              'Authorization': "Bearer "+this.getToken(),
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
@@ -48,6 +61,7 @@ class Main {
         let resp = await fetch(Const.BASE_API+"/calculateRoute", {
             method: 'POST',
             headers: {
+              'Authorization': "Bearer "+this.getToken(),
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
@@ -55,5 +69,35 @@ class Main {
           });
         return await resp.json();
     }
+
+    async refreshDates() {
+      const obj = {"minDate":new Date().toISOString().split('T')[0]};
+      const params = new URLSearchParams(obj).toString();
+      const resp = await fetch(Const.BASE_API+"/loadAllEvents?"+params, {
+        method: 'GET',
+        headers: {
+          'Authorization': "Bearer "+this.getToken(),
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+    }
+
+    isAuthenticated() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return false;
+        }
+      
+        // Décoder le token pour vérifier son expiration (optionnel)
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const isExpired = Date.now() / 1000 > payload.exp;
+      
+        return !isExpired;
+      }
+
+      getToken() {
+        return localStorage.getItem('token');
+      }
 
 }

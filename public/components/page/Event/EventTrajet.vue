@@ -19,10 +19,11 @@
             </div>                   
             <div class="row">
                 <div class="col-xl-4 offset-xl-4 col-lg-4 col-sm-12 py-1 text-center">                    
-                    <button class="btn btn-success" @click="computeTrajet"><i class="fa-solid fa-route"></i> Calculer Trajet</button>
+                    <button :disabled="!editable" class="btn btn-success" @click="computeTrajet"><i class="fa-solid fa-route"></i> Calculer Trajet</button>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-sm-12 py-1 text-end">                    
-                    <button class="btn btn-info" @click="goGoogleMaps"><i class="fa-solid fa-map-location"></i> Carte</button>
+                    <button class="btn btn-info" @click="goWaze"><i class="fa-solid fa-map-location"></i> Waze</button> 
+                    <button class="btn btn-info" @click="goGoogleMaps" style="margin-left:5px;"><i class="fa-solid fa-map-location"></i> Google</button>
                 </div>
             </div>                      
             <div class="row">
@@ -77,8 +78,15 @@ export default {
         this.hideSpinner();
     },
     goGoogleMaps() {
-        let url = "https://www.google.com/maps/search/?api=1&query="+this.$main.item.adresseArrivee.replaceAll(" ","+").replaceAll("\n","+");
+        let url = "https://www.google.com/maps/search/?api=1&query="+this._adresseQuery();
         window.open(url);
+    },
+    goWaze() {
+        let url = "https://waze.com/ul?q="+this._adresseQuery();
+        window.open(url);
+    },
+    _adresseQuery() {
+        return this.$main.item.adresseArrivee.replaceAll(" ","+").replaceAll("\n","+");
     }
     
   }

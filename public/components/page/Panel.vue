@@ -5,21 +5,21 @@
         <thead class="table-light">
           <tr class="text-center">            
             <th>Date</th>
-            <th>Heure</th>
+            <th class="d-lg-table-cell d-none">Heure</th>
             <th>Calendrier</th>
             <th>Evénement</th>
-            <th>Trajet</th>
-            <th>Crafter</th>
+            <th class="d-lg-table-cell d-none">Trajet</th>
+            <th class="d-lg-table-cell d-none">Crafter</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in list" :key="item.id" @click="calNameFromId(item.event_id)" class="cursor-pointer">
             <td class="text-center" v-html="dayFullName(item.date_start)"></td>       
-            <td>{{ item.heureDebutConcert }}</td>
+            <td class="d-lg-table-cell d-none">{{ item.heureDebutConcert }}</td>
             <td class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ item.cal_summary }}</td>     
             <td class="align-middle">{{ item.summary }}</td>            
-            <td class="align-middle">{{ item.dureeMinutes }}</td>   
-            <td class="align-middle">
+            <td class="d-lg-table-cell align-middle d-none">{{ item.dureeMinutes }}</td>   
+            <td class="d-lg-table-cell align-middle d-none">
               <div v-if="item.vehicule!=null && item.vehicule==1">
                 <div><i class="fa fa-square-caret-right text-warning"></i> <span v-if="item.dateDepartCrafter">{{ dayCrafter(item.dateDepartCrafter)}}</span><span class="text-danger" v-else>N.C.</span></div>
                 <div><i class="fa fa-square-caret-left text-success"></i> <span  v-if="item.dateRetourCrafter">{{ dayCrafter(item.dateRetourCrafter)}}</span><span class="text-danger" v-else>N.C.</span></div>
@@ -31,7 +31,7 @@
 
       </table>
     </div>
-    <panel-footer />  
+    <panel-footer @onReload="reloadList"/>  
 </template>
 
 <script>
@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-   async reloadList(e) {
+    async reloadList(e) {
       this.showSpinner();
       this.list = await this.$main.loadAllEvents();
       this.hideSpinner();

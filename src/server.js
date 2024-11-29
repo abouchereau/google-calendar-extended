@@ -5,8 +5,9 @@ import cors from "cors";
 import SqlEvent from "./SqlEvent.js";
 import SqlCal from "./SqlCal.js";
 import Route from "./Route.js";
+import jwt from 'jsonwebtoken';
 
-
+const JWT_SECRET = 'lasaugrenue';
 const app = express();
 const corsOptions = {
     origin: ["https://cal.lasaugrenue.fr","http://localhost:8000"],
@@ -14,6 +15,31 @@ const corsOptions = {
 };
 
 const port = 3615;
+
+//TODO BDD + crpyt
+const USERS = {
+    username: 'saugrenue',
+    password: 'saugrenue'
+  };
+
+
+const verifyToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+  
+    if (!token) {
+        return res.status(401).json({ error: 'Accès refusé. Token manquant.' });
+    }
+  
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+      if (err) {
+        return res.status(403).json({ error: 'Token invalide.' });
+      }
+      req.user = user; // Ajoute les informations de l'utilisateur à la requête
+      next();
+    });
+  }
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -27,7 +53,7 @@ const sqlEvent = new SqlEvent();
 const sqlCal = new SqlCal();
 const route = new Route();
 
-app.get("/loadAllEvents",async (req, res)=> {
+app.post("/loadAllEvents",verifyToken, async (req, res)=> {
     const dateMin   = req.query.dateMin==null?"2020-01-01":req.query.dateMin;
     const dateMax  = req.query.dateMax==null?"2020-01-02":req.query.dateMax;
     console.log("loadAllEvents", dateMin, dateMax);
@@ -35,7 +61,7 @@ app.get("/loadAllEvents",async (req, res)=> {
     res.send("OK");
 });
 
-app.get("/getEventList",async (req, res)=> {           
+app.get("/getEventList",verifyToken,async (req, res)=> {           
     const cal   = req.query.cal==null?null:parseInt(req.query.cal); 
     const year  = req.query.year==null?null:parseInt(req.query.year);
     const month = req.query.month==null?null:parseInt(req.query.month);
@@ -49,12 +75,12 @@ app.get("/getEvent/:id",async (req, res)=> {
 });
 
 
-app.get("/getCalList",async (req, res)=> {            
+app.get("/getCalList",verifyToken,async (req, res)=> {            
     let list = await sqlCal.getCalList();
     res.send(list);
 });
 
-app.post("/updateEvent/:id",async (req, res)=>{    
+app.post("/updateEvent/:id",verifyToken, async (req, res)=>{    
     let item = req.body;
     let cal_id = item.cal_id;
     delete item.date_start;
@@ -67,23 +93,45 @@ app.post("/updateEvent/:id",async (req, res)=>{
     res.send(req.body);
 });
 
-app.post("/calculateRoute",async (req, res)=>{        
-    let item = req.body;
-    let coordDepart = null;
-    let coordArrivee = null;
-    try {
-        coordDepart = await route.getCoord(item.depart);
+
+let lastCall = 0;
+app.post("/calculateRoute",verifyToken, async (req, res)=>{
+    let now = Date.now();    
+    if(now-lastCall < 2000)  {
+        res.send({});
     }
-    catch(e) {
-        res.send('Problème lors de la récupération ces coordonnées de l\'adresse de départ. '+e.message);
+    else  {
+        lastCall = now;
+        let item = req.body;
+        let coordDepart = null;
+        let coordArrivee = null;
+        try {
+            coordDepart = await route.getCoord(item.depart);
+        }
+        catch(e) {
+            res.send('Problème lors de la récupération ces coordonnées de l\'adresse de départ. '+e.message);
+        }    
+        try {
+            coordArrivee = await route.getCoord(item.arrivee);
+        }
+        catch(e) {
+            res.send('Problème lors de la récupération ces coordonnées de l\'adresse d\'arrivée. '+e.message);
+        }
+        let routeCalc = await route.calculateRoute(coordDepart, coordArrivee, "drive");
+        res.send(routeCalc);
     }    
-    try {
-        coordArrivee = await route.getCoord(item.arrivee);
-    }
-    catch(e) {
-        res.send('Problème lors de la récupération ces coordonnées de l\'adresse d\'arrivée. '+e.message);
-    }
-    let routeCalc = await route.calculateRoute(coordDepart, coordArrivee, "drive");
-    res.send(routeCalc);
-    
 });
+
+
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+  
+    if (username === USERS.username && password === USERS.password) {
+        // Générer un JWT
+        const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
+        res.json({ token }); // Envoyer le token au client
+      } else {
+        res.status(401).json({ error: 'Identifiants invalides' });
+      }
+  });

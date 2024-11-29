@@ -18,10 +18,10 @@ export default {
     }
   },
   mounted() {
-    this.$router.beforeEach((to, from, next) => {
+  /*  this.$router.beforeEach((to, from, next) => {
         this.spinnerVisible = true;
         next();
-    });
+    });*/
     this.$router.afterEach(() => {
        this.spinnerVisible = false;
     });

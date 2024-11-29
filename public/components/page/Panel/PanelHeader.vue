@@ -2,6 +2,7 @@
       <nav class="fixed-top navbar bg-light">
         <div class="container-fluid">
           <div class="row align-items-center" style="width:100%/*why?*/">
+            <div class="col"></div>
             <div class="text-end col">
               Calendrier
             </div>
@@ -29,6 +30,7 @@
                 <option v-for="n in (yearMax - yearMin +1)" :value="yearMax - n + 1">{{ yearMax - n +1 }}</option>
               </select>
             </div>
+            <div class="col"></div>
           </div>
         </div>
       </nav>

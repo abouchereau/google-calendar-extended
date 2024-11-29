@@ -16,44 +16,13 @@
     <link rel="stylesheet" href="/css/vue-multiselect.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="/css/style.css" rel="stylesheet">
-    <title>Google Calendar Extended</title>
+    <title>Saugrenue Calendar</title>
 </head>
 <body>
 <div id="app">
     <app></app>
 </div>
-<script>
-    const { loadModule } = window['vue3-sfc-loader'];
-
-    const routes = [
-        { name:"home", path: '/', component: () => loadModule('/components/page/Panel.vue', Utils.loadModuleOptions()) },
-        { name:"event-view", path: '/event/view/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions())  },
-        { name:"event-edit", path: '/event/edit/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions())  },
-    ];
-
-    const router = VueRouter.createRouter({
-        history: VueRouter.createWebHistory(),
-        routes
-    });
-   
-    let main = new Main();
-    const vueApp = Vue.createApp({
-        components: {
-            'navbar': Vue.defineAsyncComponent( ()=>loadModule('/components/block/Navbar.vue', Utils.loadModuleOptions())),
-            'app': Vue.defineAsyncComponent( () => loadModule('/components/App.vue', Utils.loadModuleOptions()) )
-        }
-    })
-    vueApp.use(router);
-    vueApp.component('multiselect', VueMultiselect.default)
-    vueApp.use(router);
-    vueApp.config.globalProperties.$main = main;
-    vueApp.mount('#app');
-
-
-</script>
+<script src="/js/init.js"></script>
 <script src="/js/bootstrap.js"></script>
-<script>
-
-</script>
 </body>
 </html>
