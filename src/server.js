@@ -53,7 +53,7 @@ const sqlEvent = new SqlEvent();
 const sqlCal = new SqlCal();
 const route = new Route();
 
-app.post("/loadAllEvents",verifyToken, async (req, res)=> {
+app.get("/loadAllEvents",verifyToken, async (req, res)=> {
     const dateMin   = req.query.dateMin==null?"2020-01-01":req.query.dateMin;
     const dateMax  = req.query.dateMax==null?"2020-01-02":req.query.dateMax;
     console.log("loadAllEvents", dateMin, dateMax);
