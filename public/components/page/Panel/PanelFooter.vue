@@ -29,6 +29,7 @@ export default {
       this.$main.refreshDates();
       this.hideSpinner();      
       this.$emit('onReload');
+      return false;
     }
   }
 }
