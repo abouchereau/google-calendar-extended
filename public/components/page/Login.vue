@@ -1,10 +1,34 @@
 <template>
-    <div>
-      <input type="text" v-model="username" placeholder="Nom">
-      <input type="password" v-model="password" placeholder="Mot de passe">
-      <button @click="login">Login</button>
+  <div class="row5">
+    <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-sm-12">
+      <div class="card my-1">
+        <div class="card-header">
+            Se connecter au calendrier
+        </div>        
+        
+        <div class="card-body">     
+          <form @submit.prevent="login">                   
+            <div class="row my-5">
+              <div class="col">
+                  <input type="text" v-model="username" placeholder="Nom" class="form-control">
+              </div>
+            </div>
+            <div class="row my-5">
+              <div class="col">
+                  <input type="password" v-model="password" placeholder="Mot de passe" class="form-control">
+              </div>
+            </div>
+            <div class="row my-5">
+              <div class="col d-grid gap-2">
+                <button type="submit" class="btn btn-success btn-lg btn-block">Se connecter</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>   
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   export default {
