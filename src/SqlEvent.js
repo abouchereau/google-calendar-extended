@@ -34,7 +34,7 @@ export default class SqlEvents extends SqlBase {
 
     async getEvent(eventId) {
         let events = await this._query(
-            "select e.id, e.event_id, e.cal_id, DATE_FORMAT(e.date_start, \"%d/%m/%Y\") as date_start, e.data, e.summary, e.description, c.summary as cal_summary, c.color_front, c.color_back"+
+            "select e.id, e.event_id, e.cal_id, DATE_FORMAT(e.date_start, \"%d/%m/%Y\") as date_start, e.data, e.summary, COALESCE(e.description, ''), c.summary as cal_summary, c.color_front, c.color_back"+
             " from event e" +
             " left join cal c on c.cal_id = e.cal_id" +
             " where e.event_id=?",
