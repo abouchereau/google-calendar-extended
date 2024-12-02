@@ -22,7 +22,6 @@
                     <button :disabled="!editable" class="btn btn-success" @click="computeTrajet"><i class="fa-solid fa-route"></i> Calculer Trajet</button>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-sm-12 py-1 text-end">                    
-                    <button class="btn btn-info" @click="goWaze"><i class="fa-solid fa-map-location"></i> Waze</button> 
                     <button class="btn btn-info" @click="goGoogleMaps" style="margin-left:5px;"><i class="fa-solid fa-map-location"></i> Google</button>
                 </div>
             </div>                      
