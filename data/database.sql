@@ -25,7 +25,7 @@ CREATE TABLE `event` (
   `event_id` varchar(255) DEFAULT NULL,
   `cal_id` varchar(255) NOT NULL,
   `summary` varchar(255) DEFAULT NULL,
-  `description` varchar(1024) DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `date_start` datetime DEFAULT NULL,
   `data` text DEFAULT NULL,
   PRIMARY KEY (`id`),

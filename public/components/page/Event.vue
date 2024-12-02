@@ -9,7 +9,6 @@
                 <event-horaires />
             </div>
             <div class="col-sm-6 col-xs-12">
-                <event-equipe />
             </div>            
             <div class="col-sm-6 col-xs-12">
                 <event-transport />

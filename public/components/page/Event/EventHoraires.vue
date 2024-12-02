@@ -6,6 +6,10 @@
         
         <div class="card-body">                        
             <div class="row">
+                <div class="col-xl-12 col-lg-12 col-sm-12 py-1">
+                    <label>Infos Set</label>
+                    <div class="alert alert-light border border-info" role="alert" v-html="nl2br($main.item.description)"></div>
+                </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Lieu RDV</label>
                     <input :disabled="!editable" id="lieuRdv" type="text" v-model="$main.item.lieuRdv" class="form-control" />
@@ -35,10 +39,7 @@
                     <input :disabled="!editable" id="heureRetour" type="time" step="300" v-model="$main.item.heureRetour" class="form-control" />
                 </div>
 
-                <div class="col-xl-12 col-lg-12 col-sm-12 py-1">
-                    <label>Infos Set</label>
-                    <div class="alert alert-light border border-info" role="alert" v-html="$main.item.description"></div>
-                </div>
+               
             </div>
         </div>
     </div>
@@ -52,7 +53,14 @@ export default {
     return {
         editable: this.$route.name=="event-edit"
     }
+  },
+  methods: {
+    nl2br (str, is_xhtml) {
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; 
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+    }
   } 
+
 }
 </script>
 <style>
