@@ -2,8 +2,8 @@
       <nav class="fixed-top navbar bg-light">
         <div class="container-fluid">
           <div class="row align-items-center" style="width:100%/*why?*/">
-            <div class="col"></div>
-            <div class="text-end col">
+            <div class="col d-lg-block d-none"></div>
+            <div class="text-end col d-lg-block d-none">
               Calendrier
             </div>
             <div class="col">
@@ -12,7 +12,7 @@
                 <option v-for="(cal, index) in cals" :value="cal.id" :key="index" v-bind:style="{color:cal.color_front, backgroundColor:cal.color_back}">{{ cal.summary }}</option>
               </select>
             </div>
-            <div class="text-end col">
+            <div class="text-end col d-lg-block d-none">
               Mois
             </div>
             <div class="col">
@@ -21,7 +21,7 @@
                 <option v-for="(mois, index) in monthList" :value="index">{{ mois }}</option>
               </select>
             </div>
-            <div class="text-end col">
+            <div class="text-end col d-lg-block d-none">
               Année
             </div>
             <div class="col">
@@ -30,7 +30,7 @@
                 <option v-for="n in (yearMax - yearMin +1)" :value="yearMax - n + 1">{{ yearMax - n +1 }}</option>
               </select>
             </div>
-            <div class="col"></div>
+            <div class="col d-lg-block d-none"></div>
           </div>
         </div>
       </nav>
