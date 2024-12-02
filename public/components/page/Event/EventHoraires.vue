@@ -37,7 +37,7 @@
 
                 <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
                     <label>Infos Set</label>
-                    <textarea :disabled="!editable" id="heureConcerts" v-model="$main.item.infoSets"  class="form-control" />  
+                    <textarea :disabled="!editable" id="heureConcerts" v-model="$main.item.description"  class="form-control" />  
                 </div>
             </div>
         </div>

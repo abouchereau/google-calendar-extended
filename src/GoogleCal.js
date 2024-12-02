@@ -161,7 +161,7 @@ export default class GoogleCal {
             data = x.extendedProperties.private;
         }                
         let date = new Date(x.start.dateTime || x.start.date);       
-        return [x.id, cal.id, x.summary, date, JSON.stringify(data)];
+        return [x.id, cal.id, x.summary, x.description, date, JSON.stringify(data)];
     } 
     
     
