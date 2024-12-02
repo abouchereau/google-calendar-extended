@@ -5,7 +5,7 @@ export default class SqlEvents extends SqlBase {
 
     async insertOrUpdateEvent(event) {
         await this._query("INSERT INTO event (event_id, cal_id, summary, description, date_start, data) "+
-                "VALUES (?,?,?,?,?) "+
+                "VALUES (?,?,?,?,?,?) "+
                 "ON DUPLICATE KEY UPDATE "+
                 "summary = VALUES(summary), "+
                 "description = VALUES(description), "+
