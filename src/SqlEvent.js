@@ -8,6 +8,7 @@ export default class SqlEvents extends SqlBase {
                 "VALUES (?,?,?,?,?) "+
                 "ON DUPLICATE KEY UPDATE "+
                 "summary = VALUES(summary), "+
+                "description = VALUES(description), "+
                 "date_start = VALUES(date_start), "+
                 "data = VALUES(data)", 
                 event);
