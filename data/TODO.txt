@@ -1,6 +1,28 @@
-- feuille de route auto
-- calendrier crafter
+- feuille de route auto ? 
+- calendrier crafter ?
 - heure départ auto
-- lien dans la description du caldendrier
-- refesh button
-- authentification mode writer
+- authentification mode writer / utilisteur
+- autres fonctionnalités
+
+rg heures de départs
+12%
+temps de chargement
+
+dates annulés / supprimés
+
+doublons crafter
+
+affichage plusieurs jours
+1 ligne / jour 
+
+reporting
+
+fanfare : remplaçants
+
+distinction titulaires / remplaçants
+
+équipe technique / accompagnants
+
+ajouter musiciens admin.
+
+régime alimentaire ne servent pas
