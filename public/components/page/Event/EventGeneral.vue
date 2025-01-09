@@ -16,11 +16,8 @@
                 </div>     
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Formule</label>
-                    <select class="form-select"  id="formule" :disabled="!editable" v-model="$main.item.formule">
-                        <option value="0"></option>
-                        <option value="1">BSS</option>
-                        <option value="2">GOM</option>
-                        <option value="3">GOM Carav</option>
+                    <select class="form-select"  id="formule" :disabled="!editable" v-model="$main.item.formule" :key="refreshFormule">                        
+                        <option v-for="(formule, index) in formules" :value="formule" :key="index">{{ formule }}</option>
                     </select>  
                 </div>              
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
@@ -65,7 +62,16 @@
                             <span class="input-group-text">€</span>
                         </div>
                     </div>
-                </div>                
+                </div>    
+                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+                    <label>Cachet Net Musicien</label>
+                    <div class="input-group">                                
+                        <input :disabled="!editable" id="cachet" type="text" v-model="$main.item.cachet" class="form-control" />
+                        <div class="input-group-append">
+                            <span class="input-group-text">€</span>
+                        </div>
+                    </div>
+                </div>                 
 
 
             </div>
@@ -74,13 +80,27 @@
 </template>
 
 <script>
-
 export default {
   name: 'event-general',
   data() {
     return {
-        editable: this.$route.name=="event-edit"
+        editable: this.$route.name=="event-edit",
+        formules: [],
+        refreshFormule: 0
     }
+  },
+  async mounted() {    
+    if (this.$main.item.cal_id) {
+        this.formules = await this.$main.getFormules(this.$main.item.cal_id);     
+        if (this.formules.length>1) {
+            this.formules.unshift("");
+        }
+        else {
+            this.$main.item.formule = this.formules[0];
+            this.refreshFormule++;
+        }
+    }
+    
   } 
 }
 </script>

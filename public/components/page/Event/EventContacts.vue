@@ -6,7 +6,18 @@
         
         <div class="card-body">                        
             <div class="row">
-                [TODO]
+                <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+                    <label>Contact Accueil</label>
+                    <textarea rows="3" :disabled="!editable" id="contactAccueil" v-model="$main.item.contactAccueil"  class="form-control" />  
+                </div>
+                <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+                    <label>Contact Technique</label>
+                    <textarea rows="3" :disabled="!editable" id="contactTechnique" v-model="$main.item.contactTechnique"  class="form-control" />  
+                </div>
+                <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+                    <label>Contact Organisation</label>
+                    <textarea rows="3" :disabled="!editable" id="contactOrga" v-model="$main.item.contactOrga"  class="form-control" />  
+                </div>
             </div>
         </div>
     </div>

@@ -45,12 +45,10 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({"username": this.username, "password": this.password}),
           }).then(response=> {     
-            console.log(response);       
+            //console.log(response);       
             if (response.ok) {
-              response.json().then(data=>{
-                
-                console.log("DATA", data); 
-                localStorage.setItem('token', data.token); 
+              response.json().then(data=>{         
+                this.$main.user.register(data);
                 this.$router.push("/");
               });         
             } else {

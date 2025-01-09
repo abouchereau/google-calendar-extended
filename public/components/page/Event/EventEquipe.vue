@@ -31,15 +31,18 @@ export default {
         editable: this.$route.name=="event-edit",
         selectedMusiciens: [],
         selectedTechnique: [],
-        listMusiciens: ["Gilles C.", "Maeva", "Paul G.", "Max B.","Mathieu D.", "Guillaume T.","Séb L.", "Mathieu B.", "JB Réhaud"]
+        listMusiciens: []
     }
   },
-  mounted() {
+  async mounted() {
     if (this.$main.item.equipeMusiciens != null) {
         this.selectedMusiciens = this.$main.item.equipeMusiciens.split(",").filter(a=>a!="");
     }
     if (this.$main.item.equipeTechnique != null) {
         this.selectedTechnique = this.$main.item.equipeTechnique.split(",").filter(a=>a!="");
+    }
+    if (this.$main.item.cal_id) {
+        this.listMusiciens = await this.$main.getPersons(this.$main.item.cal_id);     
     }
   },
   methods: {

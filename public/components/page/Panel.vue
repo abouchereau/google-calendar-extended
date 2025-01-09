@@ -56,7 +56,13 @@ export default {
       this.hideSpinner();
     },
     calNameFromId(id) {      
-      this.$router.push({name:"event-edit", params: {id : id}});
+      if (this.$main.user.write) {
+        this.$router.push({name:"event-edit", params: {id : id}});
+      }
+      else {
+        this.$router.push({name:"event-view", params: {id : id}});
+      }
+        
     },
     dayFullName(date) {
       let str = '<div class="lh-sm" style="font-size:75%">'+Const.DAY_LIST[(date.getDay()+6)%7]+'</div>';
