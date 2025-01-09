@@ -23,7 +23,7 @@ class User {
     unregister() {
         ["token","username","write"].forEach(a=>localStorage.removeItem(a));
         this.#username = null;
-        this.#write = false;
+        this.#write = null;
     }
 
     isAuthenticated() {
