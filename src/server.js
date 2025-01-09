@@ -150,7 +150,6 @@ app.post("/calculateRoute",verifyToken, async (req, res)=>{
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
     const user = USERS.find(u=>u.username === username && u.password === password);
-    console.log("USER", user);
     if (user) {
         // Générer un JWT
         const token = jwt.sign({ username: user.username}, JWT_SECRET, { expiresIn: '12h' });

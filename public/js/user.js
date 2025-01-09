@@ -1,6 +1,6 @@
 class User {
     #username;
-    #write = false;
+    #write = null;
 
     get username() {
         if (this.#username == null) {
@@ -10,7 +10,7 @@ class User {
     }
 
     get write() {
-        if (this.#write == null) {
+        if (this.#write === null) {
             this.#write = localStorage.getItem('write') == "1"; 
         }
         return this.#write;
