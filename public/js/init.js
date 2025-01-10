@@ -8,10 +8,10 @@ const vueApp = Vue.createApp({
 });
 
 const routes = [
-    { name:"login", path: '/login', component: () => loadModule('/components/page/Login.vue', Utils.loadModuleOptions()), meta:{requiresAuth: false}  },
-    { name:"home", path: '/', component: () => loadModule('/components/page/Panel.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true}},
-    { name:"event-view", path: '/event/view/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions()), meta:{requiresAuth: false}  },
-    { name:"event-edit", path: '/event/edit/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true}  },
+    { name:"login", path: '/login', component: () => loadModule('/components/page/Login.vue', Utils.loadModuleOptions()), meta:{requiresAuth: false, requiresWrite: false}  },
+    { name:"home", path: '/', component: () => loadModule('/components/page/Panel.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: false}},
+    { name:"event-view", path: '/event/view/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: false}  },
+    { name:"event-edit", path: '/event/edit/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
     
 ];
 
@@ -23,10 +23,12 @@ const router = VueRouter.createRouter({
 let main = new Main();
 
 router.beforeEach((to, from) => {
-    if (to.meta.requiresAuth && !main.isAuthenticated() && to.name !== 'login') {
-      console.log("-----------------------------------");
+    if (to.meta.requiresAuth && !main.user.isAuthenticated() && to.name !== 'login') {
       return { name: 'login'};       
-    } 
+    }
+    if (to.meta.requiresWrite && !main.user.write) {
+        return { name: 'home'};       
+    }
   });
 
 vueApp.use(router);

@@ -6,7 +6,10 @@
         
         <div class="card-body">                        
             <div class="row">
-                [TODO]
+                <div class="col-sm-12 py-1">
+                    <textarea rows="3" :disabled="!editable" id="precisions" v-model="$main.item.precisions"  class="form-control" />  
+                </div>
+            </div>        
             </div>
         </div>
     </div>

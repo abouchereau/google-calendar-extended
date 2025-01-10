@@ -107,7 +107,7 @@ export default class GoogleCal {
         const auth = await this.getClient();
         const calendar = google.calendar({version: 'v3', auth});
         const res = await calendar.calendarList.list({});   
-       // await this.sql.truncate();
+        await this.sqlEvent.prepareSync(dateMin, dateMax);
         for (let cal of res.data.items) {
             if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
                 console.log("--CAL--", cal.summary);
@@ -121,6 +121,7 @@ export default class GoogleCal {
                     orderBy: 'startTime',
                 });
                 const events = res.data.items.map(a=>this.mapEvent(a, cal));
+                console.log(events.length+" events");
                 if (events && events.length > 0) {
                     for (let event of events) {
                         await this.sqlEvent.insertOrUpdateEvent(event);

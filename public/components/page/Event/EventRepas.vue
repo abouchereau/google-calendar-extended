@@ -6,7 +6,7 @@
         
         <div class="card-body">                        
             <div class="row">
-                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+             <!--  <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Nombre Végétariens</label>
                     <input :disabled="!editable" id="nbVegetariens" type="number" v-model="$main.item.nbVegetariens" class="form-control" />
                 </div>
@@ -21,7 +21,7 @@
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Allergies</label>
                     <input :disabled="!editable" id="allergies" type="text" v-model="$main.item.allergies" class="form-control" />
-                </div>
+                </div>-->
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Repas 1</label>
                     <input :disabled="!editable" id="repas1" type="text" v-model="$main.item.repas1" class="form-control" />

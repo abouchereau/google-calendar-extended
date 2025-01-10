@@ -17,10 +17,10 @@ const corsOptions = {
 const port = 3615;
 
 //TODO BDD + crpyt
-const USERS = {
-    username: 'saugrenue',
-    password: 'saugrenue'
-  };
+const USERS = [
+    {username: 'saugrenue', password: 'saugrenue', write: '0'},
+    {username: 'admin-saugrenue', password: 'saugrenue!', write: '1'},
+];
 
 
 const verifyToken = (req, res, next) => {
@@ -40,6 +40,16 @@ const verifyToken = (req, res, next) => {
     });
   }
 
+  const checkWriteAccess = (user) => {
+    const userObj = USERS.find(u=>u.username==user.username);
+    if (userObj) {
+        if (userObj.write == '1') {
+            return true;
+        }
+    }
+    return false;
+  }
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -56,12 +66,11 @@ const route = new Route();
 app.get("/loadAllEvents",verifyToken, async (req, res)=> {
     const dateMin   = req.query.dateMin==null?"2020-01-01":req.query.dateMin;
     const dateMax  = req.query.dateMax==null?"2036-01-02":req.query.dateMax;
-    console.log("loadAllEvents", dateMin, dateMax);
     await gCal.loadAllEvents(dateMin, dateMax);
     res.send("OK");
 });
 
-app.get("/getEventList",verifyToken,async (req, res)=> {           
+app.get("/getEventList",verifyToken,async (req, res)=> {     
     const cal   = req.query.cal==null?null:parseInt(req.query.cal); 
     const year  = req.query.year==null?null:parseInt(req.query.year);
     const month = req.query.month==null?null:parseInt(req.query.month);
@@ -80,7 +89,20 @@ app.get("/getCalList",verifyToken,async (req, res)=> {
     res.send(list);
 });
 
+app.get("/getFormules/:cal_id",verifyToken,async (req, res)=> {   
+    let list = await sqlCal.getFormules(req.params.cal_id);
+    res.send(list.map(a=>a.formule));
+});
+
+app.get("/getPersons/:cal_id",verifyToken,async (req, res)=> {   
+    let list = await sqlCal.getPersons(req.params.cal_id);
+    res.send(list.map(a=>a.fullname));
+});
+
 app.post("/updateEvent/:id",verifyToken, async (req, res)=>{    
+    if (!checkWriteAccess(req.user)) {
+        return res.status(403).json({ error: 'Accès refusé. Droits manquants.' });
+    }
     let item = req.body;
     let cal_id = item.cal_id;
     delete item.date_start;
@@ -126,11 +148,12 @@ app.post("/calculateRoute",verifyToken, async (req, res)=>{
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
-  
-    if (username === USERS.username && password === USERS.password) {
+    const user = USERS.find(u=>u.username === username && u.password === password);
+    if (user) {
         // Générer un JWT
-        const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token }); // Envoyer le token au client
+        const token = jwt.sign({ username: user.username}, JWT_SECRET, { expiresIn: '12h' });
+        const write = user.write;
+        res.json({ token, username, write }); // Envoyer le token au client
       } else {
         res.status(401).json({ error: 'Identifiants invalides' });
       }

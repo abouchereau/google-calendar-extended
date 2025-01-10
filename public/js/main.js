@@ -3,6 +3,7 @@ class Main {
 
     constructor() {
         this.filter = new Filter();
+        this.user = new User();
         this.isLoading = false;
         this.item = {};
     }
@@ -11,7 +12,7 @@ class Main {
         let res = await fetch(Const.BASE_API+"/getEventList?"+this.filter.getUrlParams(), {
             method: 'GET',
             headers: {
-            'Authorization': "Bearer "+this.getToken(),
+            'Authorization': "Bearer "+this.user.getToken(),
             'Content-Type': 'application/json'
             }
         });
@@ -31,7 +32,7 @@ class Main {
         let res = await fetch(Const.BASE_API+"/getCalList", {
             method: 'GET',
             headers: {
-                'Authorization': "Bearer "+this.getToken(),
+                'Authorization': "Bearer "+this.user.getToken(),
                 'Content-Type': 'application/json'
             }
       });
@@ -43,7 +44,7 @@ class Main {
         let resp = await fetch(Const.BASE_API+"/updateEvent/"+id, {
             method: 'POST',
             headers: {
-              'Authorization': "Bearer "+this.getToken(),
+              'Authorization': "Bearer "+this.user.getToken(),
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
@@ -61,7 +62,7 @@ class Main {
         let resp = await fetch(Const.BASE_API+"/calculateRoute", {
             method: 'POST',
             headers: {
-              'Authorization': "Bearer "+this.getToken(),
+              'Authorization': "Bearer "+this.user.getToken(),
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
@@ -76,7 +77,7 @@ class Main {
       const resp = await fetch(Const.BASE_API+"/loadAllEvents?"+params, {
         method: 'GET',
         headers: {
-          'Authorization': "Bearer "+this.getToken(),
+          'Authorization': "Bearer "+this.user.getToken(),
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
@@ -89,29 +90,33 @@ class Main {
       const resp = await fetch(Const.BASE_API+"/loadAllEvents?"+params, {
         method: 'GET',
         headers: {
-          'Authorization': "Bearer "+this.getToken(),
+          'Authorization': "Bearer "+this.user.getToken(),
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
       });
     }
 
+    async getFormules(cal_id) {
+      let res = await fetch(Const.BASE_API+"/getFormules/"+cal_id, {
+          method: 'GET',
+          headers: {
+          'Authorization': "Bearer "+this.user.getToken(),
+          'Content-Type': 'application/json'
+          }
+      });
+      return await res.json();
+  }
 
-    isAuthenticated() {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            return false;
+  async getPersons(cal_id) {
+    let res = await fetch(Const.BASE_API+"/getPersons/"+cal_id, {
+        method: 'GET',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
         }
-      
-        // Décoder le token pour vérifier son expiration (optionnel)
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        const isExpired = Date.now() / 1000 > payload.exp;
-      
-        return !isExpired;
-      }
-
-      getToken() {
-        return localStorage.getItem('token');
-      }
+    });
+    return await res.json();
+}
 
 }

@@ -33,12 +33,8 @@
                 <event-precision />
             </div>
         </div> 
-        <div class="row mt-3" style="width:100%">
-            <div class="col d-grid gap-2">
-                <button type="button" class="btn btn-success btn-lg btn-lg btn-block" @click="updateEvent">Enregistrer</button>
-            </div>
-        </div>
-    </div>
+    </div>    
+    <event-footer @updateEvent="updateEvent" :style="{'visibility': editable?'visible':'hidden'}"></event-footer>
 </template>
 
 <script>
@@ -58,6 +54,7 @@ export default {
      'event-contacts': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Event/EventContacts.vue', Utils.loadModuleOptions())),
      'event-communication': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Event/EventCommunication.vue', Utils.loadModuleOptions())),
      'event-precision': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Event/EventPrecision.vue', Utils.loadModuleOptions())),
+     'event-footer': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Event/EventFooter.vue', Utils.loadModuleOptions())),
   },
   data() {
     return {

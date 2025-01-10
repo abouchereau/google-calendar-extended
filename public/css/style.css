@@ -3,7 +3,7 @@ body {
   background-size:25%;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("https://www.lasaugrenue.fr/images/LOGO/Logo_Saugrenue_Noir_Transparent_4.svg");
+  background-image: url("../images/Logo_Transparent.svg");
   background-attachment: fixed;
   background-color:#BDD5F4;
 }
@@ -90,3 +90,36 @@ html {
   .fa-big:hover {
     transform: scale(1.5);
   }
+  .form-switch {
+    text-align:center;
+  }
+  .form-switch .form-check-input {
+    height:1.8em;
+    width:4em;
+    margin-top:0.3em;
+  }
+  .form-switch .form-check-input {
+    float:none !important;
+  }
+  a.inactive{
+    cursor: default;
+    color: gray;
+}
+
+
+.statut1 td:first-child {
+  background-color:#FFE5A0 !important;
+  color:#7D3821 !important;
+}
+.statut2 td:first-child {
+  background-color:#D4EDBC !important;
+  color:#11825C !important;
+}
+.statut3 td:first-child {
+  background-color:#11734B !important;
+  color:#D4EDBC !important;
+}
+.statut4 td:first-child {
+  background-color:#B10202 !important;
+  color:#FFCFC9 !important;
+}

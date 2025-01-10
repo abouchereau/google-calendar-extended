@@ -1,0 +1,58 @@
+<VirtualHost *:80>
+        DocumentRoot /home/kim/saugcalext/public
+        ServerName cal.lasaugrenue.fr
+        <Directory "/home/kim/saugcalext/public">
+                Options FollowSymLinks MultiViews
+                AllowOverride All
+                Require all granted
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+        </Directory>
+# RewriteEngine on
+#RewriteCond %{SERVER_NAME} =doc.lasaugrenue.fr
+#RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+RewriteEngine on
+RewriteCond %{SERVER_NAME} =cal.lasaugrenue.fr
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+
+#letsencrypt --installer apache --authenticator webroot --webroot-path /home/kim/saugcalext/public/ -d cal.lasaugrenue.fr
+
+
+
+<VirtualHost *:80>
+    ServerName node.lasaugrenue.fr
+
+    # Redirection HTTP vers HTTPS
+    RewriteEngine On
+    RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName node.lasaugrenue.fr
+
+    # Activer les modules proxy
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:3615/
+    ProxyPassReverse / http://localhost:3615/
+
+    # Certificat SSL (géré par Certbot)
+#    SSLEngine On
+#    SSLCertificateFile /etc/letsencrypt/live/node.lasaugrenue.fr/fullchain.pem
+#    SSLCertificateKeyFile /etc/letsencrypt/live/node.lasaugrenue.fr/privkey.pem
+SSLCertificateFile /etc/letsencrypt/live/node.lasaugrenue.fr/fullchain.pem
+SSLCertificateKeyFile /etc/letsencrypt/live/node.lasaugrenue.fr/privkey.pem
+Include /etc/letsencrypt/options-ssl-apache.conf
+</VirtualHost>
+
+#sudo a2enmod proxy_http
+#sudo a2enmod proxy
+
+#certbot --apache -d node.lasaugrenue.fr

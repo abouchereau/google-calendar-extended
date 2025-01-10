@@ -14,4 +14,16 @@ export default class SqlCal extends SqlBase {
         return await this._query("select id, cal_id, color_front, color_back, summary from cal");
     }
 
+    async getFormules(cal_id) {
+        return await this._query(
+            "select ifnull(f.label, c.summary) as formule from cal c left join formule f on f.cal_id = c.cal_id where c.cal_id=?", [cal_id]
+        );
+    }
+
+    async getPersons(cal_id) {
+        return await this._query(
+            "SELECT CONCAT(p.firstname, ' ', p.lastname) as fullname FROM person p LEFT JOIN person_cal pc on pc.person_id = p.id LEFT JOIN cal c ON c.cal_id = pc.cal_id WHERE c.cal_id=?",[cal_id]
+        );
+    }
+
 }
