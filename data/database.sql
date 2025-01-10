@@ -24,7 +24,7 @@ CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` varchar(255) DEFAULT NULL,
   `cal_id` varchar(255) NOT NULL,
-  `summary` varchar(255) DEFAULT NULL,
+  `summary` varchar(1024) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `date_start` datetime DEFAULT NULL,
   `data` text DEFAULT NULL,
@@ -241,5 +241,6 @@ CREATE TABLE `person_job` (
   CONSTRAINT `person_job_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
+ALTER TABLE `event`
+ADD `sync_google` tinyint NULL DEFAULT '1';
 -- 2025-01-08 14:16:30

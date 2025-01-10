@@ -13,8 +13,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in list" :key="item.id" @click="calNameFromId(item.event_id)" class="cursor-pointer">
-            <td class="text-center" v-html="dayFullName(item.date_start)"></td>       
+          <tr v-for="item in list" :key="item.id" @click="calNameFromId(item.event_id)" :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}]">
+            <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start)"></td>       
             <td class="d-lg-table-cell d-none">{{ item.heureDebutConcert }}</td>
             <td class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ item.cal_summary }}</td>     
             <td class="align-middle">{{ item.summary }}</td>            
@@ -45,14 +45,21 @@ export default {
   data() {
     return {
       appName: Const.APP_NAME,
-      list: [],
-
+      list: []
     }
   },
   methods: {
     async reloadList(e) {
       this.showSpinner();
-      this.list = await this.$main.loadAllEvents();
+      this.list = await this.$main.loadAllEvents();   
+      this.$nextTick(() => {
+        let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        console.log(tooltipTriggerList);
+        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });   
+      });
+     
       this.hideSpinner();
     },
     calNameFromId(id) {      
@@ -79,6 +86,18 @@ export default {
       let date = new Date(dateStr);
       let str = Const.DAY_LIST[(date.getDay()+6)%7]+" "+date.getDate()+" à "+date.getUTCHours()+"h"+("0"+date.getUTCMinutes()).slice(-2);
       return str;
+    },    
+    statutClass(key) {
+      if (key != undefined && key>=1 && key<=4) {
+        return "statut"+key;
+      }
+      return "";
+    },
+    statutText(key) {
+      if (key != undefined && key>=1 && key<=4) {
+        return Const.STATUTS[key];
+      }
+      return "";
     }
   }
 }

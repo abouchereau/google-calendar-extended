@@ -13,7 +13,11 @@
                         <option value="1">à envoyer</option>
                         <option value="2">envoyé</option>                        
                     </select>  
-                </div>    
+                </div>                   
+                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+                    <label>Contact Com</label>
+                    <input :disabled="!editable" id="contactCom" type="text" v-model="$main.item.contactCom" class="form-control" />
+                </div> 
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Afficher sur le site ?</label>
                     <div class="form-check form-switch">
@@ -21,12 +25,12 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
-                    <label>Contat Com</label>
-                    <input :disabled="!editable" id="contactCom" type="text" v-model="$main.item.contactCom" class="form-control" />
-                </div>
-                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Lien</label>
                     <input :disabled="!editable" id="lien" type="url" v-model="$main.item.lien" class="form-control" />
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+                    <label>Fréquentation</label>
+                    <input :disabled="!editable" id="frequentation" type="number" v-model="$main.item.frequentation" step="10" min="0" class="form-control" />
                 </div>
             </div>
         </div>

@@ -29,6 +29,14 @@ class Const {
     ];}
 
 
+    static get STATUTS() {return {
+        "1":"Devis envoyé",
+        "2":"Contrat envoyé",
+        "3":"Confirmé",
+        "4":"Annulé/Supprimé"};
+    }
+
+
     static get OBJ_EMPTY() {
         return {ville:"",
             codePostal:"",
@@ -78,7 +86,10 @@ class Const {
             envoiKitCom: "",
             contactCom: "",
             lien:"",
-            precisions:""};
+            precisions:"",
+            frequentation: "",
+            cachet: ""
+        };
     }
 
     static get MUSICIENS() {

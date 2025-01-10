@@ -105,3 +105,21 @@ html {
     cursor: default;
     color: gray;
 }
+
+
+.statut1 td:first-child {
+  background-color:#FFE5A0 !important;
+  color:#7D3821 !important;
+}
+.statut2 td:first-child {
+  background-color:#D4EDBC !important;
+  color:#11825C !important;
+}
+.statut3 td:first-child {
+  background-color:#11734B !important;
+  color:#D4EDBC !important;
+}
+.statut4 td:first-child {
+  background-color:#B10202 !important;
+  color:#FFCFC9 !important;
+}
