@@ -5,7 +5,7 @@
           <div class="row">
             <div class="col"></div>
             <div class="col text-center">
-              <a href="#" @click="refreshDates" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-offset="10,20" title="Recharger les dates"><i class="fa-solid fa-arrows-rotate fa-big"></i></a>
+              <a href="#" v-if="this.$main.user.write" @click="refreshDates" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-offset="10,20" title="Recharger les dates"><i class="fa-solid fa-arrows-rotate fa-big"></i></a>
               <RouterLink class="inactive" to="/" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-offset="10,20" title="Export Excel"><i class="fa-solid fa-table-list fa-big"></i></RouterLink>
             </div>
             <div class="col text-end align-middle"> 
