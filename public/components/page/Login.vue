@@ -44,8 +44,7 @@
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({"username": this.username, "password": this.password}),
-          }).then(response=> {     
-            //console.log(response);       
+          }).then(response=> {         
             if (response.ok) {
               response.json().then(data=>{         
                 this.$main.user.register(data);

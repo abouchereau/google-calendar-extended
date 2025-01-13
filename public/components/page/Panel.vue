@@ -53,8 +53,7 @@ export default {
       this.showSpinner();
       this.list = await this.$main.loadAllEvents();   
       this.$nextTick(() => {
-        let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        console.log(tooltipTriggerList);
+        let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });   
