@@ -105,12 +105,13 @@ app.post("/updateEvent/:id",verifyToken, async (req, res)=>{
     }
     let item = req.body;
     let cal_id = item.cal_id;
+    let event_id = item.event_id;
     delete item.date_start;
     delete item.id;
     delete item.summary;
     delete item.event_id;
     delete item.cal_id;
-    await gCal.updateEvent(req.params.id, cal_id, item);  
+    await gCal.updateEvent(event_id, cal_id, item);  
     await sqlEvent.updateEventData(req.params.id, item);    
     res.send(req.body);
 });

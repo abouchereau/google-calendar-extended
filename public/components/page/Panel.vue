@@ -13,7 +13,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in list" :key="item.id" @click="calNameFromId(item.event_id)" :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}]">
+          <tr v-for="item in list" :key="item.id" @click="calNameFromId(item.id)" :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}]">
             <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start)"></td>       
             <td class="d-lg-table-cell d-none">{{ item.heureDebutConcert }}</td>
             <td class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ item.cal_summary }}</td>     
@@ -63,10 +63,10 @@ export default {
     },
     calNameFromId(id) {      
       if (this.$main.user.write) {
-        this.$router.push({name:"event-edit", params: {id : id}});
+        this.$router.push({name:"event-edit", params: {id}});
       }
       else {
-        this.$router.push({name:"event-view", params: {id : id}});
+        this.$router.push({name:"event-view", params: {id}});
       }
         
     },

@@ -39,23 +39,23 @@ export default class SqlEvents extends SqlBase {
         });
     }
 
-    async getEvent(eventId) {
+    async getEvent(id) {
         let events = await this._query(
             "select e.id, e.event_id, e.cal_id, DATE_FORMAT(e.date_start, \"%d/%m/%Y\") as date_start, e.data, e.summary, COALESCE(e.description, '') as description,  e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
             " from event e" +
             " left join cal c on c.cal_id = e.cal_id" +
-            " where e.event_id=?",
-            [eventId]
+            " where e.id=?",
+            [id]
         );
         let event = Object.assign({}, events[0], JSON.parse(events[0].data));
         delete event.data;
         return event;        
     }
 
-    async updateEventData(eventId, data) {
+    async updateEventData(id, data) {
         return await this._query(
-            "update event set data=? where event_id=?",
-            [JSON.stringify(data), eventId]
+            "update event set data=? where id=?",
+            [JSON.stringify(data), id]
         );
     }
 }
