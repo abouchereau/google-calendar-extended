@@ -84,7 +84,7 @@ export default {
     },
     dayCrafter(dateStr){
       let date = new Date(dateStr);
-      let str = Const.DAY_LIST[(date.getDay()+6)%7]+" "+date.getDate()+" à "+date.getUTCHours()+"h"+("0"+date.getUTCMinutes()).slice(-2);
+      let str = Const.DAY_LIST[(date.getDay()+6)%7]+" "+date.getDate()+" à "+date.getHours()+"h"+("0"+date.getMinutes()).slice(-2);
       return str;
     },    
     statutClass(key) {
