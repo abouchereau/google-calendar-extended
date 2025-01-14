@@ -64,7 +64,7 @@ export default {
   },
   async mounted() {
     this.showSpinner();
-    this.$main.item = await this.$main.getEvent(this.$route.params.id);            
+    this.$main.item = await this.$main.getEvent( this.$route.params.id);            
     this.refreshKey++;   
     this.hideSpinner();
   },
