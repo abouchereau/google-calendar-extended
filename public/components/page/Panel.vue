@@ -52,6 +52,7 @@ export default {
     async reloadList(e) {
       this.showSpinner();
       this.list = await this.$main.loadAllEvents();   
+      this.list = this.list.filter(a=>a.sync_google!=0);
       this.$nextTick(() => {
         let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
