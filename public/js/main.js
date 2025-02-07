@@ -21,7 +21,13 @@ class Main {
     }
 
     async getEvent(id) {
-        let res = await fetch(Const.BASE_API+"/getEvent/"+id);
+        let res = await fetch(Const.BASE_API+"/getEvent/"+id, {
+            method: 'GET',
+            headers: {
+                'Authorization': "Bearer "+this.user.getToken(),
+                'Content-Type': 'application/json'
+            }
+        });
         let event = await res.json();
        // event.date_start = new Date(event.date_start);
         event = { ...Const.OBJ_EMPTY, ...event };
@@ -55,6 +61,7 @@ class Main {
 
     async calculateRoute() {     
         let data =  {
+            "id":this.item.id,
             "depart":this.item.adresseDepart,
             "arrivee":this.item.adresseArrivee,
             "mode":this.item.vehicule=="3"?"drive":"light_truck",
@@ -117,6 +124,17 @@ class Main {
         }
     });
     return await res.json();
-}
+  }
+
+  async getAllPersons() {
+    let res = await fetch(Const.BASE_API+"/persons", {
+        method: 'GET',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        }
+    });
+    return await res.json();
+  }
 
 }

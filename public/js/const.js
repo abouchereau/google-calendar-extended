@@ -105,7 +105,3 @@ class Const {
 	'BALO' => array('Le Bal`O`phonic Orchestra', 'gbdijqokvipeuv44rc1uujamjo'),
 	'BAL' => array('Le Balluche de la Saugrenue', 'je0pf3nio1rqfb7dl8j71l9aco'),
 */
-//class both for Node and Front
-if (typeof module != "undefined") {
-    module.exports = Const;
-}

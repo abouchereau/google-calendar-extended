@@ -39,7 +39,7 @@
   
   <script>
   export default {
-    name: 'panel',
+    name: 'panel-header',
     inject: ['showSpinner', 'hideSpinner'],
     data() {
       return {

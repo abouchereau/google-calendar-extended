@@ -64,19 +64,9 @@ DROP TABLE IF EXISTS `job`;
 CREATE TABLE `job` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `job_cal`;
-CREATE TABLE `job_cal` (
-  `id` int(11) NOT NULL,
-  `job_id` int(11) NOT NULL,
   `cal_id` varchar(255) NOT NULL,
-  KEY `job_id` (`job_id`),
-  KEY `cal_id` (`cal_id`),
-  CONSTRAINT `job_cal_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`),
-  CONSTRAINT `job_cal_ibfk_2` FOREIGN KEY (`cal_id`) REFERENCES `cal` (`cal_id`)
+  PRIMARY KEY (`id`),  
+  CONSTRAINT `job_cal_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal` (`cal_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 

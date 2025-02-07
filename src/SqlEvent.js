@@ -58,4 +58,20 @@ export default class SqlEvents extends SqlBase {
             [JSON.stringify(data), id]
         );
     }
+
+    async getDatesSite() {
+        return await this._query("select e.id, c.summary as groupe, e.date_start, e.cal_id, e.summary, e.description, e.date_start, e.data"+
+                " from event e"+
+                " left join cal c on c.cal_id = e.cal_id" +
+                " where JSON_EXTRACT(data , '$.afficherSite') = \"O\""+ 
+                " AND sync_google=1"+
+                " AND date_start > DATE_SUB(DATE(NOW()), INTERVAL 2 DAY)");
+    }
+
+    async updateCoord(id, coordArrivee) {
+        const event = await this.getEvent(id);
+        let data = event["data"];
+        data = {...data, ...{"lat": coordArrivee[0], 'lon':coordArrivee[1]}};
+        return await this.updateEventData(id, data);
+    }
 }

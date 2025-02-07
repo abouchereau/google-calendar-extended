@@ -3,8 +3,11 @@ import express from "express";;
 import GoogleCal from "./GoogleCal.js";
 import cors from "cors";
 import SqlEvent from "./SqlEvent.js";
+import SqlPerson from "./SqlPerson.js";
 import SqlCal from "./SqlCal.js";
+import SqlJob from "./SqlJob.js";
 import Route from "./Route.js";
+import Event from "./Event.js";
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = 'lasaugrenue';
@@ -62,11 +65,15 @@ const gCal = new GoogleCal();
 const sqlEvent = new SqlEvent();
 const sqlCal = new SqlCal();
 const route = new Route();
+const event = new Event();
+const sqlPerson = new SqlPerson();
+const sqlJob = new SqlJob();
 
 app.get("/loadAllEvents",verifyToken, async (req, res)=> {
     const dateMin   = req.query.dateMin==null?"2020-01-01":req.query.dateMin;
     const dateMax  = req.query.dateMax==null?"2036-01-02":req.query.dateMax;
     await gCal.loadAllEvents(dateMin, dateMax);
+    await event.updateIncomingEvents();
     res.send("OK");
 });
 
@@ -78,7 +85,7 @@ app.get("/getEventList",verifyToken,async (req, res)=> {
     res.send(list);
 });
 
-app.get("/getEvent/:id",async (req, res)=> {           
+app.get("/getEvent/:id",verifyToken, async (req, res)=> {           
     let event = await sqlEvent.getEvent(req.params.id);
     res.send(event);
 });
@@ -113,6 +120,7 @@ app.post("/updateEvent/:id",verifyToken, async (req, res)=>{
     delete item.cal_id;
     await gCal.updateEvent(event_id, cal_id, item);  
     await sqlEvent.updateEventData(req.params.id, item);    
+    await event.updateIncomingEvents();
     res.send(req.body);
 });
 
@@ -140,6 +148,8 @@ app.post("/calculateRoute",verifyToken, async (req, res)=>{
         catch(e) {
             res.send('Problème lors de la récupération ces coordonnées de l\'adresse d\'arrivée. '+e.message);
         }
+        console.log("coord", coordArrivee);
+        sqlEvent.updateCoord(item.id, coordArrivee);
         let routeCalc = await route.calculateRoute(coordDepart, coordArrivee, "drive");
         res.send(routeCalc);
     }    
@@ -159,3 +169,24 @@ app.post('/login', (req, res) => {
         res.status(401).json({ error: 'Identifiants invalides' });
       }
   });
+
+app.get('/getIncomingEvents', async (req, res)=>{    
+const cal   = req.query.cal;
+const forceRefresh = req.query.forceRefresh!=null;
+const dates = await event.getIncomingEvents(cal, forceRefresh);    
+res.send(dates);
+});
+
+  //musiciens
+app.get('/persons', async(req, res)=>{
+    const persons = await sqlPerson.getAllPerson();
+    res.send(persons);
+});
+
+//postes
+app.get('/jobs', async(req, res)=>{
+    const cal_id   = req.query.cal_id;
+    const jobs = await sqlJob.getAllJobs(cal_id);
+    res.send(jobs);
+});
+
