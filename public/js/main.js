@@ -137,4 +137,16 @@ class Main {
     return await res.json();
   }
 
+  async getAllJobs() {
+    let res = await fetch(Const.BASE_API+"/jobs", {
+        method: 'GET',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        }
+    });
+    return await res.json();
+  }
+
+
 }

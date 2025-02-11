@@ -13,6 +13,7 @@ const routes = [
     { name:"event-view", path: '/event/view/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: false}  },
     { name:"event-edit", path: '/event/edit/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
     { name:"admin-musiciens", path: '/admin/musiciens', component: () => loadModule('/components/page/Admin/AdminMusiciens.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
+    { name:"admin-postes", path: '/admin/postes', component: () => loadModule('/components/page/Admin/AdminPostes.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
     
 ];
 
