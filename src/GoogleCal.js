@@ -45,7 +45,12 @@ export default class GoogleCal {
         "Indisponibilités",
         "production.la.saugrenue@gmail.com",
         "agendacollectifsaugrenue@gmail.com",
-        "Occupation du labo"
+        "Occupation du labo",
+        "FANFARE",
+        "BALLUCHE",
+        "CHORO",
+        "BOOKING",
+        "P1N0"
     ];
 
     sqlEvent = null;

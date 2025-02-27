@@ -4,7 +4,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col">              
-              <RouterLink v-if="this.$main.user.write" to="/admin/musiciens" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-offset="10,20" title="Administration"><i class="fa-solid fa-cogs fa-big"></i></RouterLink>
+              <RouterLink v-if="this.$main.user.write" to="/admin/person/list" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-offset="10,20" title="Administration"><i class="fa-solid fa-cogs fa-big"></i></RouterLink>
             </div>
             <div class="col text-center">
               <a href="#" v-if="this.$main.user.write" @click="refreshDates" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-offset="10,20" title="Recharger les dates"><i class="fa-solid fa-arrows-rotate fa-big"></i></a>

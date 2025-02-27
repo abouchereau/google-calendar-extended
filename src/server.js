@@ -186,7 +186,14 @@ app.get('/persons', async(req, res)=>{
 //postes
 app.get('/jobs', async(req, res)=>{
     const cal_id   = req.query.cal_id;
-    const jobs = await sqlJob.getAllJobs(cal_id);
+    const asList   = req.query.asList != null;
+    const jobs = await sqlJob.getAllJobs(cal_id, asList);
     res.send(jobs);
 });
 
+app.post('/job/add', async(req, res)=>{    
+    let cal = req.body.cal;
+    let job = req.body.job;
+    await sqlJob.addJob(cal, job);
+    res.send("ok");
+});

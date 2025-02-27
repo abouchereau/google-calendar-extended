@@ -18,12 +18,12 @@
                     <label>Contact Com</label>
                     <input :disabled="!editable" id="contactCom" type="text" v-model="$main.item.contactCom" class="form-control" />
                 </div> 
-                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+               <!-- <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Afficher sur le site ?</label>
                     <div class="form-check form-switch">
                         <input :disabled="!editable" id="afficherSite" type="checkbox" v-model="$main.item.afficherSite" true-value="O" false-value="N" class="form-check-input">                      
                     </div>
-                </div>
+                </div>-->
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Lien</label>
                     <input :disabled="!editable" id="lien" type="url" v-model="$main.item.lien" class="form-control" />

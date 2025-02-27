@@ -13,8 +13,8 @@ export default class Event {
     }
 
     async getIncomingEvents(filterCal=null, forceRefresh=false) {
-        //vérifie que le fichier a moins de 24h
-        if (!fs.existsSync(this.#getFilePath()) || !this.#isFileModifiedInLast24Hours() || forceRefresh) {
+        //vérifie que le fichier a moins de n hours
+        if (!fs.existsSync(this.#getFilePath()) || !this.#isFileModifiedInLastNHours(1) || forceRefresh) {
             await this.updateIncomingEvents();
         }
         const data = fs.readFileSync(this.#getFilePath(), 'utf8');
@@ -25,14 +25,14 @@ export default class Event {
         return tab;
     }
 
-    #isFileModifiedInLast24Hours(fiePath) {
+    #isFileModifiedInLastNHours(n=24) {
         try {
             const stats = fs.statSync(this.#getFilePath());
             const lastModifiedTime = stats.mtime.getTime();
             const currentTime = Date.now();
-            const twentyFourHoursInMillis = 24 * 60 * 60 * 1000;
+            const millis = n * 60 * 60 * 1000;
             
-            return (currentTime - lastModifiedTime) <= twentyFourHoursInMillis;
+            return (currentTime - lastModifiedTime) <= millis;
         } catch (error) {
             console.error('Error checking file:', error);
             return false;

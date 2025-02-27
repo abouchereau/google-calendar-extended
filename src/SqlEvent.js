@@ -63,9 +63,12 @@ export default class SqlEvents extends SqlBase {
         return await this._query("select e.id, c.summary as groupe, e.date_start, e.cal_id, e.summary, e.description, e.date_start, e.data"+
                 " from event e"+
                 " left join cal c on c.cal_id = e.cal_id" +
-                " where JSON_EXTRACT(data , '$.afficherSite') = \"O\""+ 
+                " where 1=1 "+
+                //" AND JSON_EXTRACT(data , '$.afficherSite') = \"O\""+                 
                 " AND sync_google=1"+
-                " AND date_start > DATE_SUB(DATE(NOW()), INTERVAL 2 DAY)");
+                " AND date_start > DATE_SUB(DATE(NOW()), INTERVAL 2 DAY)"+
+                " AND (e.summary NOT LIKE '%]% OR e.summary LIKE '[VALID%')"
+            );
     }
 
     async updateCoord(id, coordArrivee) {

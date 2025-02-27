@@ -6,6 +6,7 @@ class Main {
         this.user = new User();
         this.isLoading = false;
         this.item = {};
+        this.persons = [];
     }
 
     async loadAllEvents() {
@@ -123,7 +124,8 @@ class Main {
         'Content-Type': 'application/json'
         }
     });
-    return await res.json();
+    this.persons = await res.json();
+    return this.persons;
   }
 
   async getAllPersons() {
@@ -137,8 +139,8 @@ class Main {
     return await res.json();
   }
 
-  async getAllJobs() {
-    let res = await fetch(Const.BASE_API+"/jobs", {
+  async getPerson(id) {
+    let res = await fetch(Const.BASE_API+"/person/"+id, {
         method: 'GET',
         headers: {
         'Authorization': "Bearer "+this.user.getToken(),
@@ -146,6 +148,29 @@ class Main {
         }
     });
     return await res.json();
+  }
+
+  async getAllJobs(asList=false) {
+    let res = await fetch(Const.BASE_API+"/jobs"+(asList?"?asList=1":""), {
+        method: 'GET',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        }
+    });
+    return await res.json();
+  }
+  
+  async addJob(cal, job) {
+    let data =  {cal, job};
+    let res = await fetch(Const.BASE_API+"/job/add", {
+        method: 'POST',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(data)
+    });
   }
 
 

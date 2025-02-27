@@ -3,7 +3,7 @@ import SqlBase from "./SqlBase.js";
 
 export default class SqlJob extends SqlBase {
 
-    async getAllJobs(cal_id=null) {
+    async getAllJobs(cal_id=null, asList=false) {
         const tab = await this._query(
             "select c.summary, j.id, j.label, count(pj.id) as nb"+
             " from cal c"+
@@ -14,16 +14,30 @@ export default class SqlJob extends SqlBase {
             [cal_id, cal_id]
             
         );
-        const calJob = {};
-        for(let line of tab) {
-            if (calJob[line['summary']] == null) {
-                calJob[line['summary']] = [];
-            }
-            if (line['label'] != null) {
-                calJob[line['summary']].push({"id":line['id'],"label":line['label'],'nb':line['nb']});
-            }
+        if (asList) {
+            return tab;
         }
-        return calJob;
+        else {
+            const calJob = {};
+            for(let line of tab) {
+                if (calJob[line['summary']] == null) {
+                    calJob[line['summary']] = [];
+                }
+                if (line['label'] != null) {
+                    calJob[line['summary']].push({"id":line['id'],"label":line['label'],'nb':line['nb']});
+                }
+            }
+            return calJob;
+        }
+    }
+
+    async addJob(cal_summary, job) {
+        
+        console.log(cal_summary);
+        const cals = await this._query("select cal_id from cal where summary=?", [cal_summary]);
+        console.log(cals);
+        const cal = cals[0];
+        await this._query("insert into job(label, cal_id) values (?, ?)", [job, cal.cal_id]);
     }
 
 }
