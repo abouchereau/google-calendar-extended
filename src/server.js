@@ -197,3 +197,17 @@ app.post('/job/add', async(req, res)=>{
     await sqlJob.addJob(cal, job);
     res.send("ok");
 });
+
+app.post('/person_job/add', async(req, res)=>{    
+    let person_id = req.body.person_id;
+    let job_id = req.body.job_id;
+    let is_holder = req.body.is_holder;
+    await sqlJob.addPersonJob(person_id, job_id, is_holder);
+    res.send("ok");
+})
+
+app.delete('/person_job/delete/:id', async(req, res)=>{    
+    const id = req.params.id;
+    await sqlJob.deletePersonJob(id);
+    res.send("ok");
+})

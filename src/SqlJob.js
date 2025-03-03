@@ -32,12 +32,18 @@ export default class SqlJob extends SqlBase {
     }
 
     async addJob(cal_summary, job) {
-        
-        console.log(cal_summary);
         const cals = await this._query("select cal_id from cal where summary=?", [cal_summary]);
         console.log(cals);
         const cal = cals[0];
         await this._query("insert into job(label, cal_id) values (?, ?)", [job, cal.cal_id]);
+    }
+
+    async addPersonJob(person_id, job_id, is_holder) {
+        await this._query("insert into person_job(person_id, job_id, is_holder) values (?,?,?)", [person_id, job_id, is_holder]);
+    }
+
+    async deletePersonJob(id) {
+        await this._query("delete from person_job where id=?", [id]);
     }
 
 }

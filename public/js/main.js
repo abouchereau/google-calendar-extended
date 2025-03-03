@@ -173,5 +173,27 @@ class Main {
     });
   }
 
+  async addJobPerson(person_id, job_id, is_holder) {
+    let data =  {person_id, job_id, is_holder};
+    let res = await fetch(Const.BASE_API+"/person_job/add", {
+        method: 'POST',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(data)
+    });
+  }
+
+  async deleteJobPerson(id) {
+    let res = await fetch(Const.BASE_API+"/person_job/delete/"+id, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
 
 }

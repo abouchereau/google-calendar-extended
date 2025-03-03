@@ -11,7 +11,7 @@
       <tbody>
         <tr v-for="person in persons" :key="person.person_id"  @click="e=>openPerson(person.person_id,e)" class="cursor-pointer">
           <td>{{ person.lastname }} {{ person.firstname }} {{ person.person_id }}</td>
-          <td>{{ displayJobs(person.jobs) }}</td>
+          <td class="p-0"><ul class="list-group" v-html="displayJobs(person.jobs)"></ul></td>
         </tr>
       </tbody>
     </table>
@@ -48,8 +48,8 @@ export default {
     },
     displayJobs(jobs) {
       const tab = JSON.parse(jobs);
-      const tab2 = tab.map(item=>item.job+" ("+item.group+")");
-      return tab2.join(", ");
+      const tab2 = tab.map(item=>'<li class="list-group-item"><span class="'+(item.is_holder?'text-info':'text-warning')+'">'+item.job+" ("+item.group+")</span></li>");
+      return tab2.join("");
     }
   },
   async mounted() {
