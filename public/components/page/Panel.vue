@@ -6,10 +6,12 @@
           <tr class="text-center">            
             <th>Date</th>
             <th class="d-lg-table-cell d-none">Heure</th>
-            <th>Calendrier</th>
-            <th>Evénement</th>
+            <th>Groupe</th>
+            <th>Formule</th>
+            <th>Ville</th>
+            <th class="d-lg-table-cell d-none">Equipe</th>
             <th class="d-lg-table-cell d-none">Trajet</th>
-            <th class="d-lg-table-cell d-none">Crafter</th>
+            <th>Transport</th>
           </tr>
         </thead>
         <tbody>
@@ -17,8 +19,12 @@
           :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
             <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start)"></td>       
             <td class="d-lg-table-cell d-none">{{ item.heureDebutConcert }}</td>
-            <td class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ item.cal_summary }}</td>     
-            <td class="align-middle">{{ item.summary }}</td>            
+            <td class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ calAbrev(item.cal_summary) }}</td>
+            <td class="align-middle"><span v-if="item.formule">{{ item.formule.substring(0,7) }}</span></td>
+            <td class="align-middle">{{ item.ville }} <span v-if="item.codePostal">({{ item.codePostal.substring(0,2) }})</span> </td>       
+            <td class="d-lg-table-cell d-none">
+              <span v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)">{{ musicien.name }}</span>
+            </td>     
             <td class="d-lg-table-cell align-middle d-none">{{ item.dureeMinutes }}</td>   
             <td class="d-lg-table-cell align-middle d-none">
               <div v-if="item.vehicule!=null && item.vehicule==1">
@@ -47,10 +53,23 @@ export default {
     return {
       appName: Const.APP_NAME,
       list: [],
-      lastMonth: -1
+      lastMonth: -1,
+      equipe: []
     }
   },
+
   methods: {
+    getTagClass(is_holder) {
+       if (is_holder == 1) {
+        return "badge bg-success me-s";
+       }
+       else if (is_holder == -1) {
+        return "badge bg-danger me-s";
+       }
+       else {
+        return "badge bg-warning me-s";
+       }
+    },    
     isNewMonth(date) {
       const newMonth = date.getMonth();
       let isNew = this.lastMonth != -1 && newMonth != this.lastMonth;
@@ -61,6 +80,18 @@ export default {
       this.showSpinner();
       this.list = await this.$main.loadAllEvents();   
       this.list = this.list.filter(a=>a.sync_google!=0);
+      this.list.forEach((a,i)=>{
+        this.list[i]['equipe'] = [];
+        if (a.equipeMusiciens) {          
+           a.equipeMusiciens.split("||").forEach(a=>{
+            a.split("|").forEach(b=> {
+                const t = b.split(",");
+                this.list[i]['equipe'].push({"name":t[2],"is_holder":t[3]});
+            });   
+          });
+          console.log(this.list[i]['equipe']);
+        }
+      })
       this.$nextTick(() => {
         let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -88,8 +119,15 @@ export default {
         else {
           this.$router.push({name:"event-view", params: {id}});
         }
-      }      
-        
+      }              
+    },
+    calAbrev(cal) {
+      const words = cal.split(' ');
+      if (words.length > 2) {
+          return words.map(word => word[0].toUpperCase()).join('');
+      } else {
+          return cal.slice(0, 3).toUpperCase();
+      }
     },
     dayFullName(date) {
       let str = '<span class="lh-sm" style="font-size:85%">'+Const.DAY_LIST[(date.getDay()+6)%7].substring(0,3)+'</span>';
@@ -113,7 +151,7 @@ export default {
         return Const.STATUTS[key];
       }
       return "";
-    }
+    } 
   }
 }
 </script>
@@ -121,4 +159,7 @@ export default {
 tr.border-harder {
   border-top-width:3px;
   }
+.me-s {
+  margin-right: 1px;
+}
 </style>
