@@ -21,17 +21,23 @@ export default class SqlEvents extends SqlBase {
                 event);
     }
 
-    async getEventList(cal=null, year=null, month=null) {
-        let list = await this._query(
-            "select e.id, e.event_id, c.id as cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
+    async getEventList(cal=null, year=null) {
+        const params =  [cal, cal];
+        let sql = "select e.id, e.event_id, c.id as cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
             " from event e" +
             " left join cal c on c.cal_id = e.cal_id" +
-            " where (? is null or c.id=?)"+
-            " and (? is null or month(e.date_start) = ?)"+
-            " and (? is null or year(e.date_start) = ?)" +
-            " order by e.date_start, c.id",
-            [cal, cal, month, month, year, year]
-        );
+            " where (? is null or c.id=?)";
+        if (year=="-2") {
+            sql += " and e.date_start > DATE_SUB(CURDATE(), INTERVAL 2 DAY)";
+        }
+        else if (year != null && year!="-1") {
+            sql += " and year(e.date_start) = ?";
+            params.push(year);
+        }
+        sql += " order by e.date_start, c.id";
+
+        let list = await this._query(sql, params);
+
         return list.map(x=>{
             let item = Object.assign({}, x, JSON.parse(x.data));
             delete item.data;
@@ -67,7 +73,7 @@ export default class SqlEvents extends SqlBase {
                 //" AND JSON_EXTRACT(data , '$.afficherSite') = \"O\""+                 
                 " AND sync_google=1"+
                 " AND date_start > DATE_SUB(DATE(NOW()), INTERVAL 2 DAY)"+
-                " AND (e.summary NOT LIKE '%]% OR e.summary LIKE '[VALID%')"
+                " AND (e.summary NOT LIKE '%]%' OR e.summary LIKE '[VALID%')"
             );
     }
 

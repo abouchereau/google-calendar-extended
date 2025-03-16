@@ -1,13 +1,12 @@
 <template>     
     <div class="card my-1">
-        <div class="card-header">
+        <div class="card-header text-white bg-primary text-center">
             Trajet
         </div>
         
         <div class="card-body">                        
             <div class="row">
                 <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
-                    <button :disabled="!editable" class="btn btn-outline-primary btn-sm float-end" @click="set37e" style="padding-top:1px;padding-bottom:1px;"><i class="fa-solid fa-arrow-down"></i> 37//</button>
                     <label>Adresse Départ</label>  
                     <textarea rows="3" :disabled="!editable" id="adresseDepart" style="" v-model="$main.item.adresseDepart"  class="form-control" :key="refreshAdr" />  
                    
@@ -46,16 +45,19 @@ export default {
   data() {
     return {
         editable: this.$route.name=="event-edit",
-        refreshAdr: 0,
         travelMode: "",
-        peage: true
+        peage: true,
+        refreshAdr: 0
     }
-  } ,
-  methods: {
-    set37e() {
+  },
+  mounted() {
+    if (!this.$main.item.adresseDepart) {
         this.$main.item.adresseDepart = "37e Parallèle\nAllée Roger Lecotte\n37100 Tours";
         this.refreshAdr++;
-    },
+    }
+    
+  },
+  methods: {
     async computeTrajet() {
         if (this.$main.item.adresseDepart.trim() == "") {
             alert("Adresse de départ vide");

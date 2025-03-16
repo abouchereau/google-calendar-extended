@@ -7,7 +7,11 @@
       <div class="col col-sm-12 col-lg-6">
         <div class="card my-2">
           <div class="card-header">
-            {{ person.firstname }} {{ person.lastname }}
+            <div class="input-group">               
+                <input type="text" class="form-control" v-model="person.firstname" placeholder="Prénom" />
+                <input type="text" class="form-control" v-model="person.lastname" placeholder="Nom" />
+                <button class="btn btn-outline-success"  type="button" @click="updatePerson">Modifier le nom</button>
+              </div>
           </div>      
           <div>
             <h4 class="text-center">Postes</h4>
@@ -88,8 +92,14 @@ export default {
     async loadJobPerson() {
       const persons = await this.$main.getAllPersons(); 
       this.person = persons.find(e=>e.person_id==this.$route.params.id);
-      this.person_jobs = JSON.parse(this.person.jobs);
+      console.log(persons, this.person);
+      this.person_jobs = this.person.jobs
       this.jobs = await this.$main.getAllJobs(true);
+    },
+    async updatePerson() {
+      this.showSpinner();  
+      await this.$main.updatePerson(this.$route.params.id,this.person.firstname,this.person.lastname);
+      this.hideSpinner();
     }
   },
   async mounted() {

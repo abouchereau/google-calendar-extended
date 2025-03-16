@@ -1,14 +1,14 @@
 <template>     
     <div class="card my-1">
-        <div class="card-header">
+        <div class="card-header text-white bg-primary">
             Horaires
         </div>
         
         <div class="card-body">                        
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-sm-12 py-1">
-                    <label>Infos Set</label>
-                    <div class="alert alert-light border border-info" role="alert" v-html="nl2br($main.item.description)"></div>
+                    <label>Précisions</label>
+                    <textarea rows="2" :disabled="!editable" id="precisions" v-model="$main.item.precisions"  class="form-control" />  
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Lieu RDV</label>
@@ -31,8 +31,8 @@
                     <input :disabled="!editable" id="heureArrivee" type="time" step="300" v-model="$main.item.heureArrivee" class="form-control" />
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
-                    <label>Heure Départ (calculée)</label>
-                    <input disabled id="heureDepart" type="time" step="300" v-model="$main.item.heureDepart" class="form-control" />
+                    <label>Heure Départ<!-- (calculée)--></label>
+                    <input :disabled id="heureDepart" type="time" step="300" v-model="$main.item.heureDepart" class="form-control" />
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Heure Retour</label>
@@ -53,14 +53,7 @@ export default {
     return {
         editable: this.$route.name=="event-edit"
     }
-  },
-  methods: {
-    nl2br (str, is_xhtml) {
-    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; 
-    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
-    }
-  } 
-
+  }
 }
 </script>
 <style>

@@ -34,7 +34,6 @@ heureRetour:time
 
 = Equipe
 equipeMusiciens:list[user]
-equipeTechnique:list[user]
 
 = Set
 tempsChargementMinutes:integer

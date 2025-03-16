@@ -80,8 +80,7 @@ app.get("/loadAllEvents",verifyToken, async (req, res)=> {
 app.get("/getEventList",verifyToken,async (req, res)=> {     
     const cal   = req.query.cal==null?null:parseInt(req.query.cal); 
     const year  = req.query.year==null?null:parseInt(req.query.year);
-    const month = req.query.month==null?null:parseInt(req.query.month);
-    let list = await sqlEvent.getEventList(cal, year, month);
+    let list = await sqlEvent.getEventList(cal, year);
     res.send(list);
 });
 
@@ -118,7 +117,7 @@ app.post("/updateEvent/:id",verifyToken, async (req, res)=>{
     delete item.summary;
     delete item.event_id;
     delete item.cal_id;
-    await gCal.updateEvent(event_id, cal_id, item);  
+   // await gCal.updateEvent(event_id, cal_id, item);  
     await sqlEvent.updateEventData(req.params.id, item);    
     await event.updateIncomingEvents();
     res.send(req.body);
@@ -148,7 +147,7 @@ app.post("/calculateRoute",verifyToken, async (req, res)=>{
         catch(e) {
             res.send('Problème lors de la récupération ces coordonnées de l\'adresse d\'arrivée. '+e.message);
         }
-        console.log("coord", coordArrivee);
+        //console.log("coord", coordArrivee);
         sqlEvent.updateCoord(item.id, coordArrivee);
         let routeCalc = await route.calculateRoute(coordDepart, coordArrivee, "drive");
         res.send(routeCalc);
@@ -171,15 +170,16 @@ app.post('/login', (req, res) => {
   });
 
 app.get('/getIncomingEvents', async (req, res)=>{    
-const cal   = req.query.cal;
-const forceRefresh = req.query.forceRefresh!=null;
-const dates = await event.getIncomingEvents(cal, forceRefresh);    
-res.send(dates);
+    const cal   = req.query.cal;
+    const forceRefresh = req.query.forceRefresh!=null;
+    const dates = await event.getIncomingEvents(cal, forceRefresh);    
+    res.send(dates);
 });
 
-  //musiciens
+//musiciens
 app.get('/persons', async(req, res)=>{
-    const persons = await sqlPerson.getAllPerson();
+    const cal_id   = req.query.cal_id;
+    const persons = await sqlPerson.getAllPerson(cal_id);
     res.send(persons);
 });
 
@@ -191,14 +191,14 @@ app.get('/jobs', async(req, res)=>{
     res.send(jobs);
 });
 
-app.post('/job/add', async(req, res)=>{    
+app.put('/job/add', async(req, res)=>{    
     let cal = req.body.cal;
     let job = req.body.job;
     await sqlJob.addJob(cal, job);
     res.send("ok");
 });
 
-app.post('/person_job/add', async(req, res)=>{    
+app.put('/person_job/add', async(req, res)=>{    
     let person_id = req.body.person_id;
     let job_id = req.body.job_id;
     let is_holder = req.body.is_holder;
@@ -209,5 +209,20 @@ app.post('/person_job/add', async(req, res)=>{
 app.delete('/person_job/delete/:id', async(req, res)=>{    
     const id = req.params.id;
     await sqlJob.deletePersonJob(id);
+    res.send("ok");
+})
+
+app.put('/person/add', async(req, res)=>{    
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    await sqlPerson.addPerson(firstname, lastname);
+    res.send("ok");
+})
+
+app.post('/person/update', async(req, res)=>{    
+    let id = req.body.id;
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    await sqlPerson.updatePerson(id, firstname, lastname);
     res.send("ok");
 })

@@ -33,9 +33,9 @@ body {
     padding-bottom: 10px;    
     border-bottom: 1px solid #AAA;
 }
-label {
+label:not(.form-check-label) {
     font-size:0.75rem;
-    color:#999;
+    opacity: 0.8;
 }
 .input-group-text {
     border-top-left-radius: 0;
@@ -96,8 +96,8 @@ html {
     text-align:center;
   }
   .form-switch .form-check-input {
-    height:1.8em;
-    width:4em;
+    height:1.4em;
+    width:3em;
     margin-top:0.3em;
   }
   .form-switch .form-check-input {

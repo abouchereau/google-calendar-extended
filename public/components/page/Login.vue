@@ -2,11 +2,12 @@
   <div class="row5">
     <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-sm-12">
       <div class="card my-1">
-        <div class="card-header">
-            Se connecter au calendrier
+        <div class="card-header d-flex justify-content-between">
+            <span>Se connecter au calendrier</span>
+            <span class="text-secondary">{{ version }}</span>
         </div>        
         
-        <div class="card-body">     
+        <div class="card-body"> 
           <form @submit.prevent="login">                   
             <div class="row my-5">
               <div class="col">
@@ -35,7 +36,8 @@
     data() {
       return {
         username: '',
-        password: ''
+        password: '',
+        version: Const.VERSION
       };
     },
     methods: {

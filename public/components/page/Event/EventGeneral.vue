@@ -1,6 +1,6 @@
 <template>     
     <div class="card my-1">
-        <div class="card-header">
+        <div class="card-header text-white bg-primary text-center">
             Général
         </div>
         
@@ -33,16 +33,30 @@
                     <input :disabled="!editable" id="ville" type="text" v-model="$main.item.ville" class="form-control" />
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
-                    <label>Payant ?</label>
-                    <div class="form-check form-switch">
-                        <input :disabled="!editable" id="payant" type="checkbox" v-model="$main.item.payant" true-value="O" false-value="N" class="form-check-input">                      
+                    <div class="row">
+                        <div class="col text-center">
+                            <label>Payant ?</label>
+                            <div class="form-check form-switch">
+                                <input :disabled="!editable" id="payant" type="checkbox" v-model="$main.item.payant" true-value="O" false-value="N" class="form-check-input">                      
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            <label>FDR envoyée ?</label>
+                            <div class="form-check form-switch">
+                                <input :disabled="!editable" id="feuilleDeRoute" true-value="O" false-value="N" v-model="$main.item.feuilleDeRoute" type="checkbox"  class="form-check-input">                      
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
-                    <label>Feuille de route envoyée ?</label>
-                    <div class="form-check form-switch">
-                        <input :disabled="!editable" id="feuilleDeRoute" true-value="O" false-value="N" v-model="$main.item.feuilleDeRoute" type="checkbox"  class="form-check-input">                      
-                    </div>
+                    <label>Repas</label>
+                    <select class="form-select" id="repas" :disabled="!editable" v-model="$main.item.repas">
+                        <option value="0"></option>
+                        <option value="1">Prévu Orga</option>
+                        <option value="2">Collectif Saugrenue</option>
+                        <option value="3">Pas de repas</option>
+                    </select>    
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Suivi Devis / Contrat</label>

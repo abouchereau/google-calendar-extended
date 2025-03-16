@@ -1,4 +1,5 @@
 class Const {
+    static get VERSION() {return "v1.1";};
     static get APP_NAME() {return "Google Calendar Extended";}
     static get GOOGLE_KEY() {return "AIzaSyAzl_5-yQOIDNTpnVV9LOJqUBRI08FrQMM";}
     static get FIRST_YEAR() {return 2010;}    
@@ -71,12 +72,12 @@ class Const {
             nbSansGlut:"",
             nbLact:"",
             allergies:"",
-            repas1:"",
+         /*   repas1:"",
             horaireRepas1:"",
             repas2:"",
             horaireRepas2:"",
             repas3:"",
-            horaireRepas3:"",
+            horaireRepas3:"",*/
             dateArriveeHebergement:"",
             adresseHebergement:"",
             contactHebergement:"",
@@ -88,7 +89,11 @@ class Const {
             lien:"",
             precisions:"",
             frequentation: "",
-            cachet: ""
+            cachet: "",
+            transports: "",
+            vehiculesPerso: "",
+            train: "",
+            location: ""
         };
     }
 

@@ -1,38 +1,38 @@
 <template>     
     <event-header  :key="refreshKey"/>  
     <div class="container-fluid" :key="refreshKey">
-        <div class="row">
-            <div class="col col-sm-6 col-xs-12">
-                <event-general />  
+        <div class="d-block d-sm-none">
+            <div class="row">
+                <div class="col">
+                    <event-general />  
+                    <event-horaires />
+                    <event-equipe />
+                    <event-transport />
+                    <event-trajet />
+                    <event-hebergement />
+                    <event-contacts />
+                    <event-communication />
+                    <event-precision />
+                </div>
+            </div> 
+        </div>
+        <div class="d-none d-sm-block">
+            <div class="row">
+                <div class="col">
+                    <event-general />  
+                    <event-equipe />  
+                    <event-trajet />  
+                    <event-communication /> 
+                    <event-precision />  
+                </div>
+                <div class="col">
+                    <event-horaires />  
+                    <event-transport />  
+                    <event-contacts />  
+                    <event-hebergement /> 
+                </div>        
             </div>
-            <div class="col-sm-6 col-xs-12">
-                <event-horaires />
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                <event-equipe />
-            </div>            
-            <div class="col-sm-6 col-xs-12">
-                <event-transport />
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                <event-trajet />
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                <event-repas />
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                <event-hebergement />
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                <event-contacts />
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                <event-communication />
-            </div>
-            <div class="col-sm-6 col-xs-12">
-                <event-precision />
-            </div>
-        </div> 
+        </div>
     </div>    
     <event-footer @updateEvent="updateEvent" :style="{'visibility': editable?'visible':'hidden'}"></event-footer>
 </template>

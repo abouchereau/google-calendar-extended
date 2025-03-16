@@ -128,8 +128,8 @@ class Main {
     return this.persons;
   }
 
-  async getAllPersons() {
-    let res = await fetch(Const.BASE_API+"/persons", {
+  async getAllPersons(cal_id=null) {
+    let res = await fetch(Const.BASE_API+"/persons"+(cal_id==null?"":"?cal_id="+cal_id), {
         method: 'GET',
         headers: {
         'Authorization': "Bearer "+this.user.getToken(),
@@ -150,8 +150,16 @@ class Main {
     return await res.json();
   }
 
-  async getAllJobs(asList=false) {
-    let res = await fetch(Const.BASE_API+"/jobs"+(asList?"?asList=1":""), {
+  async getAllJobs(asList=false, cal_id=null) {
+    const objParams= {};
+    if (asList) {
+      objParams["asList"] = "1";
+    }
+    if (cal_id) {
+      objParams["cal_id"] = cal_id;
+    }
+    const params = new URLSearchParams(objParams).toString();
+    let res = await fetch(Const.BASE_API+"/jobs?"+params, {
         method: 'GET',
         headers: {
         'Authorization': "Bearer "+this.user.getToken(),
@@ -164,7 +172,7 @@ class Main {
   async addJob(cal, job) {
     let data =  {cal, job};
     let res = await fetch(Const.BASE_API+"/job/add", {
-        method: 'POST',
+        method: 'PUT',
         headers: {
         'Authorization': "Bearer "+this.user.getToken(),
         'Content-Type': 'application/json'
@@ -176,7 +184,7 @@ class Main {
   async addJobPerson(person_id, job_id, is_holder) {
     let data =  {person_id, job_id, is_holder};
     let res = await fetch(Const.BASE_API+"/person_job/add", {
-        method: 'POST',
+        method: 'PUT',
         headers: {
         'Authorization': "Bearer "+this.user.getToken(),
         'Content-Type': 'application/json'
@@ -195,5 +203,28 @@ class Main {
     });
   }
 
+  async addPerson(firstname, lastname) {
+    let data = {firstname, lastname};
+    let res = await fetch(Const.BASE_API+"/person/add", {
+        method: 'PUT',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(data)
+    });
+  }
+
+  async updatePerson(id, firstname, lastname) {
+    let data = {id, firstname, lastname};
+    await fetch(Const.BASE_API+"/person/update", {
+        method: 'POST',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(data)
+    });
+  }
 
 }

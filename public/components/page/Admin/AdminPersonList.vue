@@ -1,19 +1,43 @@
 <template> 
   <div class="container my-4">
     <h1 class="mb-4">Personnes</h1>
-    <table class="table table-striped table-bordered table-hover">
+    <table class="table table-striped table-bordered">
       <thead class="thead-dark">
         <tr>
           <th scope="col">Nom</th>
           <th scope="col">Postes (Groupes)</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="person in persons" :key="person.person_id"  @click="e=>openPerson(person.person_id,e)" class="cursor-pointer">
-          <td>{{ person.lastname }} {{ person.firstname }} {{ person.person_id }}</td>
+        <tr v-for="person in persons" :key="person.person_id">
+          <td>{{ person.firstname }} {{ person.lastname }} </td>
           <td class="p-0"><ul class="list-group" v-html="displayJobs(person.jobs)"></ul></td>
+          <td>
+            <div class="d-flex justify-content-between">
+              <a href="#" title="Modifier" class="btn btn-primary btn-sm" @click="e=>openPerson(person.person_id,e)"><i class="fa-solid fa-edit"></i></a>
+              <span class="invisible">x</span>
+              <a href="#" title="Supprimer" class="btn btn-danger btn-sm" @click="deletePerson(person.person_id)"><i class="fa-solid fa-trash"></i></a>
+            </div>
+          </td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" class="text-center">
+            <small>Ajouter une personne :</small>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <div class="input-group">            
+              <input type="text" class="form-control" placeholder="Prénom" v-model="firstname" />
+              <input type="text" class="form-control" placeholder="Nom" v-model="lastname" />
+              <button class="btn btn-outline-success" type="button" @click="addPerson">Ajouter</button>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </div>
   <admin-footer></admin-footer>
@@ -31,7 +55,9 @@ export default {
   },
   data() {
     return {
-        persons: []
+        persons: [],
+        firstname: "",
+        lastname: ""
     }
   },
   methods: {
@@ -47,9 +73,17 @@ export default {
       this.hideSpinner();      
     },
     displayJobs(jobs) {
-      const tab = JSON.parse(jobs);
-      const tab2 = tab.map(item=>'<li class="list-group-item"><span class="'+(item.is_holder?'text-info':'text-warning')+'">'+item.job+" ("+item.group+")</span></li>");
+      const tab2 = jobs.map(item=>'<li class="list-group-item"><span class="'+(item.is_holder?'text-info':'text-warning')+'">'+item.job+" ("+item.group+")</span></li>");
       return tab2.join("");
+    },
+    async addPerson() {
+      this.showSpinner();
+      this.$main.addPerson(this.firstname, this.lastname);
+      this.persons = await this.$main.getAllPersons();          
+      this.hideSpinner();
+    },
+    async deletePerson(id) {
+      console.log(id);
     }
   },
   async mounted() {

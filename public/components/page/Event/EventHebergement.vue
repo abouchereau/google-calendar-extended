@@ -1,6 +1,6 @@
 <template>     
     <div class="card my-1">
-        <div class="card-header">
+        <div class="card-header text-white bg-primary text-center">
             Hébergement
         </div>
         
