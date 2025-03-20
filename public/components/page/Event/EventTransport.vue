@@ -25,11 +25,11 @@
                 <div class="col-xl-4 col-lg-4 col-sm-12 py-1  my-auto">
                     <div class="form-check">
                         <input class="form-check-input" :disabled="!editable" type="checkbox" v-model="isVehPerso" id="isVehPerso" @change="majObj" />
-                        <label class="form-check-label"for="isVehPerso"> Véhicule(s) Perso(s)</label> 
+                        <label class="form-check-label"for="isVehPerso"> Véhicule(s) Perso</label> 
                     </div>
                 </div>
                 <div class="col-xl-8 col-lg-8 col-sm-12 py-1" v-if="isVehPerso">
-                    <label>Véhicule(s) Perso(s)</label>
+                    <label>Véhicule(s) Perso</label>
                     <input type="text" id="vehPerso" v-model="$main.item.vehiculesPerso" :disabled="!editable" class="form-control" />  
                 </div>    
             </div>
@@ -85,7 +85,6 @@ export default {
   },
   methods: {    
     majObj() {
-        console.log("majObj")
         const transports = [];
         if (this.isCrafter) {
             transports.push(1);

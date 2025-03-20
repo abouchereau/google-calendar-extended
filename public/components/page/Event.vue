@@ -1,7 +1,7 @@
 <template>     
     <event-header  :key="refreshKey"/>  
     <div class="container-fluid" :key="refreshKey">
-        <div class="d-block d-sm-none">
+        <div v-if="isMobile">
             <div class="row">
                 <div class="col">
                     <event-general />  
@@ -16,7 +16,7 @@
                 </div>
             </div> 
         </div>
-        <div class="d-none d-sm-block">
+        <div v-else>
             <div class="row">
                 <div class="col">
                     <event-general />  
@@ -59,16 +59,25 @@ export default {
   data() {
     return {
         editable: this.$route.name=="event-edit",
-        refreshKey: 0
+        refreshKey: 0,
+        isMobile: true
     }
   },
   async mounted() {
     this.showSpinner();
+    this.updateScreenSize();
+    window.addEventListener('resize', this.updateScreenSize);
     this.$main.item = await this.$main.getEvent(this.$route.params.id);            
     this.refreshKey++;   
     this.hideSpinner();
   },
+  umounted() {
+    window.removeEventListener('resize', updateScreenSize);
+  },
   methods: {
+    updateScreenSize() {
+        this.isMobile = window.innerWidth < 576;
+    },
     async updateEvent() {
         this.showSpinner();
         await this.$main.updateEvent(this.$route.params.id, {...this.$main.item});               

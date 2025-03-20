@@ -90,11 +90,12 @@ export default {
       this.hideSpinner();
     },
     async loadJobPerson() {
+      this.showSpinner();   
       const persons = await this.$main.getAllPersons(); 
       this.person = persons.find(e=>e.person_id==this.$route.params.id);
-      console.log(persons, this.person);
       this.person_jobs = this.person.jobs
       this.jobs = await this.$main.getAllJobs(true);
+      this.hideSpinner();
     },
     async updatePerson() {
       this.showSpinner();  

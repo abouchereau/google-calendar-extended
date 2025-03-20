@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Heure Départ<!-- (calculée)--></label>
-                    <input :disabled id="heureDepart" type="time" step="300" v-model="$main.item.heureDepart" class="form-control" />
+                    <input :disabled="!editable" id="heureDepart" type="time" step="300" v-model="$main.item.heureDepart" class="form-control" />
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Heure Retour</label>

@@ -177,28 +177,35 @@ app.get('/getIncomingEvents', async (req, res)=>{
 });
 
 //musiciens
-app.get('/persons', async(req, res)=>{
+app.get('/persons',verifyToken, async(req, res)=>{
     const cal_id   = req.query.cal_id;
     const persons = await sqlPerson.getAllPerson(cal_id);
     res.send(persons);
 });
 
 //postes
-app.get('/jobs', async(req, res)=>{
+app.get('/jobs', verifyToken, async(req, res)=>{
     const cal_id   = req.query.cal_id;
     const asList   = req.query.asList != null;
     const jobs = await sqlJob.getAllJobs(cal_id, asList);
     res.send(jobs);
 });
 
-app.put('/job/add', async(req, res)=>{    
+app.put('/job/add',verifyToken, async(req, res)=>{    
     let cal = req.body.cal;
     let job = req.body.job;
     await sqlJob.addJob(cal, job);
     res.send("ok");
 });
 
-app.put('/person_job/add', async(req, res)=>{    
+app.delete('/job/delete/:id',verifyToken, async(req, res)=>{    
+    const id = req.params.id;
+    await sqlJob.deleteJob(id);
+    res.send("ok");
+})
+
+
+app.put('/person_job/add', verifyToken, async(req, res)=>{    
     let person_id = req.body.person_id;
     let job_id = req.body.job_id;
     let is_holder = req.body.is_holder;
@@ -206,23 +213,29 @@ app.put('/person_job/add', async(req, res)=>{
     res.send("ok");
 })
 
-app.delete('/person_job/delete/:id', async(req, res)=>{    
+app.delete('/person_job/delete/:id',verifyToken, async(req, res)=>{    
     const id = req.params.id;
     await sqlJob.deletePersonJob(id);
     res.send("ok");
 })
 
-app.put('/person/add', async(req, res)=>{    
+app.put('/person/add',verifyToken, async(req, res)=>{    
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     await sqlPerson.addPerson(firstname, lastname);
     res.send("ok");
 })
 
-app.post('/person/update', async(req, res)=>{    
+app.post('/person/update',verifyToken, async(req, res)=>{    
     let id = req.body.id;
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     await sqlPerson.updatePerson(id, firstname, lastname);
+    res.send("ok");
+})
+
+app.delete('/person/delete/:id',verifyToken, async(req, res)=>{    
+    const id = req.params.id;
+    await sqlPerson.deletePerson(id);
     res.send("ok");
 })

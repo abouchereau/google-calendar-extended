@@ -89,7 +89,7 @@ html {
     padding-right:10px;
     transition: transform .2s;
   }
-  .fa-big:hover {
+  a:not(.inactive) .fa-big:hover {
     transform: scale(1.5);
   }
   .form-switch {
@@ -124,4 +124,7 @@ html {
 .statut4 td:first-child {
   background-color:#B10202 !important;
   color:#FFCFC9 !important;
+}
+.fs-sm {
+  font-size: 0.85rem;
 }

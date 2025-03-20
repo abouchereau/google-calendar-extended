@@ -1,5 +1,5 @@
 import SqlBase from "./SqlBase.js";
-
+import GoogleCal from "./GoogleCal.js"
 
 export default class SqlCal extends SqlBase {
 
@@ -11,7 +11,8 @@ export default class SqlCal extends SqlBase {
     }
 
     async getCalList() {
-        return await this._query("select id, cal_id, color_front, color_back, summary from cal");
+        const cals = await this._query("select id, cal_id, color_front, color_back, summary from cal");
+        return cals.filter(c=>!GoogleCal.EXCLUDE_CALS.includes(c.summary))
     }
 
     async getFormules(cal_id) {

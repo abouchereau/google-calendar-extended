@@ -6,10 +6,10 @@
           <tr class="text-center">            
             <th>Date</th>
             <th class="d-lg-table-cell d-none">Heure</th>
-            <th>Groupe</th>
+            <th v-if="$main.filter.cal==''">Groupe</th>
             <th>Formule</th>
             <th>Ville</th>
-            <th class="d-lg-table-cell d-none">Equipe</th>
+            <th>Equipe</th>
             <th class="d-lg-table-cell d-none">Trajet</th>
             <th>Transport</th>
           </tr>
@@ -18,20 +18,16 @@
           <tr v-for="item in list" :key="item.id" @click="e=>calNameFromId(item.id,e)" 
           :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
             <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start)"></td>       
-            <td class="d-lg-table-cell d-none">{{ item.heureDebutConcert }}</td>
-            <td class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ calAbrev(item.cal_summary) }}</td>
-            <td class="align-middle"><span v-if="item.formule">{{ item.formule.substring(0,7) }}</span></td>
+            <td class="d-lg-table-cell d-none align-middle">{{ item.heureDebutConcert }}</td>
+            <td v-if="$main.filter.cal==''" class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ calAbrev(item.cal_summary) }}</td>
+            <td class="align-middle"><span class="badge bg-info" v-if="item.formule">{{ item.formule.substring(0,7) }}</span></td>
             <td class="align-middle">{{ item.ville }} <span v-if="item.codePostal">({{ item.codePostal.substring(0,2) }})</span> </td>       
-            <td class="d-lg-table-cell d-none">
+            <td>
               <span v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)">{{ musicien.name }}</span>
             </td>     
             <td class="d-lg-table-cell align-middle d-none">{{ item.dureeMinutes }}</td>   
-            <td class="d-lg-table-cell align-middle d-none">
-              <div v-if="item.vehicule!=null && item.vehicule==1">
-                <div><i class="fa fa-square-caret-right text-warning"></i> <span v-if="item.dateDepartCrafter">{{ dayCrafter(item.dateDepartCrafter)}}</span><span class="text-danger" v-else>N.C.</span></div>
-                <div><i class="fa fa-square-caret-left text-success"></i> <span  v-if="item.dateRetourCrafter">{{ dayCrafter(item.dateRetourCrafter)}}</span><span class="text-danger" v-else>N.C.</span></div>
-              </div>
-              <span v-else>Non</span>
+            <td class="p-0 align-middle">
+              <panel-transports :item="item" />             
             </td>
           </tr>
         </tbody>
@@ -47,7 +43,8 @@ export default {
   inject: ['showSpinner', 'hideSpinner'],
   components: {
      'panel-header': Vue.defineAsyncComponent( ()=>loadModule('./components/page/Panel/PanelHeader.vue', Utils.loadModuleOptions())),
-     'panel-footer': Vue.defineAsyncComponent( ()=>loadModule('./components/page/Panel/PanelFooter.vue', Utils.loadModuleOptions()))
+     'panel-footer': Vue.defineAsyncComponent( ()=>loadModule('./components/page/Panel/PanelFooter.vue', Utils.loadModuleOptions())),
+     'panel-transports': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Panel/PanelTransports.vue', Utils.loadModuleOptions())),
   },
   data() {
     return {
@@ -86,10 +83,9 @@ export default {
            a.equipeMusiciens.split("||").forEach(a=>{
             a.split("|").forEach(b=> {
                 const t = b.split(",");
-                this.list[i]['equipe'].push({"name":t[2],"is_holder":t[3]});
+                this.list[i]['equipe'].push({"name":this.nameAbrev(t[2]),"is_holder":t[3]});
             });   
-          });
-          console.log(this.list[i]['equipe']);
+          });          
         }
       })
       this.$nextTick(() => {
@@ -129,17 +125,17 @@ export default {
           return cal.slice(0, 3).toUpperCase();
       }
     },
+    nameAbrev(name) {
+      const words = name.split(' ');
+      return words[0]+(words.length>1?" "+words[words.length-1].substring(0,1)+".":"");
+    },
     dayFullName(date) {
       let str = '<span class="lh-sm" style="font-size:85%">'+Const.DAY_LIST[(date.getDay()+6)%7].substring(0,3)+'</span>';
       str += '<span class="lh-sm" style="font-size:105%"> '+date.getDate()+'</span>';
       str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date.getMonth()]+" "+((Const.LAST_YEAR-1)==date.getFullYear()?'':+date.getFullYear())+'</span>';
       return str;
     },
-    dayCrafter(dateStr){
-      let date = new Date(dateStr);
-      let str = Const.DAY_LIST[(date.getDay()+6)%7]+" "+date.getDate()+" à "+date.getHours()+"h"+("0"+date.getMinutes()).slice(-2);
-      return str;
-    },    
+
     statutClass(key) {
       if (key != undefined && key>=1 && key<=4) {
         return "statut"+key;

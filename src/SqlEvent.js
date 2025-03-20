@@ -1,4 +1,5 @@
 import SqlBase from "./SqlBase.js";
+import GoogleCal from "./GoogleCal.js"
 
 
 export default class SqlEvents extends SqlBase {
@@ -37,7 +38,7 @@ export default class SqlEvents extends SqlBase {
         sql += " order by e.date_start, c.id";
 
         let list = await this._query(sql, params);
-
+        list = list.filter(l=>!GoogleCal.EXCLUDE_CALS.includes(l.cal_summary));
         return list.map(x=>{
             let item = Object.assign({}, x, JSON.parse(x.data));
             delete item.data;

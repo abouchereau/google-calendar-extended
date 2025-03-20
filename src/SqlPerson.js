@@ -30,4 +30,8 @@ export default class SqlPerson extends SqlBase {
         return await this._query("UPDATE person SET firstname=?, lastname=? WHERE id=?",[fisrtname, lastname, id]);
     }
 
+    async deletePerson(id) {
+        return await this._query("delete from person where id=?", [id]);
+    }
+
 }

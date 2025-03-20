@@ -19,7 +19,7 @@ export default class GoogleCal {
     ];
     TOKEN_PATH = __dirname+"/../token.json";
     CREDENTIALS_PATH = __dirname+"/../credentials.json"
-    EXCLUDE_CALS = [
+   static EXCLUDE_CALS = [
         'Numéros de semaine',
         "djefcaire@gmail.com",
         "m.torsat@gmail.com",
@@ -114,7 +114,7 @@ export default class GoogleCal {
         const res = await calendar.calendarList.list({});   
         await this.sqlEvent.prepareSync(dateMin, dateMax);
         for (let cal of res.data.items) {
-            if (!this.EXCLUDE_CALS.includes(cal.summary)) {                 
+            if (!GoogleCal.EXCLUDE_CALS.includes(cal.summary)) {                 
                 console.log("--CAL--", cal.summary);
                 this.sqlCal.insertOrUpdateCal(cal);               
                 const res = await calendar.events.list({      
@@ -144,7 +144,7 @@ export default class GoogleCal {
         this.calsList = [];
         this.fullEventList = [];
         for (let cal of res.data.items) {    
-            if (!this.EXCLUDE_CALS.includes(cal.summary)) {     
+            if (!GoogleCal.EXCLUDE_CALS.includes(cal.summary)) {     
                 const res = await calendar.events.list({
                     calendarId: cal.id, 
                     maxResults: 1000,

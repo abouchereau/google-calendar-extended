@@ -15,7 +15,7 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item d-flex justify-content-between align-items-center"  v-for="job in cals[curCal]">
               <span>{{job.label}}</span>
-              <span v-if="job.nb==0" ><a href="#" class="btn btn-danger btn-sm" @click="deleteJob(job.id);return false;"><i class="fa-solid fa-trash"></i></a></span>
+              <span v-if="job.nb==0" ><button class="btn btn-danger btn-sm" @click="e=>deleteJob(job.id)"><i class="fa-solid fa-trash"></i></button></span>
             </li>
             <li class="list-group-item">   
               <div class="input-group">               
@@ -59,10 +59,13 @@ export default {
       this.hideSpinner();      
     },
     async deleteJob(id) {
-      this.showSpinner();
-      await this.$main.deleteJob(id);
-      this.cals = await this.$main.getAllJobs();  
-      this.hideSpinner();
+      const job = this.cals[this.curCal].find(a=>a.id==id);
+      if (confirm("Veux-tu vraiment supprimer le poste "+job.label)) {
+          this.showSpinner();
+          await this.$main.deleteJob(id);
+          this.cals = await this.$main.getAllJobs();  
+          this.hideSpinner();
+      }
     }
   },
   async mounted() {

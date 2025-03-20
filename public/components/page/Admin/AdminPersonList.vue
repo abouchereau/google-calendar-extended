@@ -15,9 +15,9 @@
           <td class="p-0"><ul class="list-group" v-html="displayJobs(person.jobs)"></ul></td>
           <td>
             <div class="d-flex justify-content-between">
-              <a href="#" title="Modifier" class="btn btn-primary btn-sm" @click="e=>openPerson(person.person_id,e)"><i class="fa-solid fa-edit"></i></a>
+              <button title="Modifier" class="btn btn-primary btn-sm" @click="e=>openPerson(person.person_id,e)"><i class="fa-solid fa-edit"></i></button>
               <span class="invisible">x</span>
-              <a href="#" title="Supprimer" class="btn btn-danger btn-sm" @click="deletePerson(person.person_id)"><i class="fa-solid fa-trash"></i></a>
+              <button title="Supprimer" class="btn btn-danger btn-sm" @click="e=>deletePerson(person.person_id)"><i class="fa-solid fa-trash"></i></button>
             </div>
           </td>
         </tr>
@@ -79,11 +79,19 @@ export default {
     async addPerson() {
       this.showSpinner();
       this.$main.addPerson(this.firstname, this.lastname);
-      this.persons = await this.$main.getAllPersons();          
+      this.persons = await this.$main.getAllPersons();    
+      this.firstname = "";
+      this.lastname = "";
       this.hideSpinner();
     },
-    async deletePerson(id) {
-      console.log(id);
+    async deletePerson(id) {      
+      const person = this.persons.find(a=>a.person_id==id);
+      if (confirm("Veux-tu vraiment supprimer "+person.firstname+" "+person.lastname)) {
+        this.showSpinner();
+        await this.$main.deletePerson(id);        
+        this.persons = await this.$main.getAllPersons();  
+        this.hideSpinner();
+      }
     }
   },
   async mounted() {

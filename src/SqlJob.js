@@ -1,10 +1,11 @@
 import SqlBase from "./SqlBase.js";
+import GoogleCal from "./GoogleCal.js"
 
 
 export default class SqlJob extends SqlBase {
 
     async getAllJobs(cal_id=null, asList=false) {
-        const tab = await this._query(
+        let tab = await this._query(
             "select c.summary, j.id, j.label, count(pj.id) as nb"+
             " from cal c"+
             " left join job j on c.cal_id = j.cal_id"+
@@ -14,6 +15,7 @@ export default class SqlJob extends SqlBase {
             [cal_id, cal_id]
             
         );
+        tab = tab.filter(l=>!GoogleCal.EXCLUDE_CALS.includes(l.summary));
         if (asList) {
             return tab;
         }
@@ -26,17 +28,21 @@ export default class SqlJob extends SqlBase {
                 if (line['label'] != null) {
                     calJob[line['summary']].push({"id":line['id'],"label":line['label'],'nb':line['nb']});
                 }
-            }
+        }
             return calJob;
         }
     }
 
     async addJob(cal_summary, job) {
         const cals = await this._query("select cal_id from cal where summary=?", [cal_summary]);
-        console.log(cals);
         const cal = cals[0];
         await this._query("insert into job(label, cal_id) values (?, ?)", [job, cal.cal_id]);
     }
+
+    async deleteJob(id) {
+        await this._query("delete from job where id=?", [id]);
+    }
+
 
     async addPersonJob(person_id, job_id, is_holder) {
         await this._query("insert into person_job(person_id, job_id, is_holder) values (?,?,?)", [person_id, job_id, is_holder]);
