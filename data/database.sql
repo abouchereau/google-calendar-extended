@@ -64,19 +64,9 @@ DROP TABLE IF EXISTS `job`;
 CREATE TABLE `job` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-DROP TABLE IF EXISTS `job_cal`;
-CREATE TABLE `job_cal` (
-  `id` int(11) NOT NULL,
-  `job_id` int(11) NOT NULL,
   `cal_id` varchar(255) NOT NULL,
-  KEY `job_id` (`job_id`),
-  KEY `cal_id` (`cal_id`),
-  CONSTRAINT `job_cal_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`),
-  CONSTRAINT `job_cal_ibfk_2` FOREIGN KEY (`cal_id`) REFERENCES `cal` (`cal_id`)
+  PRIMARY KEY (`id`),  
+  CONSTRAINT `job_cal_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal` (`cal_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -244,3 +234,37 @@ CREATE TABLE `person_job` (
 ALTER TABLE `event`
 ADD `sync_google` tinyint NULL DEFAULT '1';
 -- 2025-01-08 14:16:30
+
+
+
+INSERT INTO `job` (`id`, `label`, `cal_id`) VALUES
+(1,	'Chant',	'2vkcao20bundgjo8v3hrcorteg@group.calendar.google.com'),
+(2,	'Batterie',	'2vkcao20bundgjo8v3hrcorteg@group.calendar.google.com'),
+(3,	'Saxophone',	'fkspp43nuq3u2i6cimqrktag4k@group.calendar.google.com'),
+(4,	'Accordéon',	'fkspp43nuq3u2i6cimqrktag4k@group.calendar.google.com'),
+(5,	'Percussions',	'fkspp43nuq3u2i6cimqrktag4k@group.calendar.google.com'),
+(6,	'Caisse claire',	'to11pvq2q69m27am45fjggvkpk@group.calendar.google.com'),
+(7,	'Grosse caisse',	'to11pvq2q69m27am45fjggvkpk@group.calendar.google.com'),
+(8,	'Souba',	'to11pvq2q69m27am45fjggvkpk@group.calendar.google.com'),
+(9,	'Sax alto',	'to11pvq2q69m27am45fjggvkpk@group.calendar.google.com'),
+(10,	'Sax baryton',	'to11pvq2q69m27am45fjggvkpk@group.calendar.google.com'),
+(11,	'Trompette',	'to11pvq2q69m27am45fjggvkpk@group.calendar.google.com'),
+(12,	'Trombone',	'to11pvq2q69m27am45fjggvkpk@group.calendar.google.com'),
+(13,	'Accordéon',	'je0pf3nio1rqfb7dl8j71l9aco@group.calendar.google.com'),
+(14,	'Chant',	'je0pf3nio1rqfb7dl8j71l9aco@group.calendar.google.com'),
+(15,	'Batterie',	'je0pf3nio1rqfb7dl8j71l9aco@group.calendar.google.com'),
+(16,	'Guitare',	'je0pf3nio1rqfb7dl8j71l9aco@group.calendar.google.com'),
+(17,	'Contrebasse',	'je0pf3nio1rqfb7dl8j71l9aco@group.calendar.google.com'),
+(18,	'Technique',	'je0pf3nio1rqfb7dl8j71l9aco@group.calendar.google.com'),
+(19,	'Accordéon',	'kmg2oeur0qi64r1c12qaki7d7k@group.calendar.google.com'),
+(20,	'Vibraphone',	'kmg2oeur0qi64r1c12qaki7d7k@group.calendar.google.com'),
+(21,	'Clavier',	'gqma0kkiiqu2p1q1sgn4dmv5k8@group.calendar.google.com'),
+(22,	'Trombone',	'gqma0kkiiqu2p1q1sgn4dmv5k8@group.calendar.google.com'),
+(23,	'Sax',	'gqma0kkiiqu2p1q1sgn4dmv5k8@group.calendar.google.com'),
+(24,	'Batterie',	'gqma0kkiiqu2p1q1sgn4dmv5k8@group.calendar.google.com'),
+(25,	'Trompette',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com'),
+(26,	'Sax',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com'),
+(27,	'Trombone',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com'),
+(28,	'Souba',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com'),
+(29,	'Percu',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com'),
+(30,	'Technique',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com');

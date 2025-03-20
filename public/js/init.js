@@ -12,6 +12,9 @@ const routes = [
     { name:"home", path: '/', component: () => loadModule('/components/page/Panel.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: false}},
     { name:"event-view", path: '/event/view/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: false}  },
     { name:"event-edit", path: '/event/edit/:id', component: () => loadModule('/components/page/Event.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
+    { name:"admin-person-list", path: '/admin/person/list', component: () => loadModule('/components/page/Admin/AdminPersonList.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
+    { name:"admin-person-edit", path: '/admin/person/edit/:id', component: () => loadModule('/components/page/Admin/AdminPersonEdit.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
+    { name:"admin-job", path: '/admin/job', component: () => loadModule('/components/page/Admin/AdminJob.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
     
 ];
 

@@ -6,6 +6,7 @@ class Main {
         this.user = new User();
         this.isLoading = false;
         this.item = {};
+        this.persons = [];
     }
 
     async loadAllEvents() {
@@ -21,7 +22,13 @@ class Main {
     }
 
     async getEvent(id) {
-        let res = await fetch(Const.BASE_API+"/getEvent/"+id);
+        let res = await fetch(Const.BASE_API+"/getEvent/"+id, {
+            method: 'GET',
+            headers: {
+                'Authorization': "Bearer "+this.user.getToken(),
+                'Content-Type': 'application/json'
+            }
+        });
         let event = await res.json();
        // event.date_start = new Date(event.date_start);
         event = { ...Const.OBJ_EMPTY, ...event };
@@ -55,6 +62,7 @@ class Main {
 
     async calculateRoute() {     
         let data =  {
+            "id":this.item.id,
             "depart":this.item.adresseDepart,
             "arrivee":this.item.adresseArrivee,
             "mode":this.item.vehicule=="3"?"drive":"light_truck",
@@ -116,7 +124,128 @@ class Main {
         'Content-Type': 'application/json'
         }
     });
+    this.persons = await res.json();
+    return this.persons;
+  }
+
+  async getAllPersons(cal_id=null) {
+    let res = await fetch(Const.BASE_API+"/persons"+(cal_id==null?"":"?cal_id="+cal_id), {
+        method: 'GET',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        }
+    });
     return await res.json();
-}
+  }
+
+  async getPerson(id) {
+    let res = await fetch(Const.BASE_API+"/person/"+id, {
+        method: 'GET',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        }
+    });
+    return await res.json();
+  }
+
+  async getAllJobs(asList=false, cal_id=null) {
+    const objParams= {};
+    if (asList) {
+      objParams["asList"] = "1";
+    }
+    if (cal_id) {
+      objParams["cal_id"] = cal_id;
+    }
+    const params = new URLSearchParams(objParams).toString();
+    let res = await fetch(Const.BASE_API+"/jobs?"+params, {
+        method: 'GET',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        }
+    });
+    return await res.json();
+  }
+  
+  async addJob(cal, job) {
+    let data =  {cal, job};
+    let res = await fetch(Const.BASE_API+"/job/add", {
+        method: 'PUT',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(data)
+    });
+  }
+
+  async deleteJob(id) {
+    await fetch(Const.BASE_API+"/job/delete/"+id, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
+
+  async addJobPerson(person_id, job_id, is_holder) {
+    let data =  {person_id, job_id, is_holder};
+    let res = await fetch(Const.BASE_API+"/person_job/add", {
+        method: 'PUT',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(data)
+    });
+  }
+
+  async deleteJobPerson(id) {
+    let res = await fetch(Const.BASE_API+"/person_job/delete/"+id, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
+  async addPerson(firstname, lastname) {
+    let data = {firstname, lastname};
+    let res = await fetch(Const.BASE_API+"/person/add", {
+        method: 'PUT',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(data)
+    });
+  }
+
+  async updatePerson(id, firstname, lastname) {
+    let data = {id, firstname, lastname};
+    await fetch(Const.BASE_API+"/person/update", {
+        method: 'POST',
+        headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+        },        
+        body: JSON.stringify(data)
+    });
+  }
+
+  async deletePerson(id) {
+    await fetch(Const.BASE_API+"/person/delete/"+id, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+      }
+    });
+  }
 
 }
