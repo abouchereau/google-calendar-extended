@@ -126,6 +126,9 @@ export default {
       }
     },
     nameAbrev(name) {
+      if (!name) {
+        return "";
+      }
       const words = name.split(' ');
       return words[0]+(words.length>1?" "+words[words.length-1].substring(0,1)+".":"");
     },
