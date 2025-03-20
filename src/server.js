@@ -117,7 +117,7 @@ app.post("/updateEvent/:id",verifyToken, async (req, res)=>{
     delete item.summary;
     delete item.event_id;
     delete item.cal_id;
-   // await gCal.updateEvent(event_id, cal_id, item);  
+    await gCal.updateEvent(event_id, cal_id, item);  
     await sqlEvent.updateEventData(req.params.id, item);    
     await event.updateIncomingEvents();
     res.send(req.body);
