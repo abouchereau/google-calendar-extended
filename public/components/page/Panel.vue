@@ -7,7 +7,7 @@
             <th>Date</th>
             <th class="d-lg-table-cell d-none">Heure</th>
             <th v-if="$main.filter.cal==''">Groupe</th>
-            <th>Formule</th>
+            <th class="d-lg-table-cell d-none">Formule</th>
             <th>Ville</th>
             <th>Equipe</th>
             <th class="d-lg-table-cell d-none">Trajet</th>
@@ -19,8 +19,13 @@
           :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
             <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start)"></td>       
             <td class="d-lg-table-cell d-none align-middle">{{ item.heureDebutConcert }}</td>
-            <td v-if="$main.filter.cal==''" class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">{{ calAbrev(item.cal_summary) }}</td>
-            <td class="align-middle"><span class="badge bg-info" v-if="item.formule">{{ item.formule.substring(0,7) }}</span></td>
+            <td v-if="$main.filter.cal==''" class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">
+              <div>{{ calAbrev(item.cal_summary) }}</div>
+              <div class="d-block d-lg-none" v-if="item.formule"><span class="badge bg-info">{{ item.formule.substring(0,7) }}</span></div>
+            </td>
+            <td class="align-middle d-lg-table-cell d-none">
+              <span class="badge bg-info" v-if="item.formule">{{ item.formule.substring(0,7) }}</span>
+            </td>
             <td class="align-middle">{{ item.ville }} <span v-if="item.codePostal">({{ item.codePostal.substring(0,2) }})</span> </td>       
             <td>
               <span v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)">{{ musicien.name }}</span>
