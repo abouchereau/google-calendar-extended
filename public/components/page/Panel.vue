@@ -7,7 +7,7 @@
             <th>Date</th>
             <th class="d-lg-table-cell d-none">Heure</th>
             <th v-if="$main.filter.cal==''">Groupe</th>
-            <th class="d-lg-table-cell d-none">Formule</th>
+            <th v-if="!isMobile || $main.filter.cal!=''">Formule</th>
             <th>Ville</th>
             <th>Equipe</th>
             <th class="d-lg-table-cell d-none">Trajet</th>
@@ -17,13 +17,13 @@
         <tbody>
           <tr v-for="item in list" :key="item.id" @click="e=>calNameFromId(item.id,e)" 
           :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
-            <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start)"></td>       
+            <td class="text-center text-responsive" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start)"></td>       
             <td class="d-lg-table-cell d-none align-middle">{{ item.heureDebutConcert }}</td>
-            <td v-if="$main.filter.cal==''" class="align-middle" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">
+            <td v-if="$main.filter.cal==''" class="align-middle text-responsive" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">
               <div>{{ calAbrev(item.cal_summary) }}</div>
-              <div class="d-block d-lg-none" v-if="item.formule"><span class="badge bg-info">{{ item.formule.substring(0,7) }}</span></div>
+              <div  v-if="item.formule && isMobile"><span class="badge bg-info">{{ item.formule.substring(0,7) }}</span></div>
             </td>
-            <td class="align-middle d-lg-table-cell d-none">
+            <td class="align-middle" v-if="!isMobile || $main.filter.cal!=''">
               <span class="badge bg-info" v-if="item.formule">{{ item.formule.substring(0,7) }}</span>
             </td>
             <td class="align-middle text-responsive">{{ item.ville }} <span v-if="item.codePostal">({{ item.codePostal.substring(0,2) }})</span> </td>       
@@ -56,11 +56,18 @@ export default {
       appName: Const.APP_NAME,
       list: [],
       lastMonth: -1,
-      equipe: []
+      equipe: [],      
+      isMobile: true
     }
   },
-
-  methods: {
+  mounted() {    
+    this.updateScreenSize();
+    window.addEventListener('resize', this.updateScreenSize);
+  },
+  methods: {    
+    updateScreenSize() {
+        this.isMobile = window.innerWidth < 576;
+    },
     getTagClass(is_holder) {
        if (is_holder == 1) {
         return "badge bg-success me-s";
