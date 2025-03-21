@@ -6,19 +6,27 @@ export default class SqlPerson extends SqlBase {
     async getAllPerson(cal_id=null) {
         const res = await this._query(
             "SELECT "+
-            " p.id AS person_id,"+
+            " p.id AS person_id, "+
             " p.firstname,"+
             " p.lastname,"+
-            " CASE WHEN pj.id IS NOT NULL THEN JSON_ARRAYAGG(JSON_OBJECT('id', pj.id, 'job', j.label, 'group', c.summary, 'is_holder', pj.is_holder)) ELSE JSON_ARRAY() END AS jobs"+
+            " COALESCE("+
+            " JSON_ARRAYAGG("+
+            " CASE "+
+            " WHEN pj.id IS NOT NULL "+
+            " THEN JSON_OBJECT('id', pj.id, 'job', j.label, 'group', c.summary, 'is_holder', pj.is_holder) "+
+            " ELSE NULL "+
+            " END"+
+            " ), JSON_ARRAY()"+
+                " ) AS jobs"+
             " FROM person p"+
             " LEFT JOIN person_job pj ON p.id = pj.person_id"+
             " LEFT JOIN job j ON pj.job_id = j.id"+
             " LEFT JOIN cal c ON j.cal_id = c.cal_id"+
-            " WHERE (? is null or c.cal_id=?)"+
-            " GROUP BY p.id, p.firstname, p.lastname, pj.id, j.label, c.summary,  pj.is_holder"+
-            " ORDER BY p.firstname", 
+            " WHERE (? IS NULL OR c.cal_id = ?)"+
+            " GROUP BY p.id, p.firstname, p.lastname"+
+            " ORDER BY p.firstname",
             [cal_id, cal_id]);
-        res.forEach((r,index)=>res[index]['jobs']=JSON.parse(r['jobs']));
+        res.forEach((r,index)=>res[index]['jobs']=JSON.parse(r['jobs'].replace("[null]", "[]")));
         return res;
     }
 
