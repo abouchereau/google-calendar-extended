@@ -15,7 +15,7 @@ export default class SqlPerson extends SqlBase {
             " LEFT JOIN job j ON pj.job_id = j.id"+
             " LEFT JOIN cal c ON j.cal_id = c.cal_id"+
             " WHERE (? is null or c.cal_id=?)"+
-            " GROUP BY p.id, p.firstname, p.lastname, pj.id, j.label, c.summary,  pj.is_holder"+
+            " GROUP BY p.id, p.firstname, p.lastname"+
             " ORDER BY p.firstname", 
             [cal_id, cal_id]);
         res.forEach((r,index)=>res[index]['jobs']=JSON.parse(r['jobs']));
