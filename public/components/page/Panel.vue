@@ -26,12 +26,12 @@
             <td class="align-middle d-lg-table-cell d-none">
               <span class="badge bg-info" v-if="item.formule">{{ item.formule.substring(0,7) }}</span>
             </td>
-            <td class="align-middle">{{ item.ville }} <span v-if="item.codePostal">({{ item.codePostal.substring(0,2) }})</span> </td>       
+            <td class="align-middle text-responsive">{{ item.ville }} <span v-if="item.codePostal">({{ item.codePostal.substring(0,2) }})</span> </td>       
             <td>
               <span v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)">{{ musicien.name }}</span>
             </td>     
             <td class="d-lg-table-cell align-middle d-none">{{ item.dureeMinutes }}</td>   
-            <td class="p-0 align-middle">
+            <td class="p-0 align-middle text-responsive">
               <panel-transports :item="item" />             
             </td>
           </tr>
@@ -165,5 +165,10 @@ tr.border-harder {
   }
 .me-s {
   margin-right: 1px;
+}
+@media (max-width: 992px) {
+  .text-responsive {
+    font-size: 0.85rem;
+  }
 }
 </style>
