@@ -57,12 +57,16 @@ export default {
       list: [],
       lastMonth: -1,
       equipe: [],      
-      isMobile: true
+      isMobile: true,
+      tooltipList: []
     }
   },
   mounted() {    
     this.updateScreenSize();
     window.addEventListener('resize', this.updateScreenSize);
+  },
+  unmounted() {
+    this.tooltipList.forEach(t=>t.dispose());
   },
   methods: {    
     updateScreenSize() {
@@ -102,7 +106,7 @@ export default {
       })
       this.$nextTick(() => {
         let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        this.tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });   
       });

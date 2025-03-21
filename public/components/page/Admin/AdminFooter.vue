@@ -21,12 +21,20 @@
 <script>
 export default {
   name: 'admin-footer',
-  inject: ['showSpinner', 'hideSpinner'],
+  inject: ['showSpinner', 'hideSpinner'],  
+  data() {
+    return {
+      tooltipList: []
+    }
+  },
   mounted() {
     let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    this.tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     });
-  }
+  },
+  unmounted() {    
+    this.tooltipList.forEach(t=>t.dispose());
+  },
 }
 </script>
