@@ -47,9 +47,30 @@ export default class Event {
 
     static mapToApi(obj) {
         const data = JSON.parse(obj.data);
+        let groupe = obj.groupe;
+        if (groupe.toUpperCase().indexOf("BALLUCHE") >-1) {
+            if (data.formule != null &&data.formule.indexOf("GOM")>-1) {
+                groupe = "Gang Of Musette";
+            }
+            else {
+                groupe = "Balluche Sound System";
+            }       
+        }
+        else if (groupe.toUpperCase().indexOf("FANFARE") >-1) {
+            groupe = "La Fanfare Saugrenue";
+        }
+        else if (groupe.toUpperCase().indexOf("CHORO") >-1) {
+            groupe = "Choro de Aksak";
+        }
+        else if (groupe.toUpperCase().indexOf("KIF") >-1) {
+            groupe = "kiffKiff";
+        }
+        else if (groupe.toUpperCase().indexOf("LAME") >-1) {
+            groupe = "Duo Fines Lames";
+        }
         return [
             obj.date_start.toISOString(),
-            obj.groupe,
+            groupe,
             obj.summary,
             data.ville,
             data.latitude,
@@ -61,4 +82,6 @@ export default class Event {
             obj.date_start.getFullYear()
         ];
     }
+
+
 }

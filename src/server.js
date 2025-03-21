@@ -13,7 +13,7 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = 'lasaugrenue';
 const app = express();
 const corsOptions = {
-    origin: ["https://cal.lasaugrenue.fr","http://localhost:8000"],
+    origin: ["https://cal.lasaugrenue.fr","http://localhost:8000", "https://www.lasaugrenue.fr"],
     optionsSuccessStatus: 200 
 };
 
