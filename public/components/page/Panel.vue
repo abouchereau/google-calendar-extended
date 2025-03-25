@@ -150,8 +150,7 @@ export default {
     },
     dayFullName(date_start, date_end) {
       let str = '';
-      if (date_end) {
-        
+      if (date_end && date_end.getDate() != date_start.getDate()) {
         if (date_end.getMonth() == date_start.getMonth()) {
           str += '<span class="lh-sm" style="font-size:105%">'+date_start.getDate()+' - '+date_end.getDate()+'</span>';          
           str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_start.getMonth()]+"</span>";
