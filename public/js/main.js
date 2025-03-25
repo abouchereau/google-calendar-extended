@@ -18,7 +18,11 @@ class Main {
             }
         });
         let json = await res.json();
-        return json.map(x=>{x.date_start=new Date(x.date_start);return x})
+        return json.map(x=>{
+          x.date_start = x.date_start != null && new Date(x.date_start);
+          x.date_end = x.date_end != null && new Date(x.date_end);
+          return x;
+        })
     }
 
     async getEvent(id) {

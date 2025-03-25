@@ -17,7 +17,7 @@
         <tbody>
           <tr v-for="item in list" :key="item.id" @click="e=>calNameFromId(item.id,e)" 
           :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
-            <td class="text-center text-responsive" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start)"></td>       
+            <td class="text-center text-responsive" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start, item.date_end)"></td>       
             <td class="d-lg-table-cell d-none align-middle">{{ item.heureDebutConcert }}</td>
             <td v-if="$main.filter.cal==''" class="align-middle text-responsive" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">
               <div>{{ calAbrev(item.cal_summary) }}</div>
@@ -148,10 +148,28 @@ export default {
       const words = name.split(' ');
       return words[0]+(words.length>1?" "+words[words.length-1].substring(0,1)+".":"");
     },
-    dayFullName(date) {
-      let str = '<span class="lh-sm" style="font-size:85%">'+Const.DAY_LIST[(date.getDay()+6)%7].substring(0,3)+'</span>';
-      str += '<span class="lh-sm" style="font-size:105%"> '+date.getDate()+'</span>';
-      str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date.getMonth()]+" "+((Const.LAST_YEAR-1)==date.getFullYear()?'':+date.getFullYear())+'</span>';
+    dayFullName(date_start, date_end) {
+      let str = '';
+      if (date_end) {
+        if (date_end.getMonth() == date_start.getMonth()) {
+          str += '<span class="lh-sm" style="font-size:105%">'+date_start.getDate()+' - '+date_end.getDate()+'</span>';          
+          str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_start.getMonth()]+"</span>";
+        }
+        else {          
+          str += '<span class="lh-sm" style="font-size:105%">'+date_start.getDate()+'</span>';          
+          str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_start.getMonth()]+"</span>";
+          str += ' - <span class="lh-sm" style="font-size:105%">'+date_end.getDate()+'</span>';          
+          str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_end.getMonth()]+"</span>";
+        }
+      }
+      else {
+        str += '<span class="lh-sm" style="font-size:85%">'+Const.DAY_LIST[(date_start.getDay()+6)%7].substring(0,3)+'</span>';
+        str += '<span class="lh-sm" style="font-size:105%"> '+date_start.getDate()+'</span>';        
+        str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_start.getMonth()]+"</span>";
+      }
+      if ((Const.LAST_YEAR-1) != date_start.getFullYear()) {
+        str += '<span class="lh-sm" style="font-size:85%"> '+date_start.getFullYear()+"</span>";
+      }
       return str;
     },
 

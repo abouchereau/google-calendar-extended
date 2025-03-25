@@ -268,3 +268,6 @@ INSERT INTO `job` (`id`, `label`, `cal_id`) VALUES
 (28,	'Souba',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com'),
 (29,	'Percu',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com'),
 (30,	'Technique',	'e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com');
+
+ALTER TABLE `event`
+ADD `date_end` datetime NULL AFTER `date_start`;

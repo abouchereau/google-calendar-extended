@@ -166,8 +166,9 @@ export default class GoogleCal {
         if (x.extendedProperties != null && x.extendedProperties.private != null) {
             data = x.extendedProperties.private;
         }                
-        let date = new Date(x.start.dateTime || x.start.date);       
-        return [x.id, cal.id, x.summary, x.description, date, JSON.stringify(data)];
+        let date = new Date(x.start.dateTime || x.start.date);  
+        let dateEnd = new Date(x.end.dateTime || x.end.date);
+        return [x.id, cal.id, x.summary, x.description, date, dateEnd, JSON.stringify(data)];
     } 
     
     
