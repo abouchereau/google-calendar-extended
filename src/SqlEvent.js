@@ -17,6 +17,7 @@ export default class SqlEvents extends SqlBase {
                 "summary = VALUES(summary), "+
                 "description = VALUES(description), "+
                 "date_start = VALUES(date_start), "+
+                "date_end = VALUES(date_end), "+
                 "data = VALUES(data), "+
                 "sync_google = 1",
                 event);
