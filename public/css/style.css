@@ -56,8 +56,12 @@ html {
   }
   body {
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
+    padding-bottom: 60px;
   }
+  #app {
+    min-height: 100vh; 
+  }
+
   .footer {
     position: fixed;
     bottom: 0;
