@@ -1,6 +1,6 @@
 <template> 
     <panel-header @onChange="reloadList"/>    
-    <div class="container-fluid">
+    <div class="container-fluid content">
       <table class="table table-hover table-bordered mt-4">
         <thead class="table-light">
           <tr class="text-center">            

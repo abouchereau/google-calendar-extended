@@ -1,6 +1,6 @@
 <template> 
     <admin-header />    
-    <div class="container-fluid">
+    <div class="container-fluid content">
       ADMIN
     </div> 
 </template>

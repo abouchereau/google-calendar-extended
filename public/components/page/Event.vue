@@ -1,6 +1,6 @@
 <template>     
     <event-header  :key="refreshKey"/>  
-    <div class="container-fluid" :key="refreshKey">
+    <div class="container-fluid content" :key="refreshKey">
         <div v-if="isMobile">
             <div class="row">
                 <div class="col">
