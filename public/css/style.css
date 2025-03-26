@@ -61,7 +61,8 @@ body, html {
   flex-direction: column;
 }
 .content {
-  padding:60px 0;
+  margin-top:60px;
+  margin-bottom:60px;
   flex: 1; /* Permet au contenu de prendre l'espace restant */
 }
 .footer {
