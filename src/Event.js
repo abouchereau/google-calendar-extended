@@ -8,7 +8,7 @@ export default class Event {
     async updateIncomingEvents() {
         const sqlEvent = new SqlEvent();
         const dates = await sqlEvent.getDatesSite();
-        const tab = dates.map(Event.mapToApi).sort((a,b)=>a[0]>b[0]);
+        const tab = dates.map(Event.mapToApi);
         fs.writeFileSync(this.#getFilePath(), JSON.stringify(tab), 'utf8');
     }
 

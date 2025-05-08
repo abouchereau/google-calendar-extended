@@ -75,7 +75,8 @@ export default class SqlEvents extends SqlBase {
                 //" AND JSON_EXTRACT(data , '$.afficherSite') = \"O\""+                 
                 " AND sync_google=1"+
                 " AND date_start > DATE_SUB(DATE(NOW()), INTERVAL 2 DAY)"+
-                " AND (e.summary NOT LIKE '%]%' OR e.summary LIKE '[VALID%')"
+                " AND (e.summary NOT LIKE '%]%' OR e.summary LIKE '[VALID%')"+
+                " ORDER BY e.date_start"                
             );
     }
 
