@@ -49,8 +49,8 @@ export default class Event {
         const data = JSON.parse(obj.data);
         let groupe = obj.groupe;
         if (groupe.toUpperCase().indexOf("BALLUCHE") >-1) {
-            if (data.formule != null &&data.formule.indexOf("GOM")>-1) {
-                groupe = "Gang Of Musette";
+            if (data.formule != null && data.formule.indexOf("GOM")>-1) {
+                groupe = "Gang of Musette";
             }
             else {
                 groupe = "Balluche Sound System";
@@ -67,6 +67,9 @@ export default class Event {
         }
         else if (groupe.toUpperCase().indexOf("LAME") >-1) {
             groupe = "Duo Fines Lames";
+        }
+        else if (groupe.toUpperCase().indexOf("SUC") >-1) {
+            groupe = "Suck Da Head";
         }
         return [
             obj.date_start.toISOString(),
