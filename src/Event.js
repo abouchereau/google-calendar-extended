@@ -78,7 +78,7 @@ export default class Event {
             data.ville || "",
             data.latitude,
             data.longitude,
-            data.lien,
+            data.lien || "",
             obj.date_start.getDay(),
             obj.date_start.getDate(),
             obj.date_start.getMonth()+1,
