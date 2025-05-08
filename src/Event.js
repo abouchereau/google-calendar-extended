@@ -72,7 +72,7 @@ export default class Event {
             obj.date_start.toISOString(),
             groupe,
             obj.summary.replace(/\[[^\]]*\]\s*/g, '').trim(),
-            data.ville,
+            data.ville || "",
             data.latitude,
             data.longitude,
             data.lien,
