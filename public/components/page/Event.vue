@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>    
-    <event-footer @updateEvent="updateEvent" :style="{'visibility': editable?'visible':'hidden'}"></event-footer>
+    <event-footer @updateEvent="updateEvent"></event-footer>
 </template>
 
 <script>

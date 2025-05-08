@@ -7,7 +7,7 @@
               <RouterLink to="/"><i class="fa-solid fa-house fa-big"></i></RouterLink>
             </div>
             <div class="col-3 text-center align-middle">
-                <button type="button" class="btn btn-success btn-lg" @click="$emit('updateEvent')">Enregistrer</button>
+                <button v-if="$main.user.write" type="button" class="btn btn-success btn-lg" @click="$emit('updateEvent')">Enregistrer</button>
             </div>
             <div class="col-5 text-end">
               <span v-if="$main.user.username" class="small text-secondary" style="position:relative;bottom:4px;">{{ $main.user.username }}</span> 

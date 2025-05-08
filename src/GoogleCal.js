@@ -50,7 +50,9 @@ export default class GoogleCal {
         "BALLUCHE",
         "CHORO",
         "BOOKING",
-        "P1N0"
+        "P1N0",
+        "CHORO orga",
+        "FANFARE orga"
     ];
 
     sqlEvent = null;
