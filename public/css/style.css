@@ -132,6 +132,10 @@ body, html {
   background-color:#B10202 !important;
   color:#FFCFC9 !important;
 }
+.statutdelete td:first-child {
+  background-color:#660707 !important;
+  color:#DDD !important;
+}
 .fs-sm {
   font-size: 0.85rem;
 }

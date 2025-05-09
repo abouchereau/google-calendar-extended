@@ -16,7 +16,7 @@
         </thead>
         <tbody>
           <tr v-for="item in list" :key="item.id" @click="e=>calNameFromId(item.id,e)" 
-          :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
+          :class="[statutClass(item.suiviDevisContrat, item.sync_google), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
             <td class="text-center text-responsive" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start, item.date_end)"></td>       
             <td class="d-lg-table-cell d-none align-middle">{{ item.heureDebutConcert }}</td>
             <td v-if="$main.filter.cal==''" class="align-middle text-responsive" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">
@@ -173,8 +173,11 @@ export default {
       return str;
     },
 
-    statutClass(key) {
-      if (key != undefined && key>=1 && key<=4) {
+    statutClass(key, sync_gogle) {
+      if (sync_google=="0") {
+        return "statutdelete";
+      }
+      else if (key != undefined && key>=1 && key<=4) {
         return "statut"+key;
       }
       return "";
