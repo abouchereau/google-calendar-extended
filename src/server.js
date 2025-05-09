@@ -171,7 +171,7 @@ app.post('/login', (req, res) => {
 
 app.get('/getIncomingEvents', async (req, res)=>{    
     const cal   = req.query.cal;
-    const forceRefresh = true;//req.query.forceRefresh!=null;
+    const forceRefresh = req.query.forceRefresh!=null;
     const dates = await event.getIncomingEvents(cal, forceRefresh);    
     res.send(dates);
 });

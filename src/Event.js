@@ -2,17 +2,22 @@ import fs from 'node:fs';
 import SqlEvent from "./SqlEvent.js";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import GoogleCal from "./GoogleCal.js";
 
 export default class Event {
 
     async updateIncomingEvents() {
-        const sqlEvent = new SqlEvent();
+        const sqlEvent = new SqlEvent();        
         const dates = await sqlEvent.getDatesSite();
         const tab = dates.map(Event.mapToApi);
         fs.writeFileSync(this.#getFilePath(), JSON.stringify(tab), 'utf8');
     }
 
     async getIncomingEvents(filterCal=null, forceRefresh=false) {
+        if (forceRefresh) {
+            const gCal = new GoogleCal();
+            gCal.loadAllEvents(new Date().toISOString().split('T')[0]);
+        }
         //vérifie que le fichier a moins de n hours
         if (!fs.existsSync(this.#getFilePath()) || !this.#isFileModifiedInLastNHours(1) || forceRefresh) {
             await this.updateIncomingEvents();
