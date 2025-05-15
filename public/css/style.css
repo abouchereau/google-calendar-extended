@@ -132,6 +132,10 @@ body, html {
   background-color:#B10202 !important;
   color:#FFCFC9 !important;
 }
+.statut5 td:first-child {
+  background-color:#683b82 !important;
+  color:#FFF !important;
+}
 .fs-sm {
   font-size: 0.85rem;
 }

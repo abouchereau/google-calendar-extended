@@ -66,6 +66,7 @@
                         <option value="2">Contrat envoyé</option>
                         <option value="3">Confirmé</option>
                         <option value="4">Annulé/Supprimé</option>
+                        <option value="5">En direct</option>
                     </select>    
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
@@ -135,5 +136,8 @@ select#suiviDevisContrat:has(option[value="4"]:checked), select#suiviDevisContra
     background-color:#B10202;
     color:#FFCFC9;
 }
-
+select#suiviDevisContrat:has(option[value="5"]:checked), select#suiviDevisContrat option[value="5"] {
+    background-color:#683b82;
+    color:#FFFFFF;
+}
 </style>

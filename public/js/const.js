@@ -34,7 +34,9 @@ class Const {
         "1":"Devis envoyé",
         "2":"Contrat envoyé",
         "3":"Confirmé",
-        "4":"Annulé/Supprimé"};
+        "4":"Annulé/Supprimé",
+        "5":"En direct"
+        };
     }
 
 

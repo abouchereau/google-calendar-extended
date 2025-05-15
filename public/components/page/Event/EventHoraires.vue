@@ -10,7 +10,7 @@
                     <label>Précisions</label>
                     <textarea rows="2" :disabled="!editable" id="precisions" v-model="$main.item.precisions"  class="form-control" />  
                 </div>
-                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+                <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
                     <label>Lieu RDV</label>
                     <input :disabled="!editable" id="lieuRdv" type="text" v-model="$main.item.lieuRdv" class="form-control" />
                 </div>
