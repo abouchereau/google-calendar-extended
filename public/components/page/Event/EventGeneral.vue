@@ -65,8 +65,8 @@
                         <option value="1">Devis envoyé</option>
                         <option value="2">Contrat envoyé</option>
                         <option value="3">Confirmé</option>
-                        <option value="4">Annulé/Supprimé</option>
                         <option value="5">En direct</option>
+                        <option value="4">Annulé/Supprimé</option>
                     </select>    
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
