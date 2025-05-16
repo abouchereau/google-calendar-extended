@@ -8,6 +8,7 @@ import SqlCal from "./SqlCal.js";
 import SqlJob from "./SqlJob.js";
 import Route from "./Route.js";
 import Event from "./Event.js";
+import Git from "./Git.js";
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = 'lasaugrenue';
@@ -68,6 +69,10 @@ const route = new Route();
 const event = new Event();
 const sqlPerson = new SqlPerson();
 const sqlJob = new SqlJob();
+
+app.get("/getHashVersion", async (req, res)=> {
+    res.send(Git.getLastCommitHash());
+});
 
 app.get("/loadAllEvents",verifyToken, async (req, res)=> {
     const dateMin   = req.query.dateMin==null?"2020-01-01":req.query.dateMin;

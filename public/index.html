@@ -4,27 +4,64 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8">    
     <link rel="icon" href="/images/logo_favicon.png" sizes="any">
-    <!--<link rel="shortcut icon" href="/icon.ico" />-->
-    <script src="/js/const.js"></script>
-    <script src="/js/vue.js"></script>
-    <script src="/js/vue-router.js"></script>
-    <script src="/js/utils.js"></script>
-    <script src="/js/user.js"></script>
-    <script src="/js/vue3-sfc-loader.js"></script>
-    <script src="/js/filter.js"></script>
-    <script src="/js/main.js"></script>              
-    <script src="/js/vue-multiselect.js"></script>                   
-    <link href="/css/bootstrap.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/vue-multiselect.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="/css/style.css" rel="stylesheet" />
+    <script>        
+        const BASE_API = location.hostname=="localhost"?"http://localhost:3615":"https://node.lasaugrenue.fr";
+        const fetchText = (url)=> {
+            return fetch(url).then(response => response.text()).catch((error) => {console.log(error);});
+        }      
+
+        (async () => {
+            window.VERSION = await fetchText(BASE_API+'/getHashVersion');
+
+            const loadScriptsSequentially = (index, place) => {
+                if (index >= scripts.length) return;
+
+                const script = document.createElement('script');
+                script.src = `${scripts[index][0]}?v=${window.VERSION}`;
+                if (scripts[index][1] == 1) {
+                    script.defer = true;
+                }
+                script.onload = () => loadScriptsSequentially(index + 1); 
+                document.head.appendChild(script);
+            }
+
+
+            const scripts =  [
+                ["/js/const.js",0],
+                ["/js/vue.js",0],
+                ["/js/vue-router.js",0],
+                ["/js/utils.js",0],
+                ["/js/user.js",0],
+                ["/js/vue3-sfc-loader.js",0],
+                ["/js/filter.js",0],
+                ["/js/main.js",0],
+                ["/js/vue-multiselect.js",0],
+                ["/js/init.js",1],
+                ["/js/bootstrap.js",1]
+        ];
+               
+            const styles = [
+                "/css/bootstrap.css",
+                "/css/vue-multiselect.css",
+                "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css",
+                "/css/style.css"            
+            ];
+
+            styles.forEach(file => {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = `${file}?v=${window.VERSION}`;
+                document.head.appendChild(link);
+            });
+            loadScriptsSequentially(0);
+
+        })();
+    </script>
     <title>Dates Saugrenue</title>
 </head>
 <body>
 <div id="app">
     <app></app>
 </div>
-<script src="/js/init.js"></script>
-<script src="/js/bootstrap.js"></script>
 </body>
 </html>

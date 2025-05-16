@@ -7,7 +7,7 @@ class Utils {
             },
             async getFile(url) {
 
-                const res = await fetch(url);
+                const res = await fetch(url+"?v="+window.VERSION);
                 if ( !res.ok )
                     throw Object.assign(new Error(res.statusText + ' ' + url), { res });
                 return {
