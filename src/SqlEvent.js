@@ -55,11 +55,11 @@ export default class SqlEvents extends SqlBase {
             " where e.id=?",
             [id]
         );
-      /*  let data = JSON.parse(events[0].data);
-        if (data["description"]) {
+        let data = JSON.parse(events[0].data);
+        if ("description" in data) {
             delete data["description"];
-        }*/
-        let event = Object.assign({}, events[0], JSON.parse(events[0].data));
+        }
+        let event = Object.assign({}, events[0], data);
         delete event.data;
         return event;        
     }
