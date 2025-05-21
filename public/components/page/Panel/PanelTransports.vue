@@ -1,6 +1,6 @@
 
 <template>
-    <div v-if="item.transports!=null && item.transports.includes('1')">
+    <div v-if="item.transports!=null && item.transports.includes('1')" :class="{'alert alert-danger': item.crafterOverlap, 'p-0': true}">
         <div class="row">
             <div class="col-md-3 col-sm-12 align-self-center text-center">
             <i class="fa-solid fa-van-shuttle fa-big text-primary" title="Crafter"></i>

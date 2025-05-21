@@ -18,11 +18,35 @@ class Main {
             }
         });
         let json = await res.json();
-        return json.map(x=>{
+
+        json = json.map(x=>{
           x.date_start = x.date_start != null && new Date(x.date_start);
           x.date_end = x.date_end != null && new Date(x.date_end);
+          x.dateDepartCrafter = x.dateDepartCrafter != null && new Date(x.dateDepartCrafter);
+          x.dateRetourCrafter = x.dateRetourCrafter != null && new Date(x.dateRetourCrafter);
           return x;
-        })
+        });
+
+        json = json.map(x=> {
+          x.crafterOverlap = false;
+          if (x.transports && x.transports.includes(1) && x.dateDepartCrafter && x.dateRetourCrafter) {
+            if (json.some(y=>{
+              if (x.event_id != y.event_id && y.transports && y.transports.includes(1) && y.dateDepartCrafter && y.dateRetourCrafter) {
+                if (x.dateDepartCrafter <= y.dateRetourCrafter && y.dateDepartCrafter <= x.dateRetourCrafter ) {
+                  return true;
+                }
+              }
+              return false;  
+            })) {
+              x.crafterOverlap = true;
+            }
+        }
+        return x;
+      });
+
+      return json;
+
+       
     }
 
     async getEvent(id) {
