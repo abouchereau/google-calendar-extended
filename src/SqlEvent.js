@@ -24,11 +24,11 @@ export default class SqlEvents extends SqlBase {
     }
 
     async getEventList(cal=null, year=null) {
-        const params =  [cal, cal];
+        const params =  [];
         let sql = "select e.id, e.event_id, c.id as cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, DATE_FORMAT(SUBDATE(e.date_end, '1 HOUR'), \"%Y-%m-%d\") as date_end, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
             " from event e" +
             " left join cal c on c.cal_id = e.cal_id" +
-            " where (? is null or c.id=?)";
+            " where 1=1";
         if (year=="-2") {
             sql += " and e.date_start > DATE_SUB(CURDATE(), INTERVAL 2 DAY)";
         }
@@ -39,12 +39,60 @@ export default class SqlEvents extends SqlBase {
         sql += " order by e.date_start, c.id";
 
         let list = await this._query(sql, params);
-        list = list.filter(l=>!GoogleCal.EXCLUDE_CALS.includes(l.cal_summary));
+        list = this.#filterExlcudeCal(list);
+        list = this.#mergeData(list);
+        list = this.#addDateCrafter(list);
+        list = this.#addCrafterOverlap(list);
+        if (cal) {
+            list = this.#filterCal(list, cal);
+        }
+        return list;
+    }      
+
+
+    #filterExlcudeCal(list) {
+        return list.filter(l=>!GoogleCal.EXCLUDE_CALS.includes(l.cal_summary));
+    }
+
+    #mergeData(list) {
         return list.map(x=>{
             let item = Object.assign({}, x, JSON.parse(x.data));
-            delete item.data;
+            delete item.data;            
             return item;
         });
+    }
+
+    #addDateCrafter(list) {
+        return list.map(x=>{
+            if (x.transports && x.transports.includes("1")) {
+                x.dateDepartCrafterObj = x.dateDepartCrafter != null && new Date(x.dateDepartCrafter);
+                x.dateRetourCrafterObj = x.dateRetourCrafter != null && new Date(x.dateRetourCrafter);
+            }
+            return x;
+        });
+    }
+
+    #addCrafterOverlap(list) {
+        return list.map(x=> {
+            x.crafterOverlap = false;
+            if (x.transports && x.transports.includes("1") && x.dateDepartCrafterObj && x.dateRetourCrafterObj) {
+                if (list.some(y=>{
+                    if (x.event_id != y.event_id && y.transports && y.transports.includes("1") && y.dateDepartCrafterObj && y.dateRetourCrafterObj) {
+                        if (x.dateDepartCrafterObj <= y.dateRetourCrafterObj && y.dateDepartCrafterObj <= x.dateRetourCrafterObj) {
+                        return true;
+                        }
+                    }
+                    return false;  
+                })) {
+                    x.crafterOverlap = true;
+                }
+            }
+            return x;
+        });
+    }
+
+    #filterCal(list, cal) {
+        return list.filter(l=>l.cal_id==cal);
     }
 
     async getEvent(id) {
