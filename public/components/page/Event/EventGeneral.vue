@@ -107,6 +107,7 @@ export default {
   async mounted() {    
     if (this.$main.item.cal_id) {
         this.formules = await this.$main.getFormules(this.$main.item.cal_id);     
+        this.formules = this.formules.map(a=>a.formule);
         if (this.formules.length>1) {
             this.formules.unshift("");
         }

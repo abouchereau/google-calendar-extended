@@ -102,7 +102,7 @@ app.get("/getCalList",verifyToken,async (req, res)=> {
 
 app.get("/getFormules/:cal_id",verifyToken,async (req, res)=> {   
     let list = await sqlCal.getFormules(req.params.cal_id);
-    res.send(list.map(a=>a.formule));
+    res.send(list);
 });
 
 app.get("/getPersons/:cal_id",verifyToken,async (req, res)=> {   

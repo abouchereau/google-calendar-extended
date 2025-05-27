@@ -10,5 +10,9 @@
     "mysql": "^2.18.1",
     "node-fetch": "^3.3.2",
     "systeminformation": "^5.23.5"
-  }
+  },
+   "scripts": {
+    "back": "node src/server.js",
+    "front": "http-server public -p 8000 -P http://localhost:8000?"
+   }
 }

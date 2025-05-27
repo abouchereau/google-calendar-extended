@@ -15,6 +15,7 @@ const routes = [
     { name:"admin-person-list", path: '/admin/person/list', component: () => loadModule('/components/page/Admin/AdminPersonList.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
     { name:"admin-person-edit", path: '/admin/person/edit/:id', component: () => loadModule('/components/page/Admin/AdminPersonEdit.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
     { name:"admin-job", path: '/admin/job', component: () => loadModule('/components/page/Admin/AdminJob.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
+    { name:"admin-formulas", path: '/admin/formulas', component: () => loadModule('/components/page/Admin/AdminFormulas.vue', Utils.loadModuleOptions()), meta:{requiresAuth: true, requiresWrite: true}  },
     
 ];
 

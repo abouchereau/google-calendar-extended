@@ -41,14 +41,14 @@ class Main {
     }
 
     async loadCals() {
-        let res = await fetch(Const.BASE_API+"/getCalList", {
+      let res = await fetch(Const.BASE_API+"/getCalList", {
             method: 'GET',
             headers: {
                 'Authorization': "Bearer "+this.user.getToken(),
                 'Content-Type': 'application/json'
             }
       });
-        return await res.json();
+      return await res.json();
     }
 
     async updateEvent(id, data) {  

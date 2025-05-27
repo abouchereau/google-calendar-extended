@@ -17,7 +17,7 @@ export default class SqlCal extends SqlBase {
 
     async getFormules(cal_id) {
         return await this._query(
-            "select ifnull(f.label, c.summary) as formule from cal c left join formule f on f.cal_id = c.cal_id where c.cal_id=?", [cal_id]
+            "select ifnull(f.label, c.summary) as formule, f.loading_time, f.slow_pct from cal c left join formule f on f.cal_id = c.cal_id where c.cal_id=?", [cal_id]
         );
     }
 

@@ -11,7 +11,7 @@
                 <input type="text" class="form-control" v-model="person.firstname" placeholder="Prénom" />
                 <input type="text" class="form-control" v-model="person.lastname" placeholder="Nom" />
                 <button class="btn btn-outline-success"  type="button" @click="updatePerson">Modifier le nom</button>
-              </div>
+            </div>
           </div>      
           <div>
             <h4 class="text-center">Postes</h4>

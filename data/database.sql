@@ -42,6 +42,8 @@ CREATE TABLE `formule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(255) NOT NULL,
   `cal_id` varchar(255) NOT NULL,
+  `loading_time` smallint(6) NOT NULL DEFAULT 30,
+  `slow_pct` smallint(6) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `cal_id` (`cal_id`),
   CONSTRAINT `formule_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal` (`cal_id`)
