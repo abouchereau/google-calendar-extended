@@ -17,7 +17,7 @@
             <i class="fa-solid fa-car-side fa-big text-info" title="Véhicule(s) perso"></i>
             </div>                  
             <div class="col-md-9 col-sm-12">
-              <span class="badge bg-info" v-if="item.vehiculesPerso">{{ item.vehiculesPerso.substring(0,25) }}</span>
+              <span class="badge bg-info hint--right hint--rounded" v-if="item.vehiculesPerso" :aria-label="item.vehiculesPerso.length>12?item.vehiculesPerso:''">{{ item.vehiculesPerso.substring(0,12) }}</span>
             </div>     
         </div>    
     </div>
@@ -27,7 +27,7 @@
             <i class="fa-solid fa-ambulance fa-big text-warning" title="Location"></i>
             </div>                  
             <div class="col-md-9 col-sm-12">
-              <span class="badge bg-warning" v-if="item.location">{{ item.location.substring(0,25) }}</span>
+              <span class="badge bg-warning hint--right hint--rounded" v-if="item.location" :aria-label="item.location.length>12?item.location:''">{{ item.location.substring(0,12) }}</span>
             </div>     
         </div>    
     </div>
@@ -37,7 +37,7 @@
             <i class="fa-solid fa-train fa-big text-success" title="Train"></i>
             </div>                  
             <div class="col-md-9 col-sm-12">
-              <span class="badge bg-success" v-if="item.train">{{ item.train.substring(0,25) }}</span>
+              <span class="badge bg-success hint--right hint--rounded" v-if="item.train" :aria-label="item.train.length>12?item.train:''">{{ item.train.substring(0,12) }}</span>
             </div>     
         </div>    
     </div>

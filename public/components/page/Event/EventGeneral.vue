@@ -16,7 +16,7 @@
                 </div>     
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Formule</label>
-                    <select class="form-select"  id="formule" :disabled="!editable" v-model="$main.item.formule" :key="refreshFormule">                        
+                    <select @change="$emit('targetHeureDepart')" class="form-select"  id="formule" :disabled="!editable" v-model="$main.item.formule" :key="refreshFormule">                        
                         <option v-for="(formule, index) in formules" :value="formule" :key="index">{{ formule }}</option>
                     </select>  
                 </div>              
@@ -115,9 +115,8 @@ export default {
             this.$main.item.formule = this.formules[0];
             this.refreshFormule++;
         }
-    }
-    
-  } 
+    }    
+  }
 }
 </script>
 <style>

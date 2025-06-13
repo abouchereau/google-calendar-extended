@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Heure Arrivée</label>
-                    <input :disabled="!editable" id="heureArrivee" type="time" step="300" v-model="$main.item.heureArrivee" class="form-control" />
+                    <input :disabled="!editable" id="heureArrivee" type="time" step="300" v-model="$main.item.heureArrivee" class="form-control" @blur="$emit('targetHeureDepart')" @@keyup.enter="$emit('targetHeureDepart')"/>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Heure Départ<!-- (calculée)--></label>
@@ -43,17 +43,30 @@
             </div>
         </div>
     </div>
+  <modal-route ref="modal-route" :item="$main.item"></modal-route>
 </template>
 
 <script>
 
 export default {
   name: 'event-horaires',
+  emits: ['targetHeureDepart'],
   data() {
     return {
         editable: this.$route.name=="event-edit"
     }
+  },  
+  components: {
+    'modal-route': Vue.defineAsyncComponent( ()=>loadModule('/components/block/ModalRoute.vue', Utils.loadModuleOptions()))
+  },
+  methods: {
+    async computeHeureDepart() {        
+        if (this.$main.item.heureArrivee && this.$main.item.formule && this.$main.item.dureeMinutes) {
+            this.$refs['modal-route'].open();
+        }
+    }
   }
+
 }
 </script>
 <style>

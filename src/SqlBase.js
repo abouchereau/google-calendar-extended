@@ -1,53 +1,36 @@
-import mysql from 'mysql'; 
+import mysql from 'mysql2/promise'; 
 
 export default class SqlBase {
 
-    conn = null;
+    static POOL;
     HOST = "localhost";
     USER = "root";
     PASS = "root";
     BDD = "saugcal";
 
     constructor() {
-        this._createConnection();
-
-    }
-
-    _createConnection() {
-        this.conn = mysql.createConnection({
-            host: this.HOST,
-            user: this.USER,
-            password: this.PASS,            
-            database: this.BDD
-          });
+        if (!SqlBase.POOL) {
+            SqlBase.POOL = mysql.createPool({
+                host: this.HOST,
+                user: this.USER,
+                password: this.PASS,            
+                database: this.BDD,
+                waitForConnections: true,
+                connectionLimit: 10,
+                queueLimit: 0
+            });
+        }
     }
     
-    _connect() {
-        return new Promise((resolve, reject)=>{
-            this.conn.connect(err => {
-                if (err) {                
-                    reject(err);
-                }
-                else {
-                    resolve();
-                }
-            });
-        });
+    async _query(...params) {
+        try  {
+            const [rows] = await SqlBase.POOL.query(...params);
+            return rows;
+        }
+        catch (err) {
+            console.error(err);    
+        }        
     }
-
-    _query(...params) {
-        return new Promise((resolve, reject)=>{
-            this.conn.query(...params, (err, res) => {
-                if (err) {                
-                    reject(err);
-                }
-                else {
-                    resolve(res);
-                }
-            });
-        });
-    }
-
 
 
 }

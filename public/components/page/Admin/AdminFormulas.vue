@@ -22,15 +22,13 @@
               </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center" v-for="formula in formulas">
-              <div class="input-group">       
-                  <form onsubmit="return false">
-                    <input type="text" class="form-control" v-model="formula.formule" />
-                    <input type="number" class="form-control" v-model="formula.loading_time" />
-                    <input type="number" class="form-control" v-model="formula.slow_pct" />
-                    <input type="hidden" v-model="formula.id" />
-                    <button class="btn btn-outline-primary" type="button" @click="editFormula(formula)">Enregistrer</button>
-                  </form>   
-                  <button class="btn btn-outline-danger btn-sm" @click="deleteFormula(formula.id)"><i class="fa-solid fa-trash"></i></button>
+            <div class="input-group">       
+                  <input type="text" class="form-control" v-model="formula.formule" />
+                  <input type="number" class="form-control" v-model="formula.loading_time" />
+                  <input type="number" class="form-control" v-model="formula.slow_pct" />
+                  <input type="hidden" v-model="formula.id" />
+                  <button class="btn btn-outline-primary" type="button" @click="editFormula(formula)">Enregistrer</button>
+                  <button class="btn btn-outline-danger btn-sm hint--top hint--rounded" @click="deleteFormula(formula)" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>
               </div>
             </li>
             <li class="list-group-item" v-if="curCal">   
@@ -44,7 +42,7 @@
       </div>
     </div>
   </div>
-  <admin-footer></admin-footer>
+  <modal-info ref="modal-info"></modal-info>
 </template>
 
 
@@ -55,7 +53,7 @@ export default {
   name: 'admin-formulas',
   inject: ['showSpinner', 'hideSpinner'],
   components: {
-    'admin-footer': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Admin/AdminFooter.vue', Utils.loadModuleOptions()))
+    'modal-info': Vue.defineAsyncComponent( ()=>loadModule('/components/block/ModalInfo.vue', Utils.loadModuleOptions()))
   },
   data() {
     return {
@@ -71,24 +69,36 @@ export default {
       this.formulas = await this.$main.getFormules(this.curCal);
       this.hideSpinner();
     },
-    async addFormula() {
-      console.log("Add", this.newFormula);
+    async addFormula() {      
+      this.showSpinner();
+      await this.$main.addFormule(this.newFormula, this.curCal);
+      this.formulas = await this.$main.getFormules(this.curCal);
+      this.hideSpinner();
+      this.$refs['modal-info'].open("La formule "+this.newFormula+" a été ajoutée.");
+      this.newFormula = "";
     },
     async editFormula(formula) {
-      console.log("edit", formula);
+      this.showSpinner();
+      await this.$main.updateFormule(formula.id, formula.formule, formula.loading_time, formula.slow_pct);
+      this.formulas = await this.$main.getFormules(this.curCal);
+      this.hideSpinner();
+      this.$refs['modal-info'].open("La formule "+formula.formule+" a été modifiée.");
     },
-    async deleteFormula(id) {
-      console.log("delete", id);
+    async deleteFormula(formula) {
+        if (confirm("Supprimer la formule "+formula.formule+" ?")) {
+          let nomFormule = formula.formule;
+          this.showSpinner();
+          await this.$main.deleteFormule(formula.id);
+          this.formulas = await this.$main.getFormules(this.curCal);
+          this.hideSpinner();          
+          this.$refs['modal-info'].open("La formule "+nomFormule+" a été supprimée.");
+        }
     }   
   },
   async mounted() {
     this.showSpinner();
     this.cals = await this.$main.loadCals();
     this.hideSpinner();
-    let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
   } 
 }
 </script>

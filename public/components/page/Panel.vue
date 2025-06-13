@@ -7,17 +7,16 @@
             <th>Date</th>
             <th v-if="$main.filter.cal==''">Groupe</th>
             <th>Transport</th>
-            <th class="d-lg-table-cell d-none">Trajet</th>
+            <th class="d-lg-table-cell d-none">RDV</th>
             <th v-if="!isMobile || $main.filter.cal!=''">Formule</th>
             <th>Ville</th>
             <th>Equipe</th>
-            <th class="d-lg-table-cell d-none">Heure</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in list" :key="item.id" @click="e=>calNameFromId(item.id,e)" 
           :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
-            <td class="text-center text-responsive" data-bs-toggle="tooltip" data-bs-placement="top" :title="statutText(item.suiviDevisContrat)" v-html="dayFullName(item.date_start, item.date_end)"></td>    
+            <td class="text-center text-responsive"  v-html="dayFullName(item.date_start, item.date_end, item.suiviDevisContrat)"></td>    
             <td v-if="$main.filter.cal==''" class="align-middle text-responsive" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">
               <div>{{ calAbrev(item.cal_summary) }}</div>
               <div  v-if="item.formule && isMobile"><span class="badge bg-info">{{ item.formule.substring(0,7) }}</span></div>
@@ -25,15 +24,14 @@
             <td class="p-0 align-middle text-responsive">
               <panel-transports :item="item" />             
             </td>
-            <td class="d-lg-table-cell align-middle d-none">{{ item.dureeMinutes }}</td>   
+            <td class="d-lg-table-cell align-middle d-none">{{ item.heureDepart }}</td>   
             <td class="align-middle" v-if="!isMobile || $main.filter.cal!=''">
               <span class="badge bg-info" v-if="item.formule">{{ item.formule.substring(0,7) }}</span>
             </td>
             <td class="align-middle text-responsive">{{ item.ville }} <span v-if="item.codePostal">({{ item.codePostal.substring(0,2) }})</span> </td>       
             <td>
               <span v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)">{{ musicien.name }}</span>
-            </td>        
-            <td class="d-lg-table-cell d-none align-middle">{{ item.heureDebutConcert }}</td>
+            </td>               
             
           </tr>
         </tbody>
@@ -58,17 +56,14 @@ export default {
       list: [],
       lastMonth: -1,
       equipe: [],      
-      isMobile: true,
-      tooltipList: []
+      isMobile: true
     }
   },
   mounted() {    
     this.updateScreenSize();
     window.addEventListener('resize', this.updateScreenSize);
   },
-  unmounted() {
-    this.tooltipList.forEach(t=>t.dispose());
-  },
+  
   methods: {    
     updateScreenSize() {
         this.isMobile = window.innerWidth < 576;
@@ -105,12 +100,7 @@ export default {
           });          
         }
       })
-      this.$nextTick(() => {
-        let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        this.tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });   
-      });
+      
      
       this.hideSpinner();
     },
@@ -149,8 +139,8 @@ export default {
       const words = name.split(' ');
       return words[0]+(words.length>1?" "+words[words.length-1].substring(0,1)+".":"");
     },
-    dayFullName(date_start, date_end) {
-      let str = '';
+    dayFullName(date_start, date_end, suiviContrat) {
+      let str = '<div aria-label="'+this.statutText(suiviContrat)+'" class="hint--right hint--rounded" style="height:100%">';
       if (date_end && date_end.getDate() != date_start.getDate()) {
         if (date_end.getMonth() == date_start.getMonth()) {
           str += '<span class="lh-sm" style="font-size:105%">'+date_start.getDate()+' - '+date_end.getDate()+'</span>';          
@@ -171,6 +161,7 @@ export default {
       if ((Const.LAST_YEAR-1) != date_start.getFullYear()) {
         str += '<span class="lh-sm" style="font-size:85%"> '+date_start.getFullYear()+"</span>";
       }
+      str += '</div>';
       return str;
     },
 

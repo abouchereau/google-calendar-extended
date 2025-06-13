@@ -2,7 +2,7 @@
   <div class="container my-4">
     <div class="row">
       <div class="col col-sm-12 col-lg-3">
-        <RouterLink to="/admin/person/list" class="btn btn-success btn-lg"><span class="fa fa-arrow-left fa-big"></span></RouterLink>
+        <RouterLink to="/admin/person/list" class="btn btn-success btn-lg hint--bottom hint--rounded" aria-label="Retour"><span class="fa fa-arrow-left fa-big"></span></RouterLink>
       </div>
       <div class="col col-sm-12 col-lg-6">
         <div class="card my-2">
@@ -18,7 +18,7 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item d-flex justify-content-between align-items-center" v-for="item in person_jobs">
                 <span :class="{'text-info': item.is_holder==1,'text-warning': item.is_holder==0}">{{ item.job }} ({{ item.group }})</span>
-                <span><a href="#" title="Déconnexion" class="btn btn-danger btn-sm" @click="deleteJob(item.id)"><i class="fa-solid fa-trash"></i></a></span>
+                <span><a href="#" title="Déconnexion" class="btn btn-danger btn-sm hint--top hint--rounded" @click="deleteJob(item.id)" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></a></span>
               </li>
               <li class="list-group-item"> 
                 <div class="row align-items-center pt-3 pb-1">
@@ -50,7 +50,6 @@
       </div>
     </div>
   </div>   
-  <admin-footer></admin-footer>
 </template>
 
 
@@ -60,9 +59,6 @@
 export default {
   name: 'admin-person-edit',
   inject: ['showSpinner', 'hideSpinner'],
-  components: {
-    'admin-footer': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Admin/AdminFooter.vue', Utils.loadModuleOptions()))
-  },
   data() {
     return {
         person: {},
