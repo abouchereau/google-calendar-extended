@@ -170,6 +170,7 @@ export default class GoogleCal {
         }                
         let date = new Date(x.start.dateTime || x.start.date);  
         let dateEnd = new Date(x.end.dateTime || x.end.date);
+        console.log(x.id, cal.id, date, x.summary);
         return [x.id, cal.id, x.summary, x.description, date, dateEnd, JSON.stringify(data)];
     } 
     
