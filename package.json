@@ -7,12 +7,12 @@
     "express": "^4.21.0",
     "googleapis": "^105.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql": "^2.18.1",
+    "mysql2": "^3.14.1",
     "node-fetch": "^3.3.2",
     "systeminformation": "^5.23.5"
   },
-   "scripts": {
+  "scripts": {
     "back": "node src/server.js",
     "front": "http-server public -p 8000 -P http://localhost:8000?"
-   }
+  }
 }
