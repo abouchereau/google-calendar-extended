@@ -154,7 +154,8 @@ app.post("/updateEvent/:id",verifyToken, async (req, res)=>{
     delete item.id;
     delete item.summary;
     delete item.event_id;
-    delete item.cal_id;
+    delete item.cal_id;    
+    delete item.sync_google;
     await gCal.updateEvent(event_id, cal_id, item);  
     await sqlEvent.updateEventData(req.params.id, item);    
     await event.updateIncomingEvents();
