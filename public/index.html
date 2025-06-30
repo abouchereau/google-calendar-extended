@@ -11,7 +11,7 @@
         }      
 
         (async () => {
-            window.VERSION = await fetchText(BASE_API+'/getHashVersion');
+            window.VERSION = (await fetchText(BASE_API+'/getHashVersion')).substr(0,6);
 
             const loadScriptsSequentially = (index, place) => {
                 if (index >= scripts.length) return;
@@ -44,6 +44,7 @@
                 "/css/bootstrap.css",
                 "/css/vue-multiselect.css",
                 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css",
+                "https://cdnjs.cloudflare.com/ajax/libs/hint.css/3.0.0/hint.min.css",
                 "/css/style.css"            
             ];
 

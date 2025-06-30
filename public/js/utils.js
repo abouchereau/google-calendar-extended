@@ -31,4 +31,17 @@ class Utils {
         }
         return obj;
     }
+
+    static minutesToClock(minutes, separator=":") {
+        const heuresC = Math.floor(minutes / 60) % 24;
+        const minutesC = minutes % 60;
+        const hStr = heuresC.toString().padStart(2, "0");
+        const mStr = minutesC.toString().padStart(2, "0");
+        return `${hStr}${separator}${mStr}`;
+    }
+
+    static clockToMinutes(clock, separator=":") {
+        const [heures, minutes] = clock.split(separator).map(Number);
+        return minutes + 60 * heures;
+    }
 }

@@ -15,7 +15,7 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item d-flex justify-content-between align-items-center"  v-for="job in cals[curCal]">
               <span>{{job.label}}</span>
-              <span v-if="job.nb==0" ><button class="btn btn-danger btn-sm" @click="e=>deleteJob(job.id)"><i class="fa-solid fa-trash"></i></button></span>
+              <span v-if="job.nb==0" ><button class="btn btn-danger btn-sm hint--top hint--rounded" @click="e=>deleteJob(job.id)" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button></span>
             </li>
             <li class="list-group-item">   
               <div class="input-group">               
@@ -29,7 +29,6 @@
       </div>
     </div>
   </div>
-  <admin-footer></admin-footer>
 </template>
 
 
@@ -39,9 +38,6 @@
 export default {
   name: 'admin-postes',
   inject: ['showSpinner', 'hideSpinner'],
-  components: {
-    'admin-footer': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Admin/AdminFooter.vue', Utils.loadModuleOptions()))
-  },
   data() {
     return {
         cals: {},
@@ -74,10 +70,6 @@ export default {
     this.calList = Object.keys(this.cals);
     this.curCal = this.calList[0];
     this.hideSpinner();
-    let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
   } 
 }
 </script>

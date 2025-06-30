@@ -15,10 +15,22 @@ export default class SqlCal extends SqlBase {
         return cals.filter(c=>!GoogleCal.EXCLUDE_CALS.includes(c.summary))
     }
 
-    async getFormules(cal_id) {
+    async getFormules(cal_id=null) {
         return await this._query(
-            "select ifnull(f.label, c.summary) as formule from cal c left join formule f on f.cal_id = c.cal_id where c.cal_id=?", [cal_id]
+            "select f.id, ifnull(f.label, c.summary) as formule, f.loading_time, f.slow_pct, f.cal_id from cal c left join formule f on f.cal_id = c.cal_id where (? is null or c.cal_id=?)", [cal_id, cal_id]
         );
+    }
+
+    async addFormule(name, cal_id) {
+        await this._query("insert into formule(label, cal_id) values (?,?)", [name, cal_id]);
+    }
+
+    async updateFormule(id, name, loading_time, slow_pct) {
+        return await this._query("UPDATE formule SET label=?, loading_time=?, slow_pct=? WHERE id=?",[name, loading_time, slow_pct, id]);
+    }
+
+    async deleteFormule(id) {
+        return await this._query("delete from formule where id=?", [id]);
     }
 
     async getPersons(cal_id) {

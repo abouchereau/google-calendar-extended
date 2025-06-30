@@ -7,6 +7,7 @@ class Main {
         this.isLoading = false;
         this.item = {};
         this.persons = [];
+        this.formules = [];
     }
 
     async loadAllEvents() {
@@ -41,14 +42,14 @@ class Main {
     }
 
     async loadCals() {
-        let res = await fetch(Const.BASE_API+"/getCalList", {
+      let res = await fetch(Const.BASE_API+"/getCalList", {
             method: 'GET',
             headers: {
                 'Authorization': "Bearer "+this.user.getToken(),
                 'Content-Type': 'application/json'
             }
       });
-        return await res.json();
+      return await res.json();
     }
 
     async updateEvent(id, data) {  
@@ -110,6 +111,20 @@ class Main {
       });
     }
 
+    async getAllFormules() {
+      if (this.formules.length == 0) {//load once
+        const data = await fetch(Const.BASE_API+"/getAllFormules", {
+          method: 'GET',
+          headers: {
+          'Authorization': "Bearer "+this.user.getToken(),
+          'Content-Type': 'application/json'
+          }
+      });
+      this.formules = await data.json();
+    }
+    return this.formules;
+  }
+
     async getFormules(cal_id) {
       let res = await fetch(Const.BASE_API+"/getFormules/"+cal_id, {
           method: 'GET',
@@ -119,6 +134,43 @@ class Main {
           }
       });
       return await res.json();
+  }
+
+  async addFormule(name, cal_id) {
+    const data = {name, cal_id};
+    this.formules = [];//clear cache
+    await fetch(Const.BASE_API+"/formule/add", {
+      method: 'PUT',
+      headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+  }
+
+  async updateFormule(id, name, loading_time, slow_pct) {
+    const data = {id, name, loading_time, slow_pct};
+    this.formules = [];//clear cache
+    await fetch(Const.BASE_API+"/formule/update", {
+      method: 'POST',
+      headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+  }
+
+  async deleteFormule(id) {
+    this.formules = [];//clear cache
+    await fetch(Const.BASE_API+"/formule/delete/"+id, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   async getPersons(cal_id) {

@@ -1,5 +1,5 @@
 class Const {
-    static get VERSION() {return "v1.1";};
+    static get VERSION() {return "v1.2";};
     static get APP_NAME() {return "Google Calendar Extended";}
     static get GOOGLE_KEY() {return "AIzaSyAzl_5-yQOIDNTpnVV9LOJqUBRI08FrQMM";}
     static get FIRST_YEAR() {return 2010;}    

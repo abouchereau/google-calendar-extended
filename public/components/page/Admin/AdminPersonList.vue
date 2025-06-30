@@ -1,6 +1,6 @@
 <template> 
-  <div class="container my-4">
-    <h1 class="mb-4">Personnes</h1>
+  <div class="container mb-4">
+    <h1 class="mb-4 p-2 bg-white text-center">Personnes</h1>
     <table class="table table-striped table-bordered">
       <thead class="thead-dark">
         <tr>
@@ -15,9 +15,9 @@
           <td class="p-0"><ul class="list-group" v-html="displayJobs(person.jobs)"></ul></td>
           <td>
             <div class="d-flex justify-content-between">
-              <button title="Modifier" class="btn btn-primary btn-sm" @click="e=>openPerson(person.person_id,e)"><i class="fa-solid fa-edit"></i></button>
+              <button title="Modifier" class="btn btn-primary btn-sm hint--top hint--rounded" @click="e=>openPerson(person.person_id,e)" aria-label="Modifier"><i class="fa-solid fa-edit"></i></button>
               <span class="invisible">x</span>
-              <button title="Supprimer" class="btn btn-danger btn-sm" @click="e=>deletePerson(person.person_id)"><i class="fa-solid fa-trash"></i></button>
+              <button title="Supprimer" class="btn btn-danger btn-sm hint--top hint--rounded" @click="e=>deletePerson(person.person_id)" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>
             </div>
           </td>
         </tr>
@@ -40,7 +40,6 @@
       </tfoot>
     </table>
   </div>
-  <admin-footer></admin-footer>
 </template>
 
 
@@ -50,9 +49,6 @@
 export default {
   name: 'admin-person-list',
   inject: ['showSpinner', 'hideSpinner'],
-  components: {
-    'admin-footer': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Admin/AdminFooter.vue', Utils.loadModuleOptions()))
-  },
   data() {
     return {
         persons: [],

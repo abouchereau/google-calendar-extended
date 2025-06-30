@@ -4,11 +4,11 @@
         <div v-if="isMobile">
             <div class="row">
                 <div class="col">
-                    <event-general />  
-                    <event-horaires />
+                    <event-general @target-heure-depart="onTargetHeureDepart" />  
+                    <event-horaires @target-heure-depart="onTargetHeureDepart" ref="event-horaire-mobile" />
                     <event-equipe />
                     <event-transport />
-                    <event-trajet />
+                    <event-trajet @target-heure-depart="onTargetHeureDepart" />
                     <event-hebergement />
                     <event-contacts />
                     <event-communication />
@@ -19,14 +19,14 @@
         <div v-else>
             <div class="row">
                 <div class="col">
-                    <event-general />  
+                    <event-general @target-heure-depart="onTargetHeureDepart"/>  
                     <event-equipe />  
-                    <event-trajet />  
+                    <event-trajet  @target-heure-depart="onTargetHeureDepart" />  
                     <event-communication /> 
                     <event-precision />  
                 </div>
                 <div class="col">
-                    <event-horaires />  
+                    <event-horaires @target-heure-depart="onTargetHeureDepart" ref="event-horaire-web" />  
                     <event-transport />  
                     <event-contacts />  
                     <event-hebergement /> 
@@ -75,6 +75,10 @@ export default {
     window.removeEventListener('resize', updateScreenSize);
   },
   methods: {
+    onTargetHeureDepart() {
+        const ref = this.isMobile ? "event-horaire-mobile" : "event-horaire-web";
+        this.$refs[ref].computeHeureDepart();
+    },
     updateScreenSize() {
         this.isMobile = window.innerWidth < 576;
     },

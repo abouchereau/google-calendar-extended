@@ -65,8 +65,8 @@ export default class SqlEvents extends SqlBase {
     #addDateCrafter(list) {
         return list.map(x=>{
             if (x.transports && x.transports.includes("1")) {
-                x.dateDepartCrafterObj = x.dateDepartCrafter != null && new Date(x.dateDepartCrafter);
-                x.dateRetourCrafterObj = x.dateRetourCrafter != null && new Date(x.dateRetourCrafter);
+                x.dateDepartCrafterObj = x.dateDepartCrafter != null ? new Date(x.dateDepartCrafter) : new Date(x.date_start+"T00:00:00");
+                x.dateRetourCrafterObj = x.dateRetourCrafter != null ? new Date(x.dateRetourCrafter) : new Date(x.date_end+"T23:59:00");
             }
             return x;
         });

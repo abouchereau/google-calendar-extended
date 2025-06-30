@@ -118,7 +118,7 @@ export default class GoogleCal {
         for (let cal of res.data.items) {
             if (!GoogleCal.EXCLUDE_CALS.includes(cal.summary)) {                 
                 console.log("--CAL--", cal.summary);
-                this.sqlCal.insertOrUpdateCal(cal);               
+                await this.sqlCal.insertOrUpdateCal(cal);               
                 const res = await calendar.events.list({      
                     timeMin: dateMin+"T00:00:00-01:00",      
                     timeMax: dateMax+"T00:00:00-01:00",

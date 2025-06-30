@@ -100,9 +100,42 @@ app.get("/getCalList",verifyToken,async (req, res)=> {
     res.send(list);
 });
 
+app.get("/getAllFormules",verifyToken,async (req, res)=> {   
+    let list = await sqlCal.getFormules();
+    res.send(list);
+});
+
+
 app.get("/getFormules/:cal_id",verifyToken,async (req, res)=> {   
     let list = await sqlCal.getFormules(req.params.cal_id);
-    res.send(list.map(a=>a.formule));
+    res.send(list);
+});
+
+app.post("/formule/update",verifyToken,async (req, res)=> {  
+    const { id, name, loading_time, slow_pct } = req.body;
+    if (!checkWriteAccess(req.user)) {
+        return res.status(403).json({ error: 'Accès refusé. Droits manquants.' });
+    }
+    let msg = await sqlCal.updateFormule(id, name, loading_time, slow_pct);
+    res.send(msg);
+});
+
+app.delete('/formule/delete/:id',verifyToken, async(req, res)=>{    
+    if (!checkWriteAccess(req.user)) {
+        return res.status(403).json({ error: 'Accès refusé. Droits manquants.' });
+    }
+    const id = req.params.id;
+    await sqlCal.deleteFormule(id);
+    res.send("ok");
+});
+
+app.put("/formule/add",verifyToken,async (req, res)=> {   
+    const { name, cal_id } = req.body;
+    if (!checkWriteAccess(req.user)) {
+        return res.status(403).json({ error: 'Accès refusé. Droits manquants.' });
+    }
+    let msg = await sqlCal.addFormule(name, cal_id);
+    res.send(msg);
 });
 
 app.get("/getPersons/:cal_id",verifyToken,async (req, res)=> {   
@@ -121,7 +154,8 @@ app.post("/updateEvent/:id",verifyToken, async (req, res)=>{
     delete item.id;
     delete item.summary;
     delete item.event_id;
-    delete item.cal_id;
+    delete item.cal_id;    
+    delete item.sync_google;
     await gCal.updateEvent(event_id, cal_id, item);  
     await sqlEvent.updateEventData(req.params.id, item);    
     await event.updateIncomingEvents();
