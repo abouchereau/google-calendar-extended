@@ -9,7 +9,7 @@ export default class SqlPerson extends SqlBase {
             " p.id AS person_id,"+
             " p.firstname,"+
             " p.lastname,"+
-            " CASE WHEN pj.id IS NOT NULL THEN JSON_ARRAYAGG(JSON_OBJECT('id', pj.id, 'job', j.label, 'group', c.summary, 'is_holder', pj.is_holder)) ELSE JSON_ARRAY() END AS jobs"+
+            " CAST(CASE WHEN pj.id IS NOT NULL THEN JSON_ARRAYAGG(JSON_OBJECT('id', pj.id, 'job', j.label, 'group', c.summary, 'is_holder', pj.is_holder)) ELSE JSON_ARRAY() END AS CHAR) AS jobs"+
             " FROM person p"+
             " LEFT JOIN person_job pj ON p.id = pj.person_id"+
             " LEFT JOIN job j ON pj.job_id = j.id"+
