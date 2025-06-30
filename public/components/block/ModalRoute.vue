@@ -3,11 +3,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-light">                
-                    <h5 class="modal-title">Modification de l'heure de rendez-vous</h5>
+                    <h5 class="modal-title">Modification de l'heure de rendez-vous <span v-if="item.heureDepart && item.heureDepart!='..:..' && item.heureDepart!=heureDepart" class="my-2 text-center text-decoration-line-through text-danger">{{ item.heureDepart }}</span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" v-if="isLoaded">
-                    <div v-if="item.heureDepart && item.heureDepart!='..:..' && item.heureDepart!=heureDepart" class="my-2 text-center text-decoration-line-through text-danger">{{ item.heureDepart }}</div>
+                    
                     <table class="table table-bordered" id="table-modale-route">
                         <tr> 
                             <th class="text-end"><i class="fa fa-people-group"></i></th>
