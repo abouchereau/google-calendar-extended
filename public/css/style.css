@@ -122,11 +122,15 @@ body, html {
 }
 .statut2 td:first-child {
   background-color:#D4EDBC !important;
-  color:#11825C !important;
+  color:#11734B !important;
 }
 .statut3 td:first-child {
   background-color:#11734B !important;
   color:#D4EDBC !important;
+}
+.statut4 td{
+  background-color: #6c757d !important;
+    color: #cfddd8 !important;
 }
 .statut4 td:first-child {
   background-color:#B10202 !important;

@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           <tr v-for="item in list" :key="item.id" @click="e=>calNameFromId(item.id,e)" 
-          :class="[statutClass(item.suiviDevisContrat), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
+          :class="[statutClass(item.suiviDevisContrat, item.sync_google), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
             <td class="text-center text-responsive"  v-html="dayFullName(item.date_start, item.date_end, item.suiviDevisContrat)"></td>    
             <td v-if="$main.filter.cal==''" class="align-middle text-responsive" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">
               <div>{{ calAbrev(item.cal_summary) }}</div>
@@ -88,7 +88,9 @@ export default {
     async reloadList(e) {
       this.showSpinner();
       this.list = await this.$main.loadAllEvents();   
-      this.list = this.list.filter(a=>a.sync_google!=0);
+      if (!this.$main.filter.displayDeleted) {
+        this.list = this.list.filter(a=>a.sync_google!=0 && a.suiviDevisContrat!=4);
+      }      
       this.list.forEach((a,i)=>{
         this.list[i]['equipe'] = [];
         if (a.equipeMusiciens) {          
@@ -165,7 +167,10 @@ export default {
       return str;
     },
 
-    statutClass(key, sync_gogle) {
+    statutClass(key, sync_google) {
+      if (sync_google == 0) {
+        key = 4;
+      }
       if (key != undefined && key>=1 && key<=5) {
         return "statut"+key;
       }

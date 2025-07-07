@@ -2,6 +2,7 @@ class Filter {
 
     cal = "";
     year = -2;
+    displayDeleted = false;
 
 
 
