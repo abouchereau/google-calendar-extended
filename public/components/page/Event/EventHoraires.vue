@@ -69,7 +69,7 @@ export default {
     onAcceptHeureDepart(heureDepart) {
         this.$main.item.heureDepart = heureDepart;
         this.refreshKey++;
-        setTimeout(()=>{document.getElementById('heureDepart').dispatchEvent(new Event("input", { bubbles: true }));},100);
+        setTimeout(()=>{document.getElementById('codePostal').dispatchEvent(new Event("input", { bubbles: true }));},100);
     }
   }
 
