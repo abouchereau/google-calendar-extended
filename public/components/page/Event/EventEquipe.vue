@@ -99,7 +99,7 @@ export default {
         this.toBDD();
     },
     onChange(e) {        
-        setTimeout(()=>{document.getElementById('heureDepart').dispatchEvent(new Event("input", { bubbles: true }));},100);
+        setTimeout(()=>{document.getElementById('codePostal').dispatchEvent(new Event("input", { bubbles: true }));},100);
     },
     onSelect(option, job) {
         if (!this.selectedMusiciens[job.id].some(a=>a.name==option.name)) {
