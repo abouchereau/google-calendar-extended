@@ -29,13 +29,13 @@ export default {
   },
   mounted() {
     document.addEventListener('input', (event) => {
-      if (event.target.matches('input, textarea')) {
+      if (event.target.matches('input, textarea, select')) {
         this.hasChanges=true;
       }
     })
 
     document.addEventListener('change', (event) => {
-      if (event.target.matches('input, textarea')) {
+      if (event.target.matches('input, textarea, select')) {
         this.hasChanges=true;
       }
     })

@@ -10,6 +10,7 @@
                 <div class="col-xl-12 col-lg-12 col-sm-12 py-1" v-for="job in jobs">                    
                     <label>{{ job.label }}</label>
                     <multiselect @select="o=>onSelect(o,job)" :disabled="!editable" v-model="selectedMusiciens[job.id]" :options="listMusiciens[job.id]" 
+                        @click.native="onChange"
                         placeholder="Choisis un musicien dans la liste ou ajoute un nom"
                         tagPlaceholder="Appuie sur Entrée pour valider le nom" @tag="t=>addTag(t,job)"
                         :multiple="true" :taggable="true" :close-on-select="false" select-label="+" deselect-label="-" selectedLabel="✓">                
@@ -96,6 +97,9 @@ export default {
     customRemove(name, job_id) {
         this.selectedMusiciens[job_id] = this.selectedMusiciens[job_id].filter(p=>p.name!=name);
         this.toBDD();
+    },
+    onChange(e) {        
+        setTimeout(()=>{document.getElementById('heureDepart').dispatchEvent(new Event("input", { bubbles: true }));},100);
     },
     onSelect(option, job) {
         if (!this.selectedMusiciens[job.id].some(a=>a.name==option.name)) {
