@@ -81,5 +81,13 @@ contactOrga:string
 envoiKitCom: enum
 contactCom: string
 lien:string
+afficherSite:boolean
+nomAfficherSite:string
+
 = Precisions
 precisions:string
+
+
+
+UPDATE event SET data = JSON_SET(data, '$.nomAfficherSite', summary) WHERE data!="{}"
+UPDATE event SET data = JSON_SET(data, '$.afficherSite', 'O') WHERE data!="{}"

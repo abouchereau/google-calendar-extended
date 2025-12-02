@@ -7,6 +7,20 @@
         <div class="card-body">                        
             <div class="row">
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+                    <label>Afficher sur le site ?</label>
+                    <div class="form-check form-switch">
+                        <input :disabled="!editable" id="afficherSite" type="checkbox" v-model="$main.item.afficherSite" true-value="O" false-value="N" class="form-check-input" :key="refreshNom" />                      
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+                    <label>Nom à afficher sur le site</label>
+                    <input id="nomAfficherSite" type="text" v-model="$main.item.nomAfficherSite" class="form-control" />
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+                    <label>Lien</label>
+                    <input :disabled="!editable" id="lien" type="url" v-model="$main.item.lien" class="form-control" />
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Kit Com</label>
                     <select class="form-select" id="envoiKitCom" :disabled="!editable" v-model="$main.item.envoiKitCom">
                         <option value="0"></option>
@@ -18,20 +32,13 @@
                     <label>Contact Com</label>
                     <input :disabled="!editable" id="contactCom" type="text" v-model="$main.item.contactCom" class="form-control" />
                 </div> 
-               <!-- <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
-                    <label>Afficher sur le site ?</label>
-                    <div class="form-check form-switch">
-                        <input :disabled="!editable" id="afficherSite" type="checkbox" v-model="$main.item.afficherSite" true-value="O" false-value="N" class="form-check-input">                      
-                    </div>
-                </div>-->
-                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
-                    <label>Lien</label>
-                    <input :disabled="!editable" id="lien" type="url" v-model="$main.item.lien" class="form-control" />
-                </div>
+   
+
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Fréquentation</label>
                     <input :disabled="!editable" id="frequentation" type="number" v-model="$main.item.frequentation" step="10" min="0" class="form-control" />
                 </div>
+
             </div>
         </div>
     </div>
@@ -42,9 +49,17 @@ export default {
   name: 'event-communication',
   data() {
     return {
-        editable: this.$route.name=="event-edit"
+        editable: this.$route.name=="event-edit",
+        refreshNom: 0
     }
-  } 
+  },
+  mounted() {    
+    if (this.$main.item.nomAfficherSite == null || this.$main.item.nomAfficherSite == "") {
+        this.$main.item.nomAfficherSite = this.$main.item.summary;
+        this.refreshNom++;
+    }
+  }
+    
 }
 </script>
 <style>

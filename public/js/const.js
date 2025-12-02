@@ -95,7 +95,11 @@ class Const {
             transports: "",
             vehiculesPerso: "",
             train: "",
-            location: ""
+            location: "",
+            afficherSite: "",
+            nomAfficherSite: ""
+
+
         };
     }
 
