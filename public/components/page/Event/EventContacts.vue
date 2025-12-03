@@ -8,15 +8,18 @@
             <div class="row">
                 <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
                     <label>Contact Accueil</label>
-                    <textarea rows="3" :disabled="!editable" id="contactAccueil" v-model="$main.item.contactAccueil"  class="form-control" />  
+                    <textarea rows="3" v-if="editable" id="contactAccueil" v-model="$main.item.contactAccueil"  class="form-control" />  
+                    <div v-html="linkifyPhoneNumbers($main.item.contactAccueil)"></div>
                 </div>
                 <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
                     <label>Contact Technique</label>
-                    <textarea rows="3" :disabled="!editable" id="contactTechnique" v-model="$main.item.contactTechnique"  class="form-control" />  
+                    <textarea rows="3" v-if="editable" id="contactTechnique" v-model="$main.item.contactTechnique"  class="form-control" />   
+                    <div v-html="linkifyPhoneNumbers($main.item.contactTechnique)"></div>
                 </div>
                 <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
                     <label>Contact Organisation</label>
-                    <textarea rows="3" :disabled="!editable" id="contactOrga" v-model="$main.item.contactOrga"  class="form-control" />  
+                    <textarea rows="3" v-if="editable" id="contactOrga" v-model="$main.item.contactOrga"  class="form-control" />   
+                    <div v-html="linkifyPhoneNumbers($main.item.contactOrga)"></div>
                 </div>
             </div>
         </div>
@@ -30,6 +33,24 @@ export default {
     return {
         editable: this.$route.name=="event-edit"
     }
-  } 
+  },
+  methods: {
+    linkifyPhoneNumbers(text) {
+        if (text == null || text == "") {
+            return "";
+        }
+        const regex = /\b(?:0\d(?:[ .-]?\d{2}){4})\b/g;
+
+        return this.nl2br(text.replace(regex, (match) => {
+            // Version sans séparateurs pour le "tel:"
+            const cleaned = match.replace(/[ .-]/g, "");
+            return `<a class="btn btn-info" href="tel:${cleaned}"><i class="fa-solid fa-phone"></i> ${match}</a>`;
+        }));
+    },
+    nl2br (str, is_xhtml) {
+        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; 
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+    }
+  }
 }
 </script>
