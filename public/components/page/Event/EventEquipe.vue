@@ -53,13 +53,18 @@ export default {
     this.jobs.forEach(j=>{
         this.selectedMusiciens[j.id] = [];
         this.listMusiciens[j.id] = [];
-        const persons = this.persons.filter(p=>p['jobs'].some(pj=>pj.job==j.label));
+        const persons = this.persons.filter(p=>p['jobs'].some(pj=>pj.job==j.label));        
         for(let person of persons) {     
             const name = person.firstname+" "+person.lastname;
             const job_person = person.jobs.find(j2=>j2.job==j.label);
             const optionLight = {"id":person.person_id,"name":name, "is_holder":job_person.is_holder};
             this.listMusiciens[j.id].push(optionLight);
-        }        
+        }   
+        this.listMusiciens[j.id].sort((a,b)=>{
+            if (b.is_holder !== a.is_holder) {
+                return b.is_holder - a.is_holder;
+            }
+            return a.name.localeCompare(b.name);});   
     });
     this.fromBDD();
   },
