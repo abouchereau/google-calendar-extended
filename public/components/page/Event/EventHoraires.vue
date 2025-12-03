@@ -15,7 +15,7 @@
                     <input :disabled="!editable" id="lieuRdv" type="text" v-model="$main.item.lieuRdv" class="form-control" />
                 </div>
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
-                    <label>Heure RDV <span class="hint--top hint--rounded" aria-label="Peut être calculée automatiquement en renseignant la formule, la durée de trajet et l'heure d'arrivée"><span class="fa fa-info-circle"></span></span></label>
+                    <label>Heure RDV <span class="hint--top hint--rounded" data-hint="Peut être calculée automatiquement en renseignant &#10;- la formule&#10;- la durée de trajet&#10;- l'heure d'arrivée"><span class="fa fa-info-circle"></span></span></label>
                     <input :disabled="!editable" id="heureDepart" type="time" step="300" v-model="$main.item.heureDepart" class="form-control" :key="refreshKey" />
                 </div>                
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1" @keyup.enter="$emit('targetHeureDepart')">
