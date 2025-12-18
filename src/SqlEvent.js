@@ -49,6 +49,31 @@ export default class SqlEvents extends SqlBase {
         return list;
     }      
 
+    async getEventListFull(cal=null, year=null) {
+        const params =  [];
+        let sql = "select e.id, e.event_id, c.id as cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, DATE_FORMAT(SUBDATE(e.date_end, '1 HOUR'), \"%Y-%m-%d\") as date_end, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
+            " from event e" +
+            " left join cal c on c.cal_id = e.cal_id" +
+            " where 1=1";
+        if (year=="-2") {
+            sql += " and e.date_start > DATE_SUB(CURDATE(), INTERVAL 2 DAY)";
+        }
+        else if (year != null && year!="-1") {
+            sql += " and year(e.date_start) = ?";
+            params.push(year);
+        }
+        sql += " order by e.date_start, c.id";
+
+        let list = await this._query(sql, params);
+        list = this.#filterExlcudeCal(list);
+        list = this.#mergeData(list);
+        list = this.#addDateCrafter(list);
+        list = this.#addCrafterOverlap(list);
+        if (cal) {
+            list = this.#filterCal(list, cal);
+        }
+        return list;
+    }    
 
     #filterExlcudeCal(list) {
         return list.filter(l=>!GoogleCal.EXCLUDE_CALS.includes(l.cal_summary));

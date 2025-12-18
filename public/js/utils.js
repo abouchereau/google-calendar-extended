@@ -44,4 +44,27 @@ class Utils {
         const [heures, minutes] = clock.split(separator).map(Number);
         return minutes + 60 * heures;
     }
+
+    static loadScriptOnce(url, globalName, cacheVar) {
+    if (cacheVar.value) return cacheVar.value; // déjà en cours ou chargé
+
+    cacheVar.value = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = url;
+      script.async = true;
+
+      script.onload = () => {
+        if (globalName && !window[globalName]) {
+          reject(`Le script ${url} est chargé mais ${globalName} est introuvable.`);
+          return;
+        }
+        resolve(window[globalName] || true);
+      };
+
+      script.onerror = () => reject(`Erreur de chargement : ${url}`);
+      document.head.appendChild(script);
+    });
+
+    return cacheVar.value;
+  }
 }

@@ -8,7 +8,7 @@
             </div>
             <div class="col-3 text-center">
               <a href="#" v-if="this.$main.user.write" @click="refreshDates" class="hint--top hint--rounded" aria-label="Recharger les dates"><i class="fa-solid fa-arrows-rotate fa-big"></i></a>
-              <RouterLink to="/" class="inactive hint--top-right hint--rounded" aria-label="Export Excel"><i class="fa-solid fa-table-list fa-big"></i></RouterLink>
+              <a  href="#" @click="exportExcel" class="hint--top-right hint--rounded" aria-label="Export Excel"><i class="fa-solid fa-table-list fa-big"></i></a>
             </div>
             <div class="col-5 text-end align-middle"> 
               <span v-if="$main.user.username" class="small text-secondary" style="position:relative;bottom:4px;">{{ $main.user.username }}</span> 
@@ -35,6 +35,9 @@ export default {
     logout() {
       this.$main.user.unregister();
       window.location.reload();
+    },
+    exportExcel() {
+      this.$main.excel.exportExcel(this.$main.allEvents);
     }
   }
 }

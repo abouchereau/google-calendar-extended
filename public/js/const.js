@@ -60,7 +60,6 @@ class Const {
             equipeMusiciens:"",
             equipeTechnique:"",
             tempsChargementMinutes:"",
-            infoSets:"",
             vehicule:"",
             dateDepartCrafter:"",
             dateRetourCrafter:"",

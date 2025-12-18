@@ -8,6 +8,9 @@ class Main {
         this.item = {};
         this.persons = [];
         this.formules = [];
+        this.allEvents = [];
+        this.calList = [];
+        this.excel = new Excel(this.calList, this.allEvents);
     }
 
     async loadAllEvents() {
@@ -24,6 +27,9 @@ class Main {
           x.date_end = x.date_end != null && new Date(x.date_end);
           return x;
         });
+        this.allEvents.length = 0;
+        json.forEach(a=>this.allEvents.push(a));
+        //this.allEvents = json;//TODO garder seulement allEvents ?
       return json;      
     }
 
@@ -49,7 +55,8 @@ class Main {
                 'Content-Type': 'application/json'
             }
       });
-      return await res.json();
+      this.calList = await res.json();//TODO ne pas faire de return ?
+      return this.calList;
     }
 
     async updateEvent(id, data) {  

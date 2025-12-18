@@ -53,9 +53,14 @@ export default {
   },
   methods: {
     dayCrafter(dateStr){
-        let date = new Date(dateStr);
-        let str = Const.DAY_LIST[(date.getDay()+6)%7].substring(0,3)+" "+date.getDate()+" à "+date.getHours()+"h"+("0"+date.getMinutes()).slice(-2);
-        return str;
+        const dateDepart = this.item.date_start;
+        const date = new Date(dateStr);
+        if (date.getDate() == dateDepart.getDate()) {
+          return date.getHours()+"h"+("0"+date.getMinutes()).slice(-2)
+        }
+        else {
+          return Const.DAY_LIST[(date.getDay()+6)%7].substring(0,3)+" "+date.getDate()+" à "+date.getHours()+"h"+("0"+date.getMinutes()).slice(-2);
+        }
     }
   }
 }
