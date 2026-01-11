@@ -1,12 +1,17 @@
 import SqlBase from "./SqlBase.js";
 import GoogleCal from "./GoogleCal.js"
+import { readdirSync } from 'fs';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default class SqlJob extends SqlBase {
 
     async getAllJobs(cal_id=null, asList=false) {
         let tab = await this._query(
-            "select c.summary, j.id, j.label, count(pj.id) as nb"+
+            "select c.summary, j.id, j.label, j.icon, count(pj.id) as nb"+
             " from cal c"+
             " left join job j on c.cal_id = j.cal_id"+
             " left join person_job pj on pj.job_id = j.id"+
@@ -26,17 +31,17 @@ export default class SqlJob extends SqlBase {
                     calJob[line['summary']] = [];
                 }
                 if (line['label'] != null) {
-                    calJob[line['summary']].push({"id":line['id'],"label":line['label'],'nb':line['nb']});
+                    calJob[line['summary']].push({"id":line['id'],"label":line['label'],'nb':line['nb'],'icon':line['icon']});
                 }
         }
             return calJob;
         }
     }
 
-    async addJob(cal_summary, job) {
+    async addJob(cal_summary, job, icon) {
         const cals = await this._query("select cal_id from cal where summary=?", [cal_summary]);
         const cal = cals[0];
-        await this._query("insert into job(label, cal_id) values (?, ?)", [job, cal.cal_id]);
+        await this._query("insert into job(label, cal_id, icon) values (?, ?, ?)", [job, cal.cal_id, icon]);
     }
 
     async deleteJob(id) {
@@ -50,6 +55,11 @@ export default class SqlJob extends SqlBase {
 
     async deletePersonJob(id) {
         await this._query("delete from person_job where id=?", [id]);
+    }
+
+    getAllIcons() {
+        const iconFolder= __dirname+'/../public/images/instru/';
+        return readdirSync(iconFolder);
     }
 
 }

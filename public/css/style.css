@@ -5,7 +5,7 @@ body {
   background-position: center center;
   background-image: url("../images/Logo_Transparent.svg");
   background-attachment: fixed;
-  background-color:#BDD5F4;
+  background-color: #F3F3F3;
 }
 .cursor-pointer {
     cursor: pointer;
@@ -115,34 +115,57 @@ body, html {
     color: gray;
 }
 
-
-.statut1 td:first-child {
+.statut {
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  background-color:#FFF;
+}
+.statut1 {
   background-color:#FFE5A0 !important;
   color:#7D3821 !important;
 }
-.statut2 td:first-child {
+.statut2 {
   background-color:#D4EDBC !important;
   color:#11734B !important;
 }
-.statut3 td:first-child {
+.statut3 {
   background-color:#11734B !important;
   color:#D4EDBC !important;
 }
-.statut4 td{
+.statut4 td {
   background-color: #6c757d !important;
     color: #cfddd8 !important;
 }
-.statut4 td:first-child {
+.statut4{
   background-color:#B10202 !important;
   color:#FFCFC9 !important;
 }
-.statut5 td:first-child {
+.statut5 {
   background-color:#683b82 !important;
   color:#FFF !important;
 }
 .fs-sm {
   font-size: 0.85rem;
 }
+.fs-xs {
+  font-size: 0.75rem;
+}
 .hint:after, [data-hint]:after {
     white-space: pre;
+}
+.date-block {
+  border-radius: 8px;
+  background-color: rgba(255,255,255,0.8);
+  border-width:2px;
+  border-style: solid;
+  padding-top:6px;
+  padding-bottom:6px;
+}
+.date-block:hover {
+  background-color: rgba(255,255,255,1);
 }

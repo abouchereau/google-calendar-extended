@@ -1,6 +1,44 @@
 <template> 
     <panel-header @onChange="reloadList"/>    
-    <div class="container-fluid content">
+    <div class="container content">
+      <div v-for="item in list">
+        <div v-if="isNewMonth(item.date_start)" class="row">
+          <div class="col-12 text-center my-3">
+            <h5>{{ monthList[item.date_start.getMonth()] }} {{ item.date_start.getFullYear() }}</h5>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-1 text-center align-self-center p-0" 
+            v-html="dayFullName(item.date_start, item.date_end)">
+          </div>
+          <div class="col-10 date-block cursor-pointer" v-bind:style="{borderColor:item.color_back,}" @click="e=>calNameFromId(item.id,e)">
+            <div class="row">
+                 <div class="col-8">
+                  <span class="fw-light text-muted fs-xs">{{ item.cal_summary }}</span>
+                  <span v-if="item.formule" class="ms-2 badge bg-secondary">{{ item.formule.substring(0,7) }}</span>
+                 </div>
+                 <div class="col-4 text-end">
+                  <span class="badge bg-secondary" :class="statutClass(item.suiviDevisContrat, item.sync_google)" >{{ statutText(item.suiviDevisContrat) }}</span>
+                 </div>
+            </div>
+            <div class="row">
+              <div class="col-8">{{ item.ville }}</div>
+              <div class="col-4 text-end"><span v-if="item.heureDepart" class="text-info"><i class="fa fa-clock"></i> <span style="font-size: 70%;">RDV</span> <b>{{ item.heureDepart }}</b></span></div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-center">
+                <div v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)" :aria-label="musicien.name" >
+                  <img v-if="musicien.icon" :src="'/images/instru/'+musicien.icon" :alt="musicien.icon" />
+                </div>
+              </div>                  
+            </div>
+          </div>
+          <div class="col-1 text-center align-self-center p-0">
+            <panel-transports :item="item" />         
+          </div>
+        </div>
+      </div>
+      <!--
       <table class="table table-hover table-bordered mt-4">
         <thead class="table-light">
           <tr class="text-center">            
@@ -36,9 +74,9 @@
           </tr>
         </tbody>
 
-      </table>
+      </table>-->
     </div>
-    <panel-footer @onReload="reloadList"/>  
+    <panel-footer @onReload="reloadList"/> 
 </template>
 
 <script>
@@ -56,7 +94,9 @@ export default {
       list: [],
       lastMonth: -1,
       equipe: [],      
-      isMobile: true
+      jobs: [],
+      isMobile: true,
+      monthList: Const.MONTH_LIST
     }
   },
   mounted() {    
@@ -69,15 +109,20 @@ export default {
         this.isMobile = window.innerWidth < 576;
     },
     getTagClass(is_holder) {
+      const classes = {"instru-container":true, "hint--top-right": true, "hint--rounded": true};
        if (is_holder == 1) {
-        return "badge bg-success me-s";
+        classes["bg-success-transparent"] = true;
+        classes["border-success"] = true;
        }
-       else if (is_holder == -1) {
-        return "badge bg-danger me-s";
+       else if (is_holder == -1) {        
+        classes["bg-danger-transparent"] = true;
+        classes["border-danger"] = true;
        }
        else {
-        return "badge bg-warning me-s";
+        classes["bg-warning-transparent"] = true
+        classes["border-warning"] = true
        }
+       return classes;
     },    
     isNewMonth(date) {
       const newMonth = date.getMonth();
@@ -88,6 +133,10 @@ export default {
     async reloadList(e) {
       this.showSpinner();
       this.list = await this.$main.loadAllEvents();   
+      const allJobs = await this.$main.getAllJobs();
+      for(let name in allJobs) {
+        this.jobs.push(...allJobs[name]);
+      }
       if (!this.$main.filter.displayDeleted) {
         this.list = this.list.filter(a=>a.sync_google!=0 && a.suiviDevisContrat!=4);
       }      
@@ -97,7 +146,8 @@ export default {
            a.equipeMusiciens.split("||").forEach(a=>{
             a.split("|").forEach(b=> {
                 const t = b.split(",");
-                this.list[i]['equipe'].push({"name":this.nameAbrev(t[2]),"is_holder":t[3]});
+                const icon = this.jobs.find(j=>j.id==t[0])?.icon || null;
+                this.list[i]['equipe'].push({"name": this.nameAbrev(t[2]), "is_holder": t[3], "icon": icon});
             });   
           });          
         }
@@ -141,30 +191,13 @@ export default {
       const words = name.split(' ');
       return words[0]+(words.length>1?" "+words[words.length-1].substring(0,1)+".":"");
     },
-    dayFullName(date_start, date_end, suiviContrat) {
-      let str = '<div aria-label="'+this.statutText(suiviContrat)+'" class="hint--right hint--rounded" style="height:100%">';
+    dayFullName(date_start, date_end) {      
       if (date_end && date_end.getDate() != date_start.getDate()) {
-        if (date_end.getMonth() == date_start.getMonth()) {
-          str += '<span class="lh-sm" style="font-size:105%">'+date_start.getDate()+' - '+date_end.getDate()+'</span>';          
-          str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_start.getMonth()]+"</span>";
-        }
-        else {          
-          str += '<span class="lh-sm" style="font-size:105%">'+date_start.getDate()+'</span>';          
-          str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_start.getMonth()]+"</span>";
-          str += ' - <span class="lh-sm" style="font-size:105%">'+date_end.getDate()+'</span>';          
-          str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_end.getMonth()]+"</span>";
-        }
+          return '<div class="lh-sm" style="font-size:85%"><b>'+date_start.getDate()+'</b>-<b>'+date_end.getDate()+'</b></div>';          
       }
       else {
-        str += '<span class="lh-sm" style="font-size:85%">'+Const.DAY_LIST[(date_start.getDay()+6)%7].substring(0,3)+'</span>';
-        str += '<span class="lh-sm" style="font-size:105%"> '+date_start.getDate()+'</span>';        
-        str += '<span class="lh-sm" style="font-size:85%"> '+Const.MONTH_LIST[date_start.getMonth()]+"</span>";
-      }
-      if ((Const.LAST_YEAR-1) != date_start.getFullYear()) {
-        str += '<span class="lh-sm" style="font-size:85%"> '+date_start.getFullYear()+"</span>";
-      }
-      str += '</div>';
-      return str;
+        return '<div class="lh-sm" style="font-size:85%">'+Const.DAY_LIST[(date_start.getDay()+6)%7].substring(0,3)+'</div><div class="lh-sm"><b>'+date_start.getDate()+'</b></div>';        
+     }
     },
 
     statutClass(key, sync_google) {
@@ -191,6 +224,33 @@ tr.border-harder {
   }
 .me-s {
   margin-right: 1px;
+}
+.radius-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.instru-container {
+  display: inline-block;
+  margin: 2px; 
+  height: 35px;
+  width: 35px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  position: relative;
+}
+.instru-container.bg-success-transparent {
+  background-color: rgba(var(--bs-success-rgb), 0.2) !important;
+}
+.instru-container.bg-danger-transparent {
+  background-color: rgba(var(--bs-danger-rgb), 0.2) !important;
+}
+.instru-container.bg-warning-transparent {
+  background-color: rgba(var(--bs-warning-rgb), 0.2) !important;
+}
+.instru-container img {
+  position: relative;
+  top:2px;
+  height: 24px;
 }
 @media (max-width: 992px) {
   .text-responsive {

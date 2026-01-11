@@ -1,37 +1,19 @@
 
 <template>
-    <div v-if="item.transports!=null && item.transports.includes('1')" :class="{'alert alert-danger': item.crafterOverlap, 'p-0': true}">
-        <div class="row">
-            <div class="col-md-3 col-sm-12 align-self-center text-center">
-            <i class="fa-solid fa-van-shuttle fa-big text-primary" title="Crafter"></i>
-            </div>                  
-            <div class="col-md-9 col-sm-12">
-            <div><i class="fa fa-square-caret-right text-warning"></i> <span class="fs-sm" v-if="item.dateDepartCrafter">{{ dayCrafter(item.dateDepartCrafter)}}</span><span class="text-danger" v-else>N.C.</span></div>
-            <div><i class="fa fa-square-caret-left text-success"></i> <span class="fs-sm" v-if="item.dateRetourCrafter">{{ dayCrafter(item.dateRetourCrafter)}}</span><span class="text-danger" v-else>N.C.</span></div>
-            </div>
-        </div>    
+    <div v-if="item.transports!=null && item.transports.includes('1')" 
+      :class="{'alert alert-danger': item.crafterOverlap, 'p-0': true, 'hint--top-left': true, 'hint--rounded': true, 'py-3': true}" 
+      :data-hint="'Aller : '+dayCrafter(item.dateDepartCrafter)+'\nRetour : '+dayCrafter(item.dateRetourCrafter)+(item.crafterOverlap?'\nAttention : chevauchement avec un autre déplacement !':'')">
+      <i class="fa-solid fa-van-shuttle fa-big text-primary"></i>
     </div>
-    <div v-if="item.transports!=null && item.transports.includes('2')">
-        <div class="row">
-            <div class="col-md-3 col-sm-12 align-self-center text-center">
-            <i class="fa-solid fa-car-side fa-big text-info" title="Véhicule(s) perso"></i>
-            </div>                  
-            <div class="col-md-9 col-sm-12">
-              <span class="badge bg-info hint--right hint--rounded" v-if="item.vehiculesPerso" :aria-label="item.vehiculesPerso.length>12?item.vehiculesPerso:''">{{ item.vehiculesPerso.substring(0,12) }}</span>
-            </div>     
-        </div>    
+    <div v-if="item.transports!=null && item.transports.includes('2')" class="hint--top-left hint--rounded" :aria-label="'Véhicule perso : '+item.vehiculesPerso">
+        <i class="fa-solid fa-car-side fa-big text-info"></i>  
     </div>
-    <div v-if="item.transports!=null && item.transports.includes('3')">
-        <div class="row">
-            <div class="col-md-3 col-sm-12 align-self-center text-center">
-            <i class="fa-solid fa-ambulance fa-big text-warning" title="Location"></i>
-            </div>                  
-            <div class="col-md-9 col-sm-12">
-              <span class="badge bg-warning hint--right hint--rounded" v-if="item.location" :aria-label="item.location.length>12?item.location:''">{{ item.location.substring(0,12) }}</span>
-            </div>     
-        </div>    
+    <div v-if="item.transports!=null && item.transports.includes('3')">      
+        <i class="fa-solid fa-ambulance fa-big text-warning hint--top-left hint--rounded" :aria-label="'Location : '+item.location"></i> 
     </div>
     <div v-if="item.transports!=null && item.transports.includes('4')">
+      
+        <i class="fa-solid fa-train fa-big text-success hint--right hint--rounded" :aria-label="'Location : '+item.location"></i> 
         <div class="row">
             <div class="col-md-3 col-sm-12 align-self-center text-center">
             <i class="fa-solid fa-train fa-big text-success" title="Train"></i>
@@ -53,13 +35,16 @@ export default {
   },
   methods: {
     dayCrafter(dateStr){
+        if (!dateStr) {
+          return "N.C";
+        }
         const dateDepart = this.item.date_start;
         const date = new Date(dateStr);
         if (date.getDate() == dateDepart.getDate()) {
-          return date.getHours()+"h"+("0"+date.getMinutes()).slice(-2)
+          return date.getHours()+"h"+(date.getMinutes()!=0?("0"+date.getMinutes()).slice(-2):"")
         }
         else {
-          return Const.DAY_LIST[(date.getDay()+6)%7].substring(0,3)+" "+date.getDate()+" à "+date.getHours()+"h"+("0"+date.getMinutes()).slice(-2);
+          return Const.DAY_LIST[(date.getDay()+6)%7]+" "+date.getDate()+" à "+date.getHours()+"h"+(date.getMinutes()!=0?("0"+date.getMinutes()).slice(-2):"");
         }
     }
   }

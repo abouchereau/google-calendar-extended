@@ -233,7 +233,8 @@ app.get('/jobs', verifyToken, async(req, res)=>{
 app.put('/job/add',verifyToken, async(req, res)=>{    
     let cal = req.body.cal;
     let job = req.body.job;
-    await sqlJob.addJob(cal, job);
+    let icon = req.body.icon;
+    await sqlJob.addJob(cal, job, icon);
     res.send("ok");
 });
 
@@ -278,3 +279,8 @@ app.delete('/person/delete/:id',verifyToken, async(req, res)=>{
     await sqlPerson.deletePerson(id);
     res.send("ok");
 })
+
+app.get('/job/icons', verifyToken, async(req, res)=>{
+    const icons = sqlJob.getAllIcons();
+    res.send(icons);
+});

@@ -233,8 +233,8 @@ class Main {
     return await res.json();
   }
   
-  async addJob(cal, job) {
-    let data =  {cal, job};
+  async addJob(cal, job, icon) {
+    let data =  {cal, job, icon};
     let res = await fetch(Const.BASE_API+"/job/add", {
         method: 'PUT',
         headers: {
@@ -312,4 +312,17 @@ class Main {
     });
   }
 
+  
+  async getAllIcons() {
+    const res = await fetch(Const.BASE_API+"/job/icons", {
+      method: 'GET',
+      headers: {
+        'Authorization': "Bearer "+this.user.getToken(),
+        'Content-Type': 'application/json'
+      }
+    });
+    return await res.json();
+  }
+
+  
 }
