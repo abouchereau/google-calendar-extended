@@ -1,27 +1,18 @@
 
 <template>
-    <div v-if="item.transports!=null && item.transports.includes('1')" 
+    <div v-if="item.transports!=null && item.transports.includes('1')" data-hint-touch
       :class="{'alert alert-danger': item.crafterOverlap, 'p-0': true, 'hint--top-left': true, 'hint--rounded': true, 'py-3': true}" 
       :data-hint="'Aller : '+dayCrafter(item.dateDepartCrafter)+'\nRetour : '+dayCrafter(item.dateRetourCrafter)+(item.crafterOverlap?'\nAttention : chevauchement avec un autre déplacement !':'')">
       <i class="fa-solid fa-van-shuttle fa-big text-primary"></i>
     </div>
-    <div v-if="item.transports!=null && item.transports.includes('2')" class="hint--top-left hint--rounded" :aria-label="'Véhicule perso : '+item.vehiculesPerso">
+    <div v-if="item.transports!=null && item.transports.includes('2')" class="hint--top-left hint--rounded" :aria-label="'Véhicule perso : '+item.vehiculesPerso" data-hint-touch>
         <i class="fa-solid fa-car-side fa-big text-info"></i>  
     </div>
     <div v-if="item.transports!=null && item.transports.includes('3')">      
-        <i class="fa-solid fa-ambulance fa-big text-warning hint--top-left hint--rounded" :aria-label="'Location : '+item.location"></i> 
+        <i class="fa-solid fa-ambulance fa-big text-warning hint--top-left hint--rounded" :aria-label="'Location : '+item.location" data-hint-touch></i> 
     </div>
-    <div v-if="item.transports!=null && item.transports.includes('4')">
-      
-        <i class="fa-solid fa-train fa-big text-success hint--right hint--rounded" :aria-label="'Location : '+item.location"></i> 
-        <div class="row">
-            <div class="col-md-3 col-sm-12 align-self-center text-center">
-            <i class="fa-solid fa-train fa-big text-success" title="Train"></i>
-            </div>                  
-            <div class="col-md-9 col-sm-12">
-              <span class="badge bg-success hint--right hint--rounded" v-if="item.train" :aria-label="item.train.length>12?item.train:''">{{ item.train.substring(0,12) }}</span>
-            </div>     
-        </div>    
+    <div v-if="item.transports!=null && item.transports.includes('4')">      
+        <i class="fa-solid fa-train fa-big text-success hint--right hint--rounded" :aria-label="'Train : '+item.train" data-hint-touch></i> 
     </div>
 </template>
 

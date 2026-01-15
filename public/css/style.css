@@ -1,6 +1,6 @@
 body {
   height:100%;
-  background-size:25%;
+  background-size:60%;
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url("../images/Logo_Transparent.svg");
@@ -61,7 +61,6 @@ body, html {
   flex-direction: column;
 }
 .content {
-  margin-top:60px;
   margin-bottom:60px;
   flex: 1; /* Permet au contenu de prendre l'espace restant */
 }
@@ -158,11 +157,13 @@ body, html {
 .hint:after, [data-hint]:after {
     white-space: pre;
 }
-.date-block {
-  border-radius: 8px;
+.cal-block {
+  border-radius: 8px 0 0 8px;
   background-color: rgba(255,255,255,0.8);
-  border-width:2px;
-  border-style: solid;
+}
+.date-block {
+  border-radius: 0 8px 8px 0;
+  background-color: rgba(255,255,255,0.8);
   padding-top:6px;
   padding-bottom:6px;
 }
