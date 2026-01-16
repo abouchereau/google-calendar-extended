@@ -1,7 +1,7 @@
 
 <template>
     <div v-if="item.transports!=null && item.transports.includes('1')" data-hint-touch
-      :class="{'alert alert-danger': item.crafterOverlap, 'p-0': true, 'hint--top-left': true, 'hint--rounded': true, 'py-3': true}" 
+      :class="{'alert alert-danger': item.crafterOverlap, 'hint--top-left': true, 'hint--rounded': true}" 
       :data-hint="'Aller : '+dayCrafter(item.dateDepartCrafter)+'\nRetour : '+dayCrafter(item.dateRetourCrafter)+(item.crafterOverlap?'\nAttention : chevauchement avec un autre déplacement !':'')">
       <i class="fa-solid fa-van-shuttle fa-big text-primary"></i>
     </div>

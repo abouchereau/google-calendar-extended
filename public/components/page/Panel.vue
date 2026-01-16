@@ -2,45 +2,57 @@
     <!--<panel-header @onChange="reloadList"/>   -->
     <div class="container content">
       <section v-for="monthList, month in list">        
-        <div class="row mb-5 text-bg-secondary sticky-title">
+        <div class="row mb-4 text-bg-secondary sticky-title">
           <div class="col-12 text-center my-2">
             <h5 style="font-variant:small-caps">{{ month }}</h5>
           </div>
         </div>
-        <div class="row mb-5" v-for="item in monthList" :key="item.id">
-          <div class="col-1 text-center p-0 cal-block text-bg-light"  
-            v-html="dayFullName(item.date_start, item.date_end)">
-          </div>
-          <div class="col-10 date-block cursor-pointer" @click="e=>calNameFromId(item.id,e)">
+
+        <div class="row mb-4" v-for="item in monthList" :key="item.id">
+
+          <div :class="'col-1 d-flex align-items-center text-center p-0 cal-block hint--top-right hint--rounded '+statutClass(item.suiviDevisContrat, item.sync_google)" :aria-label="statutText(item.suiviDevisContrat)">
+            <div class="w-100 text-center" v-html="dayFullName(item.date_start, item.date_end)"></div>
+          </div> 
+
+          <div class="col-11 date-block">
+
             <div class="row">
-              <div class="col-12 text-center">            
-                  <h6>{{ item.ville }}</h6>
-              </div>  
-            </div>  
-            <div class="row">
-                 <div class="col-12">
-                  <span class="fw-light fs-xs badge"  v-bind:style="{backgroundColor:item.color_back,color:item.color_front}">{{ item.cal_summary }}</span>
-                  <span v-if="item.formule" class="ms-2 badge bg-secondary">{{ item.formule.substring(0,7) }}</span>
-                 </div>
+
+              <div class="col-8" @click="e=>calNameFromId(item.id,e)">
+
+                <div class="row mb-1">
+                    <div class="col-12">
+                      <span class="fw-light fs-xs badge"  v-bind:style="{backgroundColor:item.color_back,color:item.color_front}">{{ item.cal_summary }}</span>
+                      <span v-if="item.formule" class="ms-2 badge bg-secondary">{{ item.formule.substring(0,7) }}</span>
+                    </div>
+                </div>
+
+                <div class="row mb-1">
+                  <div class="col-12">            
+                      <h6><b>{{ item.ville }}</b></h6>
+                  </div>  
+                </div>  
+
+              </div>
+
+              
+              <div class="col-4 text-end">
+                <div v-if="item.heureDepart" class="text-info"><i class="fa fa-clock"></i> <span style="font-size: 70%;">RDV</span> <b>{{ item.heureDepart }}</b></div>
+                <panel-transports :item="item" />        
+              </div>
+             
             </div>
 
             <div class="row">
-              <div class="col-12">
-                <span v-if="item.heureDepart" class="text-info"><i class="fa fa-clock"></i> <span style="font-size: 70%;">RDV</span> <b>{{ item.heureDepart }}</b></span>
-                <span class="badge bg-secondary" :class="statutClass(item.suiviDevisContrat, item.sync_google)" >{{ statutText(item.suiviDevisContrat) }}</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 text-center">
+              <div class="col-12 text-end">
                 <div v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)" :aria-label="musicien.name" >
                   <img v-if="musicien.icon" :src="'/images/instru/'+musicien.icon" :alt="musicien.icon" />
                 </div>
               </div>                  
             </div>
+
           </div>
-          <div class="col-1 text-center align-self-center p-0">
-             <panel-transports :item="item" />        
-          </div>
+
         </div>
       </section>
       <!--
@@ -141,8 +153,8 @@ export default {
     getTagClass(is_holder) {
       const classes = {"instru-container":true, "hint--top-right": true, "hint--rounded": true};
        if (is_holder == 1) {
-        classes["bg-success-transparent"] = true;
-        classes["border-success"] = true;
+     //   classes["bg-success-transparent"] = true;
+        //classes["border-success"] = true;
        }
        else if (is_holder == -1) {        
         classes["bg-danger-transparent"] = true;
@@ -245,7 +257,7 @@ export default {
       if (key != undefined && key>=1 && key<=5) {
         return "statut"+key;
       }
-      return "";
+      return "text-bg-light";
     },
     statutText(key) {
       if (key != undefined && key>=1 && key<=5) {
@@ -273,25 +285,16 @@ tr.border-harder {
 .instru-container {
   display: inline-block;
   margin: 2px; 
-  height: 28px;
-  width: 28px;
-  border: 2px solid transparent;
-  border-radius: 20px;
+  height: 26px;
+  width: 20px;
+  border-bottom: 3px solid transparent;
   position: relative;
 }
-.instru-container.bg-success-transparent {
-  background-color: rgba(var(--bs-success-rgb), 0.2) !important;
-}
-.instru-container.bg-danger-transparent {
-  background-color: rgba(var(--bs-danger-rgb), 0.2) !important;
-}
-.instru-container.bg-warning-transparent {
-  background-color: rgba(var(--bs-warning-rgb), 0.2) !important;
-}
+
 .instru-container img {
   position: relative;
-  top:-1px;
-  height: 18px;
+  top:-4px;
+  height: 20px;
 }
 .sticky-title {
   position: sticky;
