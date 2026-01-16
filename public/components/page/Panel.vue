@@ -151,7 +151,7 @@ export default {
         this.isMobile = window.innerWidth < 576;
     },
     getTagClass(is_holder) {
-      const classes = {"instru-container":true, "hint--top-right": true, "hint--rounded": true};
+      const classes = {"instru-container":true, "hint--top-left": true, "hint--rounded": true};
        if (is_holder == 1) {
      //   classes["bg-success-transparent"] = true;
         //classes["border-success"] = true;
