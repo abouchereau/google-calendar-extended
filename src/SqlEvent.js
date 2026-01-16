@@ -25,7 +25,7 @@ export default class SqlEvents extends SqlBase {
 
     async getEventList(cal=null, year=null) {
         const params =  [];
-        let sql = "select e.id, e.event_id, c.id as cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, DATE_FORMAT(SUBDATE(e.date_end, '1 HOUR'), \"%Y-%m-%d\") as date_end, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
+        let sql = "select e.id, e.event_id, c.id as cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, DATE_FORMAT(SUBDATE(e.date_end, INTERVAL 1 HOUR), \"%Y-%m-%d\") as date_end, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
             " from event e" +
             " left join cal c on c.cal_id = e.cal_id" +
             " where 1=1";
