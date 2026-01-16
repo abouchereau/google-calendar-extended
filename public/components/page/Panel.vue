@@ -10,15 +10,15 @@
 
         <div class="row mb-4" v-for="item in monthList" :key="item.id">
 
-          <div :class="'col-1 d-flex align-items-center text-center p-0 cal-block hint--top-right hint--rounded '+statutClass(item.suiviDevisContrat, item.sync_google)" :aria-label="statutText(item.suiviDevisContrat)">
+          <div :class="'col-1 d-flex align-items-center text-center p-0 hint--top-right hint--rounded '+statutClass(item.suiviDevisContrat, item.sync_google)" :aria-label="statutText(item.suiviDevisContrat)">
             <div class="w-100 text-center" v-html="dayFullName(item.date_start, item.date_end)"></div>
           </div> 
 
-          <div class="col-11 date-block">
+          <div class="col-11 date-block" @click="e=>calNameFromId(item.id,e)">
 
             <div class="row">
 
-              <div class="col-8" @click="e=>calNameFromId(item.id,e)">
+              <div class="col-8">
 
                 <div class="row mb-1">
                     <div class="col-12">
@@ -37,13 +37,17 @@
 
               
               <div class="col-4 text-end">
-                <div v-if="item.heureDepart" class="text-info"><i class="fa fa-clock"></i> <span style="font-size: 70%;">RDV</span> <b>{{ item.heureDepart }}</b></div>
-                <panel-transports :item="item" />        
+                <div class="row" v-if="item.heureDepart">
+                  <div class="col text-info">
+                    <i class="fa fa-clock"></i> <span style="font-size: 70%;">RDV</span> <b>{{ item.heureDepart }}</b>
+                  </div>
+                </div>
+                <panel-transports :item="item" />     
               </div>
              
             </div>
 
-            <div class="row">
+            <div class="row mt-1">
               <div class="col-12 text-end">
                 <div v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)" :aria-label="musicien.name" >
                   <img v-if="musicien.icon" :src="'/images/instru/'+musicien.icon" :alt="musicien.icon" />
@@ -55,43 +59,7 @@
 
         </div>
       </section>
-      <!--
-      <table class="table table-hover table-bordered mt-4">
-        <thead class="table-light">
-          <tr class="text-center">            
-            <th>Date</th>
-            <th v-if="$main.filter.cal==''">Groupe</th>
-            <th>Transport</th>
-            <th class="d-lg-table-cell d-none">RDV</th>
-            <th v-if="!isMobile || $main.filter.cal!=''">Formule</th>
-            <th>Ville</th>
-            <th>Equipe</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in list" :key="item.id" @click="e=>calNameFromId(item.id,e)" 
-          :class="[statutClass(item.suiviDevisContrat, item.sync_google), {'cursor-pointer': true}, {'border-harder':isNewMonth(item.date_start)}]">
-            <td class="text-center text-responsive"  v-html="dayFullName(item.date_start, item.date_end, item.suiviDevisContrat)"></td>    
-            <td v-if="$main.filter.cal==''" class="align-middle text-responsive" v-bind:style="{color:item.color_front, backgroundColor:item.color_back}">
-              <div>{{ calAbrev(item.cal_summary) }}</div>
-              <div  v-if="item.formule && isMobile"><span class="badge bg-info">{{ item.formule.substring(0,7) }}</span></div>
-            </td>
-            <td class="p-0 align-middle text-responsive">
-              <panel-transports :item="item" />             
-            </td>
-            <td class="d-lg-table-cell align-middle d-none">{{ item.heureDepart }}</td>   
-            <td class="align-middle" v-if="!isMobile || $main.filter.cal!=''">
-              <span class="badge bg-info" v-if="item.formule">{{ item.formule.substring(0,7) }}</span>
-            </td>
-            <td class="align-middle text-responsive">{{ item.ville }} <span v-if="item.codePostal">({{ item.codePostal.substring(0,2) }})</span> </td>       
-            <td>
-              <span v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)">{{ musicien.name }}</span>
-            </td>               
-            
-          </tr>
-        </tbody>
-
-      </table>-->
+    
     </div>
     <panel-footer @onReload="reloadList"/> 
 </template>
