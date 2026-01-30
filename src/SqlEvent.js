@@ -43,6 +43,7 @@ export default class SqlEvents extends SqlBase {
         list = this.#mergeData(list);
         list = this.#addDateCrafter(list);
         list = this.#addCrafterOverlap(list);
+        list = this.#addIsPast(list);
         if (cal) {
             list = this.#filterCal(list, cal);
         }
@@ -69,6 +70,7 @@ export default class SqlEvents extends SqlBase {
         list = this.#mergeData(list);
         list = this.#addDateCrafter(list);
         list = this.#addCrafterOverlap(list);
+        list = this.#addIsPast(list);
         if (cal) {
             list = this.#filterCal(list, cal);
         }
@@ -93,6 +95,18 @@ export default class SqlEvents extends SqlBase {
                 x.dateDepartCrafterObj = x.dateDepartCrafter != null ? new Date(x.dateDepartCrafter) : new Date(x.date_start+"T00:00:00");
                 x.dateRetourCrafterObj = x.dateRetourCrafter != null ? new Date(x.dateRetourCrafter) : new Date(x.date_end+"T23:59:00");
             }
+            return x;
+        });
+    }
+
+    #addIsPast(list) {
+        return list.map(x=>{
+            const dateStart = new Date(x.date_start+"T00:00:00");
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const datePlusOne = new Date(dateStart);
+            datePlusOne.setDate(datePlusOne.getDate() + 1);
+            x.isPast = today > datePlusOne;
             return x;
         });
     }

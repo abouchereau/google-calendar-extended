@@ -1,18 +1,37 @@
 
 <template>
-    <footer class="footer">
+    <footer class="footer bg-primary">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-4">              
-              <RouterLink v-if="this.$main.user.write" to="/admin/person/list" class="hint--top-right hint--rounded" aria-label="Administration"><i class="fa-solid fa-cogs fa-big"></i></RouterLink>
+            <div class="col text-center">  
+              <a href="#" @click="openModalFiltres" class="no-underline">
+                <i class="fa-solid fa-filter fa-big"></i>
+                <div class="small">Filtres</div>
+              </a>
             </div>
-            <div class="col-3 text-center">
-              <a href="#" v-if="this.$main.user.write" @click="refreshDates" class="hint--top hint--rounded" aria-label="Recharger les dates"><i class="fa-solid fa-arrows-rotate fa-big"></i></a>
-              <a  href="#" @click="exportExcel" class="hint--top-right hint--rounded" aria-label="Export Excel"><i class="fa-solid fa-table-list fa-big"></i></a>
+            <div v-if="this.$main.user.write" class="col text-center">              
+              <RouterLink to="/admin/person/list" class="no-underline">
+                <i class="fa-solid fa-cogs fa-big"></i>
+                <div class="small">Administration</div>
+              </RouterLink>              
             </div>
-            <div class="col-5 text-end align-middle"> 
-              <span v-if="$main.user.username" class="small text-secondary" style="position:relative;bottom:4px;">{{ $main.user.username }}</span> 
-              <a href="#" @click="logout" class="hint--top-left hint--rounded" aria-label="Déconnexion"><i class="fa-solid fa-right-from-bracket fa-big"></i></a>
+            <div v-if="this.$main.user.write" class="col text-center">
+              <a href="#" @click="refreshDates" class="no-underline">
+                <i class="fa-solid fa-arrows-rotate fa-big"></i>
+                <div class="small">Recharger</div>
+              </a>
+            </div>
+            <div class="col text-center">
+              <a href="#" @click="exportExcel" class="no-underline">
+                <i class="fa-solid fa-table-list fa-big"></i>
+                <div class="small">Export</div>
+              </a>
+            </div>
+            <div class="col text-center align-middle">              
+              <a href="#" @click="logout" class="no-underline hint--top-left hint--rounded " :aria-label="'Déconnexion '+$main.user.username">
+                <i class="fa-solid fa-right-from-bracket fa-big"></i>
+                <div v-if="$main.user.username" class="small">Déconnexion</div> 
+              </a>
             </div>
           </div>
         </div>
@@ -38,6 +57,9 @@ export default {
     },
     exportExcel() {
       this.$main.excel.exportExcel(this.$main.allEvents);
+    },
+    openModalFiltres() {
+      this.$emit('onShowModalFiltres');
     }
   }
 }

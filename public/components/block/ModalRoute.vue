@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" tabindex="-1" :id="uniqueId">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-light">                
                     <h5 class="modal-title">Modification de l'heure de rendez-vous <span v-if="item.heureDepart && item.heureDepart!='..:..' && item.heureDepart!=heureDepart" class="my-2 text-center text-decoration-line-through text-danger">{{ item.heureDepart }}</span></h5>

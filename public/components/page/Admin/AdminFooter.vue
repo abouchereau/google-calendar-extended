@@ -1,18 +1,36 @@
 <template>
-    <footer class="footer">
+    <footer class="footer bg-primary">
       <div class="container-fluid">
         <div class="row">
-            <div class="col">              
-              <RouterLink v-if="this.$main.user.write" to="/" class="hint--top-right hint--rounded" aria-label="Accueil"><i class="fa-solid fa-home fa-big"></i></RouterLink>
+            <div class="col text-center">              
+              <RouterLink v-if="this.$main.user.write" to="/" class="no-underline">
+                <i class="fa-solid fa-home fa-big"></i>
+                <div class="small">Accueil</div>
+              </RouterLink>
             </div>
             <div class="col text-center">
-              <RouterLink v-if="this.$main.user.write" to="/admin/person/list" class="hint--top hint--rounded" aria-label="Musiciens"><i class="fa-solid fa-male fa-big"></i></RouterLink>
-              <RouterLink v-if="this.$main.user.write" to="/admin/job" class="hint--top hint--rounded"  aria-label="Postes"><i class="fa-solid fa-briefcase fa-big"></i></RouterLink>
-              <RouterLink v-if="this.$main.user.write" to="/admin/formulas" class="hint--top hint--rounded"  aria-label="Formules"><i class="fa-solid fa-tag fa-big"></i></RouterLink>
+              <RouterLink v-if="this.$main.user.write" to="/admin/person/list" class="no-underline">
+                <i class="fa-solid fa-male fa-big"></i>              
+                <div class="small">Musiciens</div>
+              </RouterLink>
             </div>
-            <div class="col text-end align-middle"> 
-              <span v-if="$main.user.username" class="small text-secondary" style="position:relative;bottom:4px;">{{ $main.user.username }}</span> 
-              <a href="#" @click="logout" class="hint--top-left hint--rounded" aria-label="Déconnexion"><i class="fa-solid fa-right-from-bracket fa-big"></i></a>
+            <div class="col text-center">
+              <RouterLink v-if="this.$main.user.write" to="/admin/job" class="no-underline">
+                <i class="fa-solid fa-briefcase fa-big"></i>       
+                <div class="small">Postes</div>              
+              </RouterLink>
+            </div>
+            <div class="col text-center">
+              <RouterLink v-if="this.$main.user.write" to="/admin/formulas" class="no-underline">
+                <i class="fa-solid fa-tag fa-big"></i>     
+                <div class="small">Formules</div>                      
+              </RouterLink>
+            </div>
+            <div class="col text-center align-middle">              
+              <a href="#" @click="logout" class="no-underline hint--top-left hint--rounded " :aria-label="'Déconnexion '+$main.user.username">
+                <i class="fa-solid fa-right-from-bracket fa-big"></i>
+                <div v-if="$main.user.username" class="small">Déconnexion</div> 
+              </a>
             </div>
           </div>       
       </div> 

@@ -1,11 +1,13 @@
 <template> 
-  <div class="container my-4">
+  <div class="container mb-5">
+    <div class="row sticky-title bg-primary text-white">
+      <div class="col">    
+        <h5 class="p-2 text-center">Formules</h5>
+      </div>
+    </div>
     <div class="row">
 
       <div class="col col-md-12 col-sm-12 col-lg-8 offset-lg-2">
-
-        <h1 class="mb-4">Formules</h1>
-
         <div class="card my-2">
           <div class="card-header">
             <select class="form-select" v-model="curCal" @change="loadFormulas">

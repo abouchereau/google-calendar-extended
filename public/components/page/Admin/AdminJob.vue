@@ -1,10 +1,14 @@
 <template> 
-  <div class="container my-4">
+  <div class="container mb-4">
+
+    <div class="row sticky-title bg-primary text-white">
+      <div class="col">    
+        <h5 class="p-2 text-center">Postes</h5>
+      </div>
+    </div>
     <div class="row">
 
       <div class="col col-sm-12 col-lg-6 offset-lg-3">
-
-        <h1 class="mb-4">Postes</h1>
 
         <div class="card my-2">
           <div class="card-header">
@@ -59,6 +63,7 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
 
   </div>

@@ -1,8 +1,7 @@
 <template> 
-    <!--<panel-header @onChange="reloadList"/>   -->
     <div class="container content">
       <section v-for="monthList, month in list">        
-        <div class="row mb-4 text-bg-secondary sticky-title">
+        <div class="row mb-4 text-bg-primary sticky-title">
           <div class="col-12 text-center my-2">
             <h5 style="font-variant:small-caps">{{ month }}</h5>
           </div>
@@ -18,7 +17,7 @@
 
             <div class="row">
 
-              <div class="col-8">
+              <div class="col-auto">
 
                 <div class="row mb-1">
                     <div class="col-12">
@@ -36,9 +35,9 @@
               </div>
 
               
-              <div class="col-4 text-end">
-                <div class="row" v-if="item.heureDepart">
-                  <div class="col text-info">
+              <div class="col text-end">
+                <div class="row" v-if="item.heureDepart && !item.isPast">
+                  <div class="col text-danger">
                     <i class="fa fa-clock"></i> <span style="font-size: 70%;">RDV</span> <b>{{ item.heureDepart }}</b>
                   </div>
                 </div>
@@ -47,7 +46,7 @@
              
             </div>
 
-            <div class="row mt-1">
+            <div class="row mt-1" v-if="item.equipe">
               <div class="col-12 text-end">
                 <div v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)" :aria-label="musicien.name" >
                   <img v-if="musicien.icon" :src="'/images/instru/'+musicien.icon" :alt="musicien.icon" />
@@ -61,7 +60,8 @@
       </section>
     
     </div>
-    <panel-footer @onReload="reloadList"/> 
+    <panel-footer @onReload="reloadList" @onShowModalFiltres="openModalFiltres" />
+    <modal-filtres ref="modal-filtres" @onChange="reloadList"></modal-filtres> 
 </template>
 
 <script>
@@ -72,6 +72,7 @@ export default {
      'panel-header': Vue.defineAsyncComponent( ()=>loadModule('./components/page/Panel/PanelHeader.vue', Utils.loadModuleOptions())),
      'panel-footer': Vue.defineAsyncComponent( ()=>loadModule('./components/page/Panel/PanelFooter.vue', Utils.loadModuleOptions())),
      'panel-transports': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Panel/PanelTransports.vue', Utils.loadModuleOptions())),
+     'modal-filtres': Vue.defineAsyncComponent( ()=>loadModule('/components/block/ModalFiltres.vue', Utils.loadModuleOptions())),
   },
   data() {
     return {
@@ -87,33 +88,8 @@ export default {
   mounted() {    
     this.updateScreenSize();
     window.addEventListener('resize', this.updateScreenSize);
-    this.reloadList();
-    const isTouchDevice = window.matchMedia("(hover: none)").matches;
-
-    if (true||isTouchDevice) {
-      const DURATION = 2500; // durée d’affichage en ms
-
-        document.querySelectorAll("[data-hint-touch]").forEach(el => {
-          console.log("yo");
-          let timeout;
-
-          el.addEventListener("click", e => {
-            // Évite le double déclenchement
-            e.preventDefault();
-
-            // Reset si on retape rapidement
-            clearTimeout(timeout);
-
-            el.classList.add("hint--always");
-
-            timeout = setTimeout(() => {
-              el.classList.remove("hint--always");
-            }, DURATION);
-          });
-        });
-      }
-  },
-  
+    this.reloadList();    
+  },  
   methods: {    
     updateScreenSize() {
         this.isMobile = window.innerWidth < 576;
@@ -232,6 +208,12 @@ export default {
         return Const.STATUTS[key];
       }
       return "";
+    },
+    openModalFiltres() {
+      if (this.$refs["modal-filtres"]) {
+        console.log(this.$refs['modal-filtres']);
+        this.$refs['modal-filtres'].open();
+      }
     } 
   }
 }
@@ -264,11 +246,7 @@ tr.border-harder {
   top:-4px;
   height: 20px;
 }
-.sticky-title {
-  position: sticky;
-  top: 0;
-  z-index: 1020; /* supérieur aux éléments standards Bootstrap */
-}
+
 @media (max-width: 992px) {
   .text-responsive {
     font-size: 0.85rem;

@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" tabindex="-1" :id="uniqueId">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
