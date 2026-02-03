@@ -12,6 +12,7 @@ export default class SqlCal extends SqlBase {
 
     async getCalList() {
         const cals = await this._query("select id, cal_id, color_front, color_back, summary from cal");
+        console.log("CALS", cals);
         return cals.filter(c=>GoogleCal.CALS_WHITE_LIST.includes(c.id))
     }
 
