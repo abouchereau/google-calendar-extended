@@ -1,10 +1,15 @@
 <template>     
-    <div class="card my-1">
-        <div class="card-header text-white bg-primary text-center">
+    <div class="card my-3">
+        <div class="card-header text-white bg-primary text-center sticky-title">
             Général
         </div>
         
-        <div class="card-body">                        
+        <div class="card-body">    
+            <div class="row">
+              <div class="col-12 py-1">
+                <span class="badge"  v-bind:style="{color:$main.item.color_front, backgroundColor:$main.item.color_back, borderRadius: '5px'}">{{ $main.item.cal_summary }}</span>
+                </div>
+            </div>                   
             <div class="row">
                 <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
                     <label>Nom de l'événement</label>

@@ -1,7 +1,7 @@
 <template>     
-    <event-header  :key="refreshKey"/>  
+    <!--<event-header  :key="refreshKey"/>  -->
     <div class="container-fluid content" :key="refreshKey">
-        <div v-if="isMobile">
+        <div v-if="true">
             <div class="row">
                 <div class="col">
                     <event-general @target-heure-depart="onTargetHeureDepart" />  

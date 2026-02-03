@@ -1,6 +1,6 @@
 <template>     
-    <div class="card my-1">
-        <div class="card-header text-white bg-primary">
+    <div class="card my-3">
+        <div class="card-header text-white bg-primary sticky-title text-center ">
             Horaires
         </div>
         
