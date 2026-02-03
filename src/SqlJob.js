@@ -15,7 +15,7 @@ export default class SqlJob extends SqlBase {
             [cal_id, cal_id]
             
         );
-        tab = tab.filter(l=>!GoogleCal.EXCLUDE_CALS.includes(l.summary));
+        tab = tab.filter(l=>GoogleCal.CALS_WHITE_LIST.includes(l.summary));
         if (asList) {
             return tab;
         }
