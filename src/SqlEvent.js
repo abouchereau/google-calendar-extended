@@ -65,7 +65,7 @@ export default class SqlEvents extends SqlBase {
         sql += " order by e.date_start, c.id";
 
         let list = await this._query(sql, params);
-        list = this.#filterExlcudeCal(list);
+        //list = this.#filterExlcudeCal(list);
         list = this.#mergeData(list);
         list = this.#addDateCrafter(list);
         list = this.#addCrafterOverlap(list);
