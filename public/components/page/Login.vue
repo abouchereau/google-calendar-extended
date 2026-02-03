@@ -1,34 +1,39 @@
-<template>
-  <div class="row5">
-    <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-sm-12">
-      <div class="card my-1">
-        <div class="card-header d-flex justify-content-between">
-            <span>Se connecter au calendrier</span>
-            <span class="text-secondary">{{ version }}</span>
-        </div>        
-        
-        <div class="card-body"> 
-          <form @submit.prevent="login">                   
-            <div class="row my-5">
-              <div class="col">
-                  <input type="text" v-model="username" placeholder="Nom" class="form-control">
+<template>    
+
+  <form @submit.prevent="login">   
+  <div class="container vh-100 d-flex flex-column">
+
+      <!-- LOGO -->
+      <div class="text-center mt-4">
+          <h1 style="font-variant: small-caps">Dates Saugrenue</h1>
+      </div>
+
+      <!-- FORMULAIRE (centré verticalement) -->
+      <div class="flex-grow-1 d-flex align-items-center">
+          <form class="w-100 px-3">
+
+              <div class="mb-3">
+                  <input type="text" v-model="username" class="form-control form-control-lg" placeholder="Nom">
               </div>
-            </div>
-            <div class="row my-5">
-              <div class="col">
-                  <input type="password" v-model="password" placeholder="Mot de passe" class="form-control">
+
+              <div class="mb-3">
+                  <input type="password" v-model="password" class="form-control form-control-lg" placeholder="Mot de passe">
               </div>
-            </div>
-            <div class="row my-5">
-              <div class="col d-grid gap-2">
-                <button type="submit" class="btn btn-success btn-lg btn-block">Se connecter</button>
-              </div>
-            </div>
+
           </form>
-        </div>
-      </div>   
-    </div>
+      </div>
+
+      <!-- BOUTON EN BAS -->
+      <div class="mb-4 px-3">
+          <button type="submit" class="btn btn-primary btn-lg w-100">
+              Se connecter
+          </button>
+      </div>
+
   </div>
+
+</form>
+
 </template>
   
   <script>
