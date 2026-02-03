@@ -1,5 +1,5 @@
 <template>     
-    <div class="card my-3">
+    <div class="card mb-3">
         <div class="card-header text-white bg-primary text-center sticky-title">
             Général
         </div>

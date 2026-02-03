@@ -201,3 +201,16 @@ body, html {
   top: 0;
   z-index: 900; 
 }
+#event .col {
+  padding :0;
+}
+#event .card-header:first-child {
+  border-radius: 0 ;
+}
+#event .card {
+  border: none;
+}
+.link-disabled {
+  pointer-events: none;
+  cursor: default;
+}

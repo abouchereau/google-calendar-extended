@@ -11,7 +11,7 @@ export default class SqlJob extends SqlBase {
 
     async getAllJobs(cal_id=null, asList=false) {
         let tab = await this._query(
-            "select c.summary, j.id, j.label, j.icon, count(pj.id) as nb"+
+            "select c.summary, c.cal_id, j.id, j.label, j.icon, count(pj.id) as nb"+
             " from cal c"+
             " left join job j on c.cal_id = j.cal_id"+
             " left join person_job pj on pj.job_id = j.id"+
@@ -20,7 +20,7 @@ export default class SqlJob extends SqlBase {
             [cal_id, cal_id]
             
         );
-        tab = tab.filter(l=>GoogleCal.CALS_WHITE_LIST.includes(cal_id));
+        tab = tab.filter(l=>GoogleCal.CALS_WHITE_LIST.includes(l.cal_id));
         if (asList) {
             return tab;
         }
@@ -33,7 +33,7 @@ export default class SqlJob extends SqlBase {
                 if (line['label'] != null) {
                     calJob[line['summary']].push({"id":line['id'],"label":line['label'],'nb':line['nb'],'icon':line['icon']});
                 }
-        }
+            }
             return calJob;
         }
     }

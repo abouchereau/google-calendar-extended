@@ -1,17 +1,25 @@
 
 <template>
-    <footer class="footer">
-        <div class="container-fluid" style="height:100%;">
-          <div class="row" style="height:100%;">
-            <div class="col-4">              
-              <RouterLink to="/"><i class="fa-solid fa-house fa-big"></i></RouterLink>
+    <footer class="footer bg-primary">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col text-center">              
+              <RouterLink to="/" class="no-underline">
+                <i class="fa-solid fa-house fa-big"></i>              
+                <div class="small">Accueil</div>
+              </RouterLink>
             </div>
-            <div class="col-3 text-center align-middle">
-                <button :disabled="!hasChanges" v-if="$main.user.write" type="button" class="btn btn-success btn-lg" @click="$emit('updateEvent')">Enregistrer</button>
+            <div class="col text-center">
+              <a v-if="$main.user.write" href="#" :class="{'no-underline':true, 'text-success': hasChanges, 'link-disabled': !hasChanges}" @click="$emit('updateEvent')">
+                <i class="fa-solid fa-floppy-disk fa-big"></i>
+                <div class="small">Enregistrer</div>
+              </a>
             </div>
-            <div class="col-5 text-end">
-              <span v-if="$main.user.username" class="small text-secondary" style="position:relative;bottom:4px;">{{ $main.user.username }}</span> 
-              <a href="#" @click="logout" class="hint--top-left hint--rounded" aria-label="Déconnexion"><i class="fa-solid fa-right-from-bracket fa-big"></i></a>           
+            <div class="col text-center">
+              <a href="#" @click="logout" class="no-underline hint--top-left hint--rounded " :aria-label="'Déconnexion '+$main.user.username">
+                <i class="fa-solid fa-right-from-bracket fa-big"></i>
+                <div v-if="$main.user.username" class="small">Déconnexion</div> 
+              </a>            
             </div>
           </div>
         </div>
