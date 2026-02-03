@@ -18,7 +18,17 @@ export default class GoogleCal {
         'https://www.googleapis.com/auth/calendar.events'
     ];
     TOKEN_PATH = __dirname+"/../token.json";
-    CREDENTIALS_PATH = __dirname+"/../credentials.json"
+    CREDENTIALS_PATH = __dirname+"/../credentials.json";
+    static CALS_WHITE_LIST = [
+        "on5gse3sr1mi5lnvqd79fr76h4@group.calendar.google.com",//Duo / Trio / Quatuor SAUGRENUE	
+        "je0pf3nio1rqfb7dl8j71l9aco@group.calendar.google.com",//DATES Le Balluche de la Saugrenue	
+        "fkspp43nuq3u2i6cimqrktag4k@group.calendar.google.com",//Choro De Aksak	
+        "kmg2oeur0qi64r1c12qaki7d7k@group.calendar.google.com",//DUO FINES LAMES	
+        "gqma0kkiiqu2p1q1sgn4dmv5k8@group.calendar.google.com",//KIFF KIFF	
+        "e7a3ctp5d5kvrng1ik9tfka9a8@group.calendar.google.com",//SUCK DA HEAD	
+        "to11pvq2q69m27am45fjggvkpk@group.calendar.google.com"//La Fanfare Saugrenue	
+    ];
+    /*
    static EXCLUDE_CALS = [
         'Numéros de semaine',
         "djefcaire@gmail.com",
@@ -53,7 +63,7 @@ export default class GoogleCal {
         "P1N0",
         "CHORO orga",
         "FANFARE orga"
-    ];
+    ];*/
 
     sqlEvent = null;
     sqlCal = null;
@@ -116,7 +126,7 @@ export default class GoogleCal {
         const res = await calendar.calendarList.list({});   
         await this.sqlEvent.prepareSync(dateMin, dateMax);
         for (let cal of res.data.items) {
-            if (!GoogleCal.EXCLUDE_CALS.includes(cal.summary)) {                 
+            if (GoogleCal.CALS_WHITE_LIST.includes(cal.id)) {                 
                 console.log("--CAL--", cal.summary);
                 await this.sqlCal.insertOrUpdateCal(cal);               
                 const res = await calendar.events.list({      
@@ -146,7 +156,7 @@ export default class GoogleCal {
         this.calsList = [];
         this.fullEventList = [];
         for (let cal of res.data.items) {    
-            if (!GoogleCal.EXCLUDE_CALS.includes(cal.summary)) {     
+            if (GoogleCal.CALS_WHITE_LIST.includes(cal.id)) {     
                 const res = await calendar.events.list({
                     calendarId: cal.id, 
                     maxResults: 1000,

@@ -25,7 +25,7 @@ export default class SqlEvents extends SqlBase {
 
     async getEventList(cal=null, year=null) {
         const params =  [];
-        let sql = "select e.id, e.event_id, c.id as cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, DATE_FORMAT(SUBDATE(e.date_end, INTERVAL 1 HOUR), \"%Y-%m-%d\") as date_end, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
+        let sql = "select e.id, e.event_id, c.cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, DATE_FORMAT(SUBDATE(e.date_end, INTERVAL 1 HOUR), \"%Y-%m-%d\") as date_end, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
             " from event e" +
             " left join cal c on c.cal_id = e.cal_id" +
             " where 1=1";
@@ -36,7 +36,7 @@ export default class SqlEvents extends SqlBase {
             sql += " and year(e.date_start) = ?";
             params.push(year);
         }
-        sql += " order by e.date_start, c.id";
+        sql += " order by e.date_start, c.cal_id";
 
         let list = await this._query(sql, params);
         list = this.#filterExlcudeCal(list);
@@ -52,7 +52,7 @@ export default class SqlEvents extends SqlBase {
 
     async getEventListFull(cal=null, year=null) {
         const params =  [];
-        let sql = "select e.id, e.event_id, c.id as cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, DATE_FORMAT(SUBDATE(e.date_end, '1 HOUR'), \"%Y-%m-%d\") as date_end, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
+        let sql = "select e.id, e.event_id, c.cal_id, e.summary, DATE_FORMAT(e.date_start, \"%Y-%m-%d\") as date_start, DATE_FORMAT(SUBDATE(e.date_end, '1 HOUR'), \"%Y-%m-%d\") as date_end, e.data, e.sync_google, c.summary as cal_summary, c.color_front, c.color_back"+
             " from event e" +
             " left join cal c on c.cal_id = e.cal_id" +
             " where 1=1";
@@ -63,7 +63,7 @@ export default class SqlEvents extends SqlBase {
             sql += " and year(e.date_start) = ?";
             params.push(year);
         }
-        sql += " order by e.date_start, c.id";
+        sql += " order by e.date_start, c.cal_id";
 
         let list = await this._query(sql, params);
         list = this.#filterExlcudeCal(list);
@@ -78,7 +78,7 @@ export default class SqlEvents extends SqlBase {
     }    
 
     #filterExlcudeCal(list) {
-        return list.filter(l=>!GoogleCal.EXCLUDE_CALS.includes(l.cal_summary));
+        return list.filter(l=>GoogleCal.CALS_WHITE_LIST.includes(l.cal_id));
     }
 
     #mergeData(list) {

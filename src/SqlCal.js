@@ -12,7 +12,7 @@ export default class SqlCal extends SqlBase {
 
     async getCalList() {
         const cals = await this._query("select id, cal_id, color_front, color_back, summary from cal");
-        return cals.filter(c=>!GoogleCal.EXCLUDE_CALS.includes(c.summary))
+        return cals.filter(c=>GoogleCal.CALS_WHITE_LIST.includes(c.cal_id))
     }
 
     async getFormules(cal_id=null) {
