@@ -76,7 +76,7 @@ export default class SqlEvents extends SqlBase {
     }    
 
     #filterExlcudeCal(list) {
-        return list.filter(l=>GoogleCal.CALS_WHITE_LIST.includes(l.cal_summary));
+        return list.filter(l=>GoogleCal.CALS_WHITE_LIST.includes(l.cal_id));
     }
 
     #mergeData(list) {

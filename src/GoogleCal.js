@@ -156,7 +156,7 @@ export default class GoogleCal {
         this.calsList = [];
         this.fullEventList = [];
         for (let cal of res.data.items) {    
-            if (GoogleCal.CALS_WHITE_LIST.includes(cal.summary)) {     
+            if (GoogleCal.CALS_WHITE_LIST.includes(cal.id)) {     
                 const res = await calendar.events.list({
                     calendarId: cal.id, 
                     maxResults: 1000,
