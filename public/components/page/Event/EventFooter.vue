@@ -9,8 +9,8 @@
                 <div class="small">Accueil</div>
               </RouterLink>
             </div>
-            <div class="col text-center">
-              <a v-if="$main.user.write" href="#" :class="{'no-underline':true, 'text-success': hasChanges, 'link-disabled': !hasChanges}" @click="$emit('updateEvent')">
+            <div v-if="$main.user.write" class="col text-center">
+              <a href="#" :class="{'no-underline':true, 'text-success': hasChanges, 'link-disabled': !hasChanges}" @click="$emit('updateEvent')">
                 <i class="fa-solid fa-floppy-disk fa-big"></i>
                 <div class="small">Enregistrer</div>
               </a>

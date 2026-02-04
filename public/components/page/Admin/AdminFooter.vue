@@ -21,7 +21,7 @@
               </RouterLink>
             </div>
             <div class="col text-center">
-              <RouterLink v-if="this.$main.user.write" to="/admin/formulas" class="no-underline">
+              <RouterLink to="/admin/formulas" class="no-underline">
                 <i class="fa-solid fa-tag fa-big"></i>     
                 <div class="small">Formules</div>                      
               </RouterLink>

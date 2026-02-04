@@ -1,7 +1,7 @@
 <template>    
 
   <form @submit.prevent="login">   
-  <div class="container vh-100 d-flex flex-column">
+  <div class="container min-vh-dynamic d-flex flex-column">
 
       <!-- LOGO -->
       <div class="text-center mt-4">
@@ -18,6 +18,11 @@
 
               <div class="mb-3">
                   <input type="password" v-model="password" class="form-control form-control-lg" placeholder="Mot de passe">
+              </div>
+              <div class="text-center mt-3">
+                  <a @click="installApp" href="#" class="text-muted small">
+                      Installer l’application
+                  </a>
               </div>
 
           </form>
@@ -42,8 +47,16 @@
       return {
         username: '',
         password: '',
-        version: Const.VERSION
+        version: Const.VERSION,
+        deferredPrompt: null
       };
+    },
+    mounted() {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); // empêche le popup automatique
+        this.deferredPrompt = e;
+        // Afficher ton bouton "Installer"
+      });
     },
     methods: {
       login() {
@@ -66,6 +79,22 @@
               }
             }
           });        
+
+      },
+      async installApp() {
+              
+        if (!this.deferredPrompt) return;
+
+        this.deferredPrompt.prompt();
+        const choice = await this.deferredPrompt.userChoice;
+
+        if (choice.outcome === 'accepted') {
+          console.log('Installée');
+        } else {
+          console.log('Refusée');
+        }
+
+        this.deferredPrompt = null;
 
       }
     }

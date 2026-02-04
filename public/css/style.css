@@ -209,8 +209,12 @@ body, html {
 }
 #event .card {
   border: none;
+  border-radius: 0;
 }
 .link-disabled {
   pointer-events: none;
   cursor: default;
+}
+.min-vh-dynamic {
+    min-height: 100dvh;
 }

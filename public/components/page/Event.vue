@@ -1,6 +1,6 @@
 <template>     
     <!--<event-header  :key="refreshKey"/>  -->
-    <div class="container-fluid content" :key="refreshKey" id="event">
+    <div class="container content" :key="refreshKey" id="event">
         <div v-if="true">
             <div class="row">
                 <div class="col">
