@@ -89,6 +89,8 @@
 
       },
       displayInstallBtn() {
+        console.log("isAppInstalled",this.isAppInstalled);
+        console.log("isMobile", Utils.isMobile());
         return !this.isAppInstalled && Utils.isMobile();
       },
       checkIsAppInstalled() {
