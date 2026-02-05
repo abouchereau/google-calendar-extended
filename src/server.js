@@ -200,7 +200,7 @@ app.post('/login', (req, res) => {
     const user = USERS.find(u=>u.username === username && u.password === password);
     if (user) {
         // Générer un JWT
-        const token = jwt.sign({ username: user.username}, JWT_SECRET, { expiresIn: '12h' });
+        const token = jwt.sign({ username: user.username}, JWT_SECRET, { expiresIn: '60 days' });
         const write = user.write;
         res.json({ token, username, write }); // Envoyer le token au client
       } else {
