@@ -19,7 +19,7 @@
               <div class="mb-3">
                   <input type="password" v-model="password" class="form-control form-control-lg" placeholder="Mot de passe">
               </div>
-              <div v-if="displayInstallBtn()" class="text-center mt-3">
+              <div v-if="isMobile && !isAppInstalled" class="text-center mt-3">
                   <a @click="installApp" href="#" class="text-muted small">
                       Installer l’application
                   </a>
@@ -49,7 +49,8 @@
         password: '',
         version: Const.VERSION,
         deferredPrompt: null,
-        isAppInstalled: true
+        isAppInstalled: true,
+        isMobile: Utils.isMobile()
       };
     },
     mounted() {
@@ -87,11 +88,6 @@
             }
           });        
 
-      },
-      displayInstallBtn() {
-        console.log("isAppInstalled",this.isAppInstalled);
-        console.log("isMobile", Utils.isMobile());
-        return !this.isAppInstalled && Utils.isMobile();
       },
       checkIsAppInstalled() {
         if (window.matchMedia('(display-mode: standalone)').matches
