@@ -5,7 +5,7 @@
 
       <!-- LOGO -->
       <div class="text-center mt-4">
-          <h1 style="font-variant: small-caps">Dates Saugrenue</h1>
+          <h1 class="big-title">Dates Saugrenue</h1>
       </div>
 
       <!-- FORMULAIRE (centré verticalement) -->
@@ -19,7 +19,7 @@
               <div class="mb-3">
                   <input type="password" v-model="password" class="form-control form-control-lg" placeholder="Mot de passe">
               </div>
-              <div class="text-center mt-3">
+              <div v-if="displayInstallBtn()" class="text-center mt-3">
                   <a @click="installApp" href="#" class="text-muted small">
                       Installer l’application
                   </a>
@@ -36,7 +36,7 @@
       </div>
 
   </div>
-
+  <modal-install ref="modal-install"></modal-install>
 </form>
 
 </template>
@@ -48,16 +48,23 @@
         username: '',
         password: '',
         version: Const.VERSION,
-        deferredPrompt: null
+        deferredPrompt: null,
+        isAppInstalled: true
       };
     },
     mounted() {
       window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault(); // empêche le popup automatique
+        e.preventDefault(); 
         this.deferredPrompt = e;
-        // Afficher ton bouton "Installer"
       });
+      window.addEventListener('appinstalled', () => {
+        this.isAppInstalled = true;
+      })
+      this.checkIsAppInstalled();
     },
+    components: {
+     'modal-install': Vue.defineAsyncComponent( ()=>loadModule('/components/block/ModalInstall.vue', Utils.loadModuleOptions()))
+  },
     methods: {
       login() {
           fetch(Const.BASE_API+'/login', {
@@ -81,21 +88,35 @@
           });        
 
       },
-      async installApp() {
-              
-        if (!this.deferredPrompt) return;
-
-        this.deferredPrompt.prompt();
-        const choice = await this.deferredPrompt.userChoice;
-
-        if (choice.outcome === 'accepted') {
-          console.log('Installée');
-        } else {
-          console.log('Refusée');
+      displayInstallBtn() {
+        return !this.isAppInstalled && Utils.isMobile();
+      },
+      checkIsAppInstalled() {
+        if (window.matchMedia('(display-mode: standalone)').matches
+            || window.navigator.standalone === true
+            || window.Capacitor?.isNativePlatform()) {
+          this.isAppInstalled = true;
         }
+        else {
+          this.isAppInstalled = false;
+        }
+      },
+      async installApp() {              
+        if (!this.deferredPrompt) {
+          this.$refs["modal-install"].open();
+        }
+        else {
+          this.deferredPrompt.prompt();
+          const choice = await this.deferredPrompt.userChoice;
+          if (choice.outcome === 'accepted') {
+            console.log('Installée');
+          } else {
+            console.log('Refusée');
+          }
+          this.deferredPrompt = null;
 
-        this.deferredPrompt = null;
-
+        }
+        return false;
       }
     }
   };

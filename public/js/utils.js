@@ -67,4 +67,16 @@ class Utils {
 
     return cacheVar.value;
   }
+
+  static isIOs() {
+        return /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+  }
+
+  static isAndroid() {
+        return /android/.test(navigator.userAgent.toLowerCase());
+  }
+
+  static isMobile() {
+    return Utils.isAndroid() || Utils.isIOs();
+  }
 }

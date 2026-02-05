@@ -1,38 +1,18 @@
 <template>     
-    <!--<event-header  :key="refreshKey"/>  -->
     <div class="container content" :key="refreshKey" id="event">
-        <div v-if="true">
-            <div class="row">
-                <div class="col">
-                    <event-general @target-heure-depart="onTargetHeureDepart" />  
-                    <event-horaires @target-heure-depart="onTargetHeureDepart" ref="event-horaire-mobile" />
-                    <event-equipe />
-                    <event-transport />
-                    <event-trajet @target-heure-depart="onTargetHeureDepart" />
-                    <event-hebergement />
-                    <event-contacts />
-                    <event-communication />
-                    <event-precision />
-                </div>
-            </div> 
-        </div>
-        <div v-else>
-            <div class="row">
-                <div class="col">
-                    <event-general @target-heure-depart="onTargetHeureDepart"/>  
-                    <event-equipe />  
-                    <event-trajet  @target-heure-depart="onTargetHeureDepart" />  
-                    <event-communication /> 
-                    <event-precision />  
-                </div>
-                <div class="col">
-                    <event-horaires @target-heure-depart="onTargetHeureDepart" ref="event-horaire-web" />  
-                    <event-transport />  
-                    <event-contacts />  
-                    <event-hebergement /> 
-                </div>        
+        <div class="row">
+            <div class="col">
+                <event-general @target-heure-depart="onTargetHeureDepart" />  
+                <event-horaires @target-heure-depart="onTargetHeureDepart" ref="event-horaire-mobile" />
+                <event-equipe />
+                <event-transport />
+                <event-trajet @target-heure-depart="onTargetHeureDepart" />
+                <event-hebergement />
+                <event-contacts />
+                <event-communication />
+                <event-precision />
             </div>
-        </div>
+        </div>        
     </div>    
     <event-footer @updateEvent="updateEvent"></event-footer>
 </template>
@@ -43,7 +23,6 @@ export default {
   name: 'event',
   inject: ['showSpinner', 'hideSpinner'],
   components: {
-     'event-header': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Event/EventHeader.vue', Utils.loadModuleOptions())),
      'event-general': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Event/EventGeneral.vue', Utils.loadModuleOptions())),
      'event-horaires': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Event/EventHoraires.vue', Utils.loadModuleOptions())),
      'event-equipe': Vue.defineAsyncComponent( ()=>loadModule('/components/page/Event/EventEquipe.vue', Utils.loadModuleOptions())),

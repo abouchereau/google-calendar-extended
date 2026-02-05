@@ -218,3 +218,7 @@ body, html {
 .min-vh-dynamic {
     min-height: 100dvh;
 }
+.big-title {
+  font-variant: small-caps;
+  font-size: 250%;
+}
