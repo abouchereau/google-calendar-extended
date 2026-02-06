@@ -19,7 +19,7 @@
               <div class="mb-3">
                   <input type="password" v-model="password" class="form-control form-control-lg" placeholder="Mot de passe">
               </div>
-              <div v-if="isMobile && !isAppInstalled" class="text-center mt-3">
+              <div v-if="!isAppInstalled" class="text-center mt-3">
                   <a @click="installApp" href="#" class="text-muted small">
                       Installer l’application
                   </a>
