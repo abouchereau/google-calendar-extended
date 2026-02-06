@@ -79,4 +79,8 @@ class Utils {
   static isMobile() {
     return Utils.isAndroid() || Utils.isIOs();
   }
+
+  static isChromiumBased() {
+    return /chrome|crios|crmo|edg|opr|brave\//.test(navigator.userAgent.toLowerCase())
+    }
 }

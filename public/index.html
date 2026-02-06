@@ -6,23 +6,6 @@
     <link rel="icon" href="/images/logo_favicon.png" sizes="any">
     <link rel="manifest" href="/manifest.json">
     <script>      
-    
-    (function () {
-  window.onerror = function (msg, url, line, col) {
-    alert(`ERROR:\n${msg}\n${url}:${line}:${col}`);
-  };
-
-  window.onunhandledrejection = function (e) {
-    alert("PROMISE ERROR:\n" + e.reason);
-  };
-
-  const orig = console.error;
-  console.error = function (...args) {
-    alert("CONSOLE.ERROR:\n" + args.join(" "));
-    orig.apply(console, args);
-  };
-})();
-
 
         const BASE_API = location.hostname=="localhost"?"http://localhost:3615":"https://node.lasaugrenue.fr";
         const fetchText = (url)=> {

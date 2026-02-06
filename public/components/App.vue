@@ -18,7 +18,6 @@ export default {
     }
   },
   mounted() {
-    alert("app.vue");
   /*  this.$router.beforeEach((to, from, next) => {
         this.spinnerVisible = true;
         next();

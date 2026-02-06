@@ -24,7 +24,13 @@
                             <li class="my-2">Validez</li>
                         </ol>
                     </div>
+
+
+
                     <p>Une fois installée, l’application apparaîtra comme une app classique sur votre téléphone.</p>
+                    <div v-if="!isChromiumBased" class="border border-danger p-2">
+                        <p>Pour installer correctement l'application, il est préférable d'utiliser un navigateur Chrome (ou un autre navigateur basé sur Chromium)</p>                        
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -41,6 +47,7 @@ export default {
       return {    
         isAndroid: false,
         isIOs: false,
+        isChrome: false,
         modal: null
       }   
     },
@@ -52,6 +59,7 @@ export default {
     mounted() {
         this.isIOs = Utils.isIOs();
         this.isAndroid = Utils.isAndroid();
+        this.isChrome = Utils.isChromiumBased();
         this.modal = new bootstrap.Modal(document.getElementById("modal-install"));
     }
 }

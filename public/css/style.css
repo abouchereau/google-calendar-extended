@@ -167,14 +167,6 @@ body, html {
 .date-block:hover {
   background-color: rgba(255,255,255,1);
 }
-.row:has(.date-block) {  
-  border-left: 1px solid rgba(0,0,0,0);
-  border-right: 1px solid rgba(0,0,0,0);
-}
-.row:has(.date-block:hover) {
-  border-right: 1px solid rgba(0,0,0,0.3);
-  border-left: 1px solid rgba(0,0,0,0.3);
-}
 .vehicule {
   display:flex; 
   justify-content: flex-end; 
