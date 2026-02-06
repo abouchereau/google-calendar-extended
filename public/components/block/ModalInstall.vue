@@ -55,7 +55,7 @@ export default {
     data() {
       return {    
         isAndroid: false,
-        isIOs: false,
+        isIisChromiumBasedOs: false,
         isChrome: false,
         modal: null
       }   
@@ -68,7 +68,7 @@ export default {
     mounted() {
         this.isIOs = Utils.isIOs();
         this.isAndroid = Utils.isAndroid();
-        this.isChrome = Utils.isChromiumBased();
+        this.isChromiumBased = Utils.isChromiumBased();
         this.modal = new bootstrap.Modal(document.getElementById("modal-install"));
     }
 }
