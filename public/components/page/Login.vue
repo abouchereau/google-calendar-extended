@@ -54,6 +54,7 @@
       };
     },
     mounted() {
+      alert("Login .vue");
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault(); 
         this.deferredPrompt = e;
