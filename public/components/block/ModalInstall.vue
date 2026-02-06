@@ -16,11 +16,20 @@
                             <li class="my-2">Validez l’installation</li>
                         </ol>
                     </div>
-                    <div v-if="isIOs" class="blockquote">
+                    <div v-else-if="isIOs" class="blockquote">
                         <div class="badge bg-info">IPhone</div>
                         <ol>
                             <li class="my-2">Appuyez sur le bouton Partager (le carré avec la flèche ⬆️)</li>
                             <li class="my-2">Faites défiler puis choisissez “Ajouter à l’écran d’accueil”</li>
+                            <li class="my-2">Validez</li>
+                        </ol>
+                    </div>
+                   <div v-else-if="isChromiumBased" class="blockquote">
+                        <div class="badge bg-info">Chrome</div>
+                        <ol>
+                            <li class="my-2">Appuyez sur le bouton <button class="btn btn-light py-0">⋮</button> en haut à droite du navigateur</li>
+                            <li class="my-2">Choisissez “Enregistrer et partager”</li>
+                            <li class="my-2">Choisissez “Installer Dates Saugrenue”</li>
                             <li class="my-2">Validez</li>
                         </ol>
                     </div>
@@ -29,7 +38,7 @@
 
                     <p>Une fois installée, l’application apparaîtra comme une app classique sur votre téléphone.</p>
                     <div v-if="!isChromiumBased" class="border border-danger p-2">
-                        <p>Pour installer correctement l'application, il est préférable d'utiliser un navigateur Chrome (ou un autre navigateur basé sur Chromium)</p>                        
+                        <p>Pour installer l'application, il est préférable d'utiliser un navigateur Chrome (ou un autre navigateur basé sur Chromium)</p>                        
                     </div>
                 </div>
                 <div class="modal-footer">
