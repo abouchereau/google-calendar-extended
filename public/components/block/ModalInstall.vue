@@ -55,8 +55,8 @@ export default {
     data() {
       return {    
         isAndroid: false,
-        isIisChromiumBasedOs: false,
-        isChrome: false,
+        isIOs: false,
+        isChromiumBased: false,
         modal: null
       }   
     },
