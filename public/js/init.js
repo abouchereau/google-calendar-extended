@@ -26,6 +26,8 @@ const router = VueRouter.createRouter({
 let main = new Main();
 
 router.beforeEach((to, from) => {
+    
+    alert("router.beforeEach");
     if (to.meta.requiresAuth && !main.user.isAuthenticated() && to.name !== 'login') {
       return { name: 'login'};       
     }
