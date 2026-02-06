@@ -4,18 +4,18 @@
     "version": "1.3.0",
     "icons": [
       {
-          "src": "LogoFondJaune192.png",
+          "src": "/images/LogoFondJaune192.png",
         "type": "image/png",
         "sizes": "192x192"
       },
       {
-          "src": "LogoFondJaune512.png",
+          "src": "/images/LogoFondJaune512.png",
         "type": "image/png",
         "sizes": "512x512"
       }
     ],
     "start_url": "/index.html",
-    "background_color": "#E3AC35",
+    "background_color": "#2C3E10",
     "display": "standalone",
     "scope": "/",
     "theme_color": "#2C3E10",
