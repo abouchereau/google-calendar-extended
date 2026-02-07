@@ -119,7 +119,6 @@ export default {
     async reloadList(e) {
       this.showSpinner();
       let allEvents = await this.$main.loadAllEvents();   
-      console.log(allEvents);
       const allJobs = await this.$main.getAllJobs();
       for(let name in allJobs) {
         this.jobs.push(...allJobs[name]);
@@ -211,7 +210,6 @@ export default {
     },
     openModalFiltres() {
       if (this.$refs["modal-filtres"]) {
-        console.log(this.$refs['modal-filtres']);
         this.$refs['modal-filtres'].open();
       }
     } 
