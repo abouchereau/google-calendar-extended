@@ -38,7 +38,8 @@
 
                     <p>Une fois installée, l’application apparaîtra comme une app classique sur votre téléphone.</p>
                     <div v-if="!isChromiumBased" class="border border-danger p-2">
-                        <p>Pour installer l'application, il est préférable d'utiliser un navigateur Chrome (ou un autre navigateur basé sur Chromium)</p>                        
+                        <p><i class="fa fa-circle-exclamation text-danger"></i></p>
+                        <p>Pour installer l'application, il est préférable d'utiliser un navigateur <b>Chrome</b> (ou un autre navigateur basé sur Chromium)</p>                        
                     </div>
                 </div>
                 <div class="modal-footer">
