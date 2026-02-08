@@ -70,11 +70,11 @@ const event = new Event();
 const sqlPerson = new SqlPerson();
 const sqlJob = new SqlJob();
 
-app.get("/getHashVersion", async (req, res)=> {
+app.get("/api/getHashVersion", async (req, res)=> {
     res.send(Git.getLastCommitHash());
 });
 
-app.get("/loadAllEvents",verifyToken, async (req, res)=> {
+app.get("/api/loadAllEvents",verifyToken, async (req, res)=> {
     const dateMin   = req.query.dateMin==null?"2020-01-01":req.query.dateMin;
     const dateMax  = req.query.dateMax==null?"2036-01-02":req.query.dateMax;
     await gCal.loadAllEvents(dateMin, dateMax);
@@ -82,36 +82,36 @@ app.get("/loadAllEvents",verifyToken, async (req, res)=> {
     res.send("OK");
 });
 
-app.get("/getEventList",verifyToken,async (req, res)=> {     
+app.get("/api/getEventList",verifyToken,async (req, res)=> {     
     const cal   = req.query.cal==null?null:parseInt(req.query.cal); 
     const year  = req.query.year==null?null:parseInt(req.query.year);
     let list = await sqlEvent.getEventList(cal, year);
     res.send(list);
 });
 
-app.get("/getEvent/:id",verifyToken, async (req, res)=> {           
+app.get("/api/getEvent/:id",verifyToken, async (req, res)=> {           
     let event = await sqlEvent.getEvent(req.params.id);
     res.send(event);
 });
 
 
-app.get("/getCalList",verifyToken,async (req, res)=> {            
+app.get("/api/getCalList",verifyToken,async (req, res)=> {            
     let list = await sqlCal.getCalList();
     res.send(list);
 });
 
-app.get("/getAllFormules",verifyToken,async (req, res)=> {   
+app.get("/api/getAllFormules",verifyToken,async (req, res)=> {   
     let list = await sqlCal.getFormules();
     res.send(list);
 });
 
 
-app.get("/getFormules/:cal_id",verifyToken,async (req, res)=> {   
+app.get("/api/getFormules/:cal_id",verifyToken,async (req, res)=> {   
     let list = await sqlCal.getFormules(req.params.cal_id);
     res.send(list);
 });
 
-app.post("/formule/update",verifyToken,async (req, res)=> {  
+app.post("/api/formule/update",verifyToken,async (req, res)=> {  
     const { id, name, loading_time, slow_pct } = req.body;
     if (!checkWriteAccess(req.user)) {
         return res.status(403).json({ error: 'Accès refusé. Droits manquants.' });
@@ -120,7 +120,7 @@ app.post("/formule/update",verifyToken,async (req, res)=> {
     res.send(msg);
 });
 
-app.delete('/formule/delete/:id',verifyToken, async(req, res)=>{    
+app.delete('/api/formule/delete/:id',verifyToken, async(req, res)=>{    
     if (!checkWriteAccess(req.user)) {
         return res.status(403).json({ error: 'Accès refusé. Droits manquants.' });
     }
@@ -129,7 +129,7 @@ app.delete('/formule/delete/:id',verifyToken, async(req, res)=>{
     res.send("ok");
 });
 
-app.put("/formule/add",verifyToken,async (req, res)=> {   
+app.put("/api/formule/add",verifyToken,async (req, res)=> {   
     const { name, cal_id } = req.body;
     if (!checkWriteAccess(req.user)) {
         return res.status(403).json({ error: 'Accès refusé. Droits manquants.' });
@@ -138,12 +138,12 @@ app.put("/formule/add",verifyToken,async (req, res)=> {
     res.send(msg);
 });
 
-app.get("/getPersons/:cal_id",verifyToken,async (req, res)=> {   
+app.get("/api/getPersons/:cal_id",verifyToken,async (req, res)=> {   
     let list = await sqlCal.getPersons(req.params.cal_id);
     res.send(list.map(a=>a.fullname));
 });
 
-app.post("/updateEvent/:id",verifyToken, async (req, res)=>{    
+app.post("/api/updateEvent/:id",verifyToken, async (req, res)=>{    
     if (!checkWriteAccess(req.user)) {
         return res.status(403).json({ error: 'Accès refusé. Droits manquants.' });
     }
@@ -164,7 +164,7 @@ app.post("/updateEvent/:id",verifyToken, async (req, res)=>{
 
 
 let lastCall = 0;
-app.post("/calculateRoute",verifyToken, async (req, res)=>{
+app.post("/api/calculateRoute",verifyToken, async (req, res)=>{
     let now = Date.now();    
     if(now-lastCall < 2000)  {
         res.send({});
@@ -195,7 +195,7 @@ app.post("/calculateRoute",verifyToken, async (req, res)=>{
 
 
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     const user = USERS.find(u=>u.username === username && u.password === password);
     if (user) {
@@ -208,7 +208,7 @@ app.post('/login', (req, res) => {
       }
   });
 
-app.get('/getIncomingEvents', async (req, res)=>{    
+app.get('/api/getIncomingEvents', async (req, res)=>{    
     const cal   = req.query.cal;
     const forceRefresh = req.query.forceRefresh!=null;
     const dates = await event.getIncomingEvents(cal, forceRefresh);    
@@ -216,21 +216,21 @@ app.get('/getIncomingEvents', async (req, res)=>{
 });
 
 //musiciens
-app.get('/persons',verifyToken, async(req, res)=>{
+app.get('/api/persons',verifyToken, async(req, res)=>{
     const cal_id   = req.query.cal_id;
     const persons = await sqlPerson.getAllPerson(cal_id);
     res.send(persons);
 });
 
 //postes
-app.get('/jobs', verifyToken, async(req, res)=>{
+app.get('/api/jobs', verifyToken, async(req, res)=>{
     const cal_id   = req.query.cal_id;
     const asList   = req.query.asList != null;
     const jobs = await sqlJob.getAllJobs(cal_id, asList);
     res.send(jobs);
 });
 
-app.put('/job/add',verifyToken, async(req, res)=>{    
+app.put('/api/job/add',verifyToken, async(req, res)=>{    
     let cal = req.body.cal;
     let job = req.body.job;
     let icon = req.body.icon;
@@ -238,14 +238,14 @@ app.put('/job/add',verifyToken, async(req, res)=>{
     res.send("ok");
 });
 
-app.delete('/job/delete/:id',verifyToken, async(req, res)=>{    
+app.delete('/api/job/delete/:id',verifyToken, async(req, res)=>{    
     const id = req.params.id;
     await sqlJob.deleteJob(id);
     res.send("ok");
 })
 
 
-app.put('/person_job/add', verifyToken, async(req, res)=>{    
+app.put('/api/person_job/add', verifyToken, async(req, res)=>{    
     let person_id = req.body.person_id;
     let job_id = req.body.job_id;
     let is_holder = req.body.is_holder;
@@ -253,20 +253,20 @@ app.put('/person_job/add', verifyToken, async(req, res)=>{
     res.send("ok");
 })
 
-app.delete('/person_job/delete/:id',verifyToken, async(req, res)=>{    
+app.delete('/api/person_job/delete/:id',verifyToken, async(req, res)=>{    
     const id = req.params.id;
     await sqlJob.deletePersonJob(id);
     res.send("ok");
 })
 
-app.put('/person/add',verifyToken, async(req, res)=>{    
+app.put('/api/person/add',verifyToken, async(req, res)=>{    
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     await sqlPerson.addPerson(firstname, lastname);
     res.send("ok");
 })
 
-app.post('/person/update',verifyToken, async(req, res)=>{    
+app.post('/api/person/update',verifyToken, async(req, res)=>{    
     let id = req.body.id;
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
@@ -274,13 +274,13 @@ app.post('/person/update',verifyToken, async(req, res)=>{
     res.send("ok");
 })
 
-app.delete('/person/delete/:id',verifyToken, async(req, res)=>{    
+app.delete('/api/person/delete/:id',verifyToken, async(req, res)=>{    
     const id = req.params.id;
     await sqlPerson.deletePerson(id);
     res.send("ok");
 })
 
-app.get('/job/icons', verifyToken, async(req, res)=>{
+app.get('/api/job/icons', verifyToken, async(req, res)=>{
     const icons = sqlJob.getAllIcons();
     res.send(icons);
 });
