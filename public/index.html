@@ -5,66 +5,7 @@
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=0.85, minimum-scale=0.85, target-densitydpi=device-dpi">
     <link rel="icon" href="/images/logo_favicon.png" sizes="any">
     <link rel="manifest" href="/manifest.json">
-    <script>      
-
-        const BASE_API = location.hostname=="localhost"?"http://localhost:3615":"https://node.lasaugrenue.fr";
-        const fetchText = (url)=> {
-            return fetch(url).then(response => response.text()).catch((error) => {console.log(error);});
-        }      
-
-        (async () => {
-            window.VERSION = (await fetchText(BASE_API+'/getHashVersion')).substr(0,6);
-
-            const loadScriptsSequentially = (index, place) => {
-                if (index >= scripts.length) return;
-
-                const script = document.createElement('script');
-                script.src = `${scripts[index][0]}?v=${window.VERSION}`;
-                if (scripts[index][1] == 1) {
-                    script.defer = true;
-                }
-                script.onload = () => loadScriptsSequentially(index + 1); 
-                document.head.appendChild(script);
-            }
-
-
-            const scripts =  [
-                ["/js/const.js",0],
-                ["/js/vue.js",0],
-                ["/js/vue-router.js",0],
-                ["/js/utils.js",0],
-                ["/js/user.js",0],
-                ["/js/vue3-sfc-loader.js",0],
-                ["/js/filter.js",0],             
-                ["/js/excel.js",0],
-                ["/js/main.js",0],
-                ["/js/vue-multiselect.js",0],   
-                ["/js/init.js",1],
-                ["/js/bootstrap.js",1]
-        ];
-               
-            const styles = [
-                "/css/bootstrap.css",
-                "/css/vue-multiselect.css",
-                "/css/font-awesome-6.7.1.min.css",
-                "/css/hint-3.0.0.min.css",
-                "/css/style.css"            
-            ];
-
-            styles.forEach(file => {
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = `${file}?v=${window.VERSION}`;
-                document.head.appendChild(link);
-            });
-            loadScriptsSequentially(0);
-
-        if ('serviceWorker' in navigator && window.location.href.indexOf("localhost") == -1) {           
-            navigator.serviceWorker.register('service-worker-1.3.0.js');
-        }
-
-        })();
-    </script>
+    <script src="js/app.js?v=1.3.0"></script>
     <title>Dates Saugrenue</title>
 </head>
 <body>
