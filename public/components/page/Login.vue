@@ -3,12 +3,10 @@
   <form @submit.prevent="login">   
   <div class="container min-vh-dynamic d-flex flex-column">
 
-      <!-- LOGO -->
       <div class="text-center mt-4">
-          <h1 class="big-title">Dates Saugrenue</h1>
+          <h1 class="big-title" :title="'Version '+version">Dates Saugrenue</h1>
       </div>
 
-      <!-- FORMULAIRE (centré verticalement) -->
       <div class="flex-grow-1 d-flex align-items-center">
           <form class="w-100 px-3">
 
@@ -28,7 +26,6 @@
           </form>
       </div>
 
-      <!-- BOUTON EN BAS -->
       <div class="mb-4 px-3">
           <button type="submit" class="btn btn-primary btn-lg w-100">
               Se connecter
@@ -90,9 +87,7 @@
 
       },
       checkIsAppInstalled() {
-        if (window.matchMedia('(display-mode: standalone)').matches
-            || window.navigator.standalone === true
-            || window.Capacitor?.isNativePlatform()) {
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true || window.Capacitor?.isNativePlatform()) {
           this.isAppInstalled = true;
         }
         else {

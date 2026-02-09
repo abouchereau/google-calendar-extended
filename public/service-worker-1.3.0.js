@@ -14,7 +14,7 @@ self.addEventListener('fetch', event => {
 		})
 	);
 });
-var urlsToCache = [
+const urlsToCache = [
     "/components/App.vue",
     "/components/block/ModalFiltres.vue",
     "/components/block/ModalInfo.vue",
@@ -115,7 +115,7 @@ var urlsToCache = [
     "/webfonts/lato-bold.woff2",
     "/webfonts/lato-italic.woff2",
     "/webfonts/lato-regular.woff2"
-    ];
+];
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('saugcal-1.3.0').then(function(cache) {
