@@ -16,12 +16,7 @@
 
               <div class="mb-3">
                   <input type="password" v-model="password" class="form-control form-control-lg" placeholder="Mot de passe">
-              </div>
-              <div v-if="!isAppInstalled" class="text-center mt-3">
-                  <a @click="installApp" href="#" class="text-muted small">
-                      Installer l’application
-                  </a>
-              </div>
+              </div>            
 
           </form>
       </div>
@@ -33,7 +28,6 @@
       </div>
 
   </div>
-  <modal-install ref="modal-install"></modal-install>
 </form>
 
 </template>
@@ -44,25 +38,10 @@
       return {
         username: '',
         password: '',
-        version: Const.VERSION,
-        deferredPrompt: null,
-        isAppInstalled: true,
-        isMobile: Utils.isMobile()
+        version: Const.VERSION
+
       };
     },
-    mounted() {
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault(); 
-        this.deferredPrompt = e;
-      });
-      window.addEventListener('appinstalled', () => {
-        this.isAppInstalled = true;
-      })
-      this.checkIsAppInstalled();
-    },
-    components: {
-     'modal-install': Vue.defineAsyncComponent( ()=>loadModule('/components/block/ModalInstall.vue', Utils.loadModuleOptions()))
-  },
     methods: {
       login() {
           fetch(Const.BASE_API+'/login', {
@@ -85,32 +64,7 @@
             }
           });        
 
-      },
-      checkIsAppInstalled() {
-        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true || window.Capacitor?.isNativePlatform()) {
-          this.isAppInstalled = true;
-        }
-        else {
-          this.isAppInstalled = false;
-        }
-      },
-      async installApp() {              
-        if (!this.deferredPrompt) {
-          this.$refs["modal-install"].open();
-        }
-        else {
-          this.deferredPrompt.prompt();
-          const choice = await this.deferredPrompt.userChoice;
-          if (choice.outcome === 'accepted') {
-            console.log('Installée');
-          } else {
-            console.log('Refusée');
-          }
-          this.deferredPrompt = null;
-
-        }
-        return false;
-      }
+      }    
     }
   };
   </script>

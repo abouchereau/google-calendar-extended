@@ -5,10 +5,15 @@
         </div>
         
         <div class="card-body">                        
-            <div class="row">           
+            <div class="row align-items-center" v-for="job in jobs">           
                 
-                <div class="col-xl-12 col-lg-12 col-sm-12 py-1" v-for="job in jobs">                    
+                <div class="col-1 py-1" >                                     
+                    <img v-if="job.icon" :src="'/images/instru/'+job.icon" :alt="job.icon" style="height: 35px;" />
+                </div>
+                <div class="col-2 py-1" >                                     
                     <label>{{ job.label }}</label>
+                </div>
+                <div class="col-9 py-1" >
                     <multiselect @select="o=>onSelect(o,job)" :disabled="!editable" v-model="selectedMusiciens[job.id]" :options="listMusiciens[job.id]" 
                         @click.native="onChange"
                         placeholder="Choisis un musicien dans la liste ou ajoute un nom"
