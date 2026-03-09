@@ -4,7 +4,7 @@ class Const {
     static get GOOGLE_KEY() {return "AIzaSyAzl_5-yQOIDNTpnVV9LOJqUBRI08FrQMM";}
     static get FIRST_YEAR() {return 2010;}    
     static get LAST_YEAR() {return new Date().getFullYear()+1;}
-    static get BASE_API() {return location.hostname=="localhost"?"http://localhost:3615/api":"https://cal-dev.lasaugrenue.fr/api";}
+    static get BASE_API() {return location.hostname=="localhost"?"http://localhost:3615/api":"https://cal.lasaugrenue.fr/api";}
     static get MONTH_LIST() {return [
         "janvier", 
         "février", 

@@ -1,4 +1,4 @@
-const BASE_API = location.hostname=="localhost"?"http://localhost:3615/api":"https://cal-dev.lasaugrenue.fr/api";
+const BASE_API = location.hostname=="localhost"?"http://localhost:3615/api":"https://cal.lasaugrenue.fr/api";
 const fetchText = (url)=> {
     return fetch(url).then(response => response.text()).catch((error) => {console.log(error);});
 }      
