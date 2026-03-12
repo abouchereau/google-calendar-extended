@@ -47,11 +47,13 @@
             </div>
 
             <div class="row mt-1" v-if="item.equipe">
-              <div class="col-12 text-end">
-                <div v-for="musicien in item.equipe" :class="getTagClass(musicien.is_holder)" :aria-label="musicien.name" >
-                  <img v-if="musicien.icon" :src="'/images/instru/'+musicien.icon" :alt="musicien.icon" />
-                </div>
-              </div>                  
+              <div class="col-12 text-end" >
+                <span v-for="musicien in item.equipe"  :class="{'badge': true, 'me-1': true, 'mb-1': true,'bg-success': musicien.is_holder==1, 'bg-danger': musicien.is_holder==-1, 'bg-warning': musicien.is_holder==0}">
+                  <img v-if="musicien.icon" :src="'/images/instru/'+musicien.icon" :alt="musicien.icon" style="height: 20px;" /> 
+                  <span v-if="isMobile">{{ initials(musicien.name) }}</span>
+                  <span v-else>{{ musicien.name }}</span>
+                </span>
+              </div>               
             </div>
 
           </div>
@@ -110,6 +112,17 @@ export default {
        }
        return classes;
     },    
+    initials(name) {
+      if (!name) {
+        return "";
+      }
+      const words = name.split(' ');
+      if (words.length > 1) {
+        return words[0][0].toUpperCase() + words[words.length - 1][0].toUpperCase();
+      } else {
+        return name.substring(0, 2).toUpperCase();
+      }
+    },
     isNewMonth(date) {
       const newMonth = date.getMonth();
       let isNew = this.lastMonth != -1 && newMonth != this.lastMonth;
