@@ -90,8 +90,6 @@ export default {
       return false;
     },
     checkIsAppInstalled() {
-        console.log(window.matchMedia('(display-mode: standalone)').matches,window.navigator.standalone === true,window.Capacitor?.isNativePlatform());
-
       if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true || window.Capacitor?.isNativePlatform()) {
         this.isAppInstalled = true;
       }
