@@ -120,6 +120,10 @@ export default {
             this.$main.item.formule = this.formules[0];
             this.refreshFormule++;
         }
+        if (!this.formules.includes(this.$main.item.formule)) {
+            this.$main.item.formule = "";
+            this.refreshFormule++;
+        }
     }    
   }
 }

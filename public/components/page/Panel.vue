@@ -22,7 +22,7 @@
                 <div class="row mb-1">
                     <div class="col-12">
                       <span class="fw-light fs-xs badge"  v-bind:style="{backgroundColor:item.color_back,color:item.color_front}">{{ item.cal_summary }}</span>
-                      <span v-if="item.formule" class="ms-2 badge bg-secondary">{{ item.formule.substring(0,7) }}</span>
+                      <span v-if="item.formule && displayFormule[item.cal_id]" class="ms-2 badge bg-secondary">{{ item.formule.substring(0,7) }}</span>
                     </div>
                 </div>
 
@@ -83,6 +83,7 @@ export default {
       lastMonth: -1,
       equipe: [],      
       jobs: [],
+      displayFormule: {},
       isMobile: true,
       monthList: Const.MONTH_LIST
     }
@@ -131,6 +132,15 @@ export default {
     },
     async reloadList(e) {
       this.showSpinner();
+      const formules = await this.$main.getAllFormules(); 
+      const counts = formules.reduce((acc, { cal_id }) => {
+        acc[cal_id] = (acc[cal_id] || 0) + 1;
+        return acc;
+      }, {});
+      this.displayFormule = Object.fromEntries(
+        Object.entries(counts).map(([cal_id, count]) => [cal_id, count > 1])
+      );
+
       let allEvents = await this.$main.loadAllEvents();   
       const allJobs = await this.$main.getAllJobs();
       for(let name in allJobs) {
