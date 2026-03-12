@@ -55,8 +55,7 @@ export default {
   },
   methods: {
     onTargetHeureDepart() {
-        const ref = this.isMobile ? "event-horaire-mobile" : "event-horaire-web";
-        this.$refs[ref].computeHeureDepart();
+        this.$refs["event-horaire-mobile"].computeHeureDepart();
     },
     updateScreenSize() {
         this.isMobile = window.innerWidth < 576;
