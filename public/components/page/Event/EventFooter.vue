@@ -47,6 +47,12 @@ export default {
         this.hasChanges=true;
       }
     })
+  },
+  methods: {
+    logout() {
+      this.$main.user.unregister();
+      window.location.reload();
+    }
   }
 }
 </script>

@@ -26,10 +26,6 @@
                     </select>  
                 </div>              
                 <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
-                    <label>Date d'envoi</label>
-                    <input :disabled="!editable" id="dateEnvoi" type="date" v-model="$main.item.dateEnvoi" class="form-control" />
-                </div>
-                <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
                     <label>Code Postal</label>
                     <input :disabled="!editable" id="codePostal" type="text" v-model="$main.item.codePostal" class="form-control" />
                 </div>
@@ -43,12 +39,6 @@
                             <label>Payant ?</label>
                             <div class="form-check form-switch">
                                 <input :disabled="!editable" id="payant" type="checkbox" v-model="$main.item.payant" true-value="O" false-value="N" class="form-check-input">                      
-                            </div>
-                        </div>
-                        <div class="col text-center">
-                            <label>FDR envoyée ?</label>
-                            <div class="form-check form-switch">
-                                <input :disabled="!editable" id="feuilleDeRoute" true-value="O" false-value="N" v-model="$main.item.feuilleDeRoute" type="checkbox"  class="form-check-input">                      
                             </div>
                         </div>
                     </div>
