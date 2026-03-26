@@ -1,7 +1,7 @@
 
 <template>
     <div v-if="item.transports!=null && item.transports.includes('1')"
-      :class="{'border border-danger': item.crafterOverlap, 'row': true}">
+      :class="{'border border-danger bg-danger-subtle': item.crafterOverlap, 'row': true}">
       <div class="col vehicule align-items-center">
 
         <div v-if="!item.isPast" class="text-start" style="font-size:70%;"> ▸ {{ dayCrafter(item.dateDepartCrafter)}} <br/> ◂ {{ dayCrafter(item.dateRetourCrafter)}}        
