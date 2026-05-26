@@ -71,7 +71,7 @@ const sqlPerson = new SqlPerson();
 const sqlJob = new SqlJob();
 
 app.get("/api/getHashVersion", async (req, res)=> {
-    res.send(Git.getLastCommitHash());
+    res.send("000001");//Git.getLastCommitHash());
 });
 
 app.get("/api/loadAllEvents",verifyToken, async (req, res)=> {

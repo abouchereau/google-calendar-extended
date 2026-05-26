@@ -118,7 +118,8 @@ export default class SqlEvents extends SqlBase {
                 if (list.some(y=>{
                     if (x.event_id != y.event_id && y.transports && y.transports.includes("1") && y.dateDepartCrafterObj && y.dateRetourCrafterObj) {
                         if (x.dateDepartCrafterObj <= y.dateRetourCrafterObj && y.dateDepartCrafterObj <= x.dateRetourCrafterObj) {
-                        return true;
+                            console.log("Overlap entre "+x.summary+" ("+x.dateDepartCrafterObj+" - "+x.dateRetourCrafterObj+") et "+y.summary+" ("+y.dateDepartCrafterObj+" - "+y.dateRetourCrafterObj+")");
+                            return true;
                         }
                     }
                     return false;  

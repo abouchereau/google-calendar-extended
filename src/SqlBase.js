@@ -3,9 +3,9 @@ import mysql from 'mysql2/promise';
 export default class SqlBase {
 
     static POOL;
-    HOST = "localhost";
-    USER = "root";
-    PASS = "root";
+    HOST = "db";
+    USER = "user";
+    PASS = "password";
     BDD = "saugcal";
 
     constructor() {
