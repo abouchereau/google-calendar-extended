@@ -150,6 +150,7 @@ export default {
         allEvents = allEvents.filter(a=>a.sync_google!=0 && a.suiviDevisContrat!=4);
       }      
       allEvents.forEach((a,i)=>{
+        allEvents[i]['cal_summary'] = allEvents[i]['cal_summary'].replaceAll("DATES ", "");
         allEvents[i]['equipe'] = [];
         if (a.equipeMusiciens) {          
            a.equipeMusiciens.split("||").forEach(a=>{
@@ -157,6 +158,7 @@ export default {
                 const t = b.split(",");
                 const icon = this.jobs.find(j=>j.id==t[0])?.icon || null;
                 allEvents[i]['equipe'].push({"name": this.nameAbrev(t[2]), "is_holder": t[3], "icon": icon});
+                
             });   
           });          
         }
