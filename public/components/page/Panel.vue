@@ -49,7 +49,7 @@
             <div class="row mt-1" v-if="item.equipe">
               <div class="col-12 text-end" >
                 <span v-for="musicien in item.equipe"  :class="{'badge': true, 'me-1': true, 'mb-1': true,'bg-success': musicien.is_holder==1, 'bg-danger': musicien.is_holder==-1, 'bg-warning': musicien.is_holder==0}">
-                  <img v-if="musicien.icon" :src="'/images/instru/'+musicien.icon" :alt="musicien.icon" /> 
+                  <img v-if="musicien.icon" :src="'/images/instru/'+musicien.icon" :alt="musicien.icon" class="instru-img"/> 
                   <span v-if="isMobile">{{ initials(musicien.name) }}</span>
                   <span v-else>{{ musicien.name }}</span>
                 </span>
@@ -263,10 +263,13 @@ tr.border-harder {
   border-bottom: 3px solid transparent;
   position: relative;
 }
-
+/*
 .instru-container img {
   position: relative;
   top:-4px;
+  height: 20px;
+}*/
+.instru-img {
   height: 20px;
   margin-right:2px;
 }
