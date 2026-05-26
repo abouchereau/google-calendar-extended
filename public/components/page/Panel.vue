@@ -150,7 +150,7 @@ export default {
         allEvents = allEvents.filter(a=>a.sync_google!=0 && a.suiviDevisContrat!=4);
       }      
       allEvents.forEach((a,i)=>{
-        allEvents[i]['cal_summary'] = allEvents[i]['cal_summary'].replaceAll("DATES ", "");
+        allEvents[i]['cal_summary'] = allEvents[i]['cal_summary'].replaceAll("DATES ", "").toLowerCase().replace(/\b\p{L}/gu, char => char.toUpperCase());
         allEvents[i]['equipe'] = [];
         if (a.equipeMusiciens) {          
            a.equipeMusiciens.split("||").forEach(a=>{
