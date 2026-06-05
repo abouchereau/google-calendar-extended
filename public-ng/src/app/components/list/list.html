@@ -1,0 +1,24 @@
+<div class="container content">
+    @for (entry of list | keyvalue; track entry.key) {
+        @let monthList = entry.value;
+
+        <section>        
+            <div class="row mb-4 text-bg-primary sticky-title">
+                <div class="col-12 text-center my-2">
+                    <h5 style="font-variant:small-caps">{{ entry.key }}</h5>
+                </div>
+            </div>
+
+            @for (item of monthList; track item.id) {
+                <div class="row mb-4">
+                    <div class="col-1 d-flex align-items-center text-center p-0 hint--top-right hint--rounded {{ statutClass(item.suiviDevisContrat, item.sync_google) }}" aria-label="{{ statutText(item.suiviDevisContrat) }}">
+                        <div class="w-100 text-center" [innerHTML]="dayFullName(item.date_start, item.date_end)"></div>
+                    </div> 
+                </div>
+            }
+
+        </section>
+    }
+</div>
+
+

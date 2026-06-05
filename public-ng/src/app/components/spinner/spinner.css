@@ -1,0 +1,15 @@
+.overlay{
+    z-index:5000;
+    position:fixed;
+    width:100vw;
+    height:100vh;
+    background-color:rgba(0,0,0,0.2)
+}
+
+.saug-spinner {
+    width: 4rem;
+    height:4rem;
+    position:fixed;
+    left:calc(50% - 2rem);    
+    top:calc(50% - 2rem);
+}

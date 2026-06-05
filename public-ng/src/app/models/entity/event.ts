@@ -1,0 +1,65 @@
+import { EnvoiKitCom } from '../enum/envoi-kit-com.enum';
+import { Repas } from '../enum/repas.enum';
+import { SuiviDevisContrat } from '../enum/suivi-devis-contrat.enum';
+import { TeamMember } from './team-member';
+import { Musician } from './musician';
+import { Vehicule } from '../enum/vehicule.enum';
+
+export interface Event {
+    id: number;
+    event_id: string;
+    id_cal: number;
+    summary: string;    
+    date_start: Date | null;
+    date_end: Date | null;
+    sync_google: boolean;
+    cal_summary: string;
+    color_front: string;
+    color_back: string;
+    suiviDevisContrat: SuiviDevisContrat;
+    formule: string;
+    crafterOverlap: boolean;
+    isPast: boolean;
+    equipeMusiciens: TeamMember[];
+    groupe: string;
+    ville: string;
+    codePostal: string;
+    nomEvenement: string;
+    payant: boolean;
+    dateEnvoi: Date;
+    montant: number;
+    feuilleDeRoute: string;
+    heureConcerts: string;
+    lieuRdv:string;
+    repas: Repas;
+    heureDebutConcert:string;
+    heureBalance:string;
+    heureRdvRepas:string;
+    heureArrivee:string;
+    heureDepart:string;
+    heureRetour:string;
+    tempsChargementMinutes:number;
+    infoSets:string;
+    vehicule:Vehicule;  
+    dateDepartCrafter:Date;
+    dateRetourCrafter:Date;
+    vehiculesPerso:string;
+    adresseDepart:string;
+    adresseArrivee:string;
+    distanceKm:number;
+    dureeMinutes:number;
+    dateArriveeHebergement:Date;
+    adresseHebergement:string;
+    contactHebergement:string;
+    contactTechnique:string;
+    contactAccueil:string;
+    contactOrga:string;
+    envoiKitCom: EnvoiKitCom;
+    contactCom: string;
+    lien:string;
+    afficherSite:boolean;
+    nomAfficherSite:string
+    frequentation:number;
+    precisions:string;
+}
+

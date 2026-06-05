@@ -1,0 +1,33 @@
+ body {
+    overflow-x: hidden;
+  }
+tr.border-harder {
+  border-top-width:3px;
+  }
+.me-s {
+  margin-right: 1px;
+}
+.radius-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.instru-container {
+  display: inline-block;
+  margin: 2px; 
+  height: 26px;
+  width: 20px;
+  border-bottom: 3px solid transparent;
+  position: relative;
+}
+
+.instru-img {
+  height: 20px;
+  margin-right:2px;
+}
+
+
+@media (max-width: 992px) {
+  .text-responsive {
+    font-size: 0.85rem;
+  }
+}

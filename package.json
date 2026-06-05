@@ -15,6 +15,7 @@
   },
   "scripts": {
     "back": "node src/server.js",
-    "front": "http-server public -p 8000 -P http://localhost:8000?"
+    "front": "http-server public -p 8000 -P http://localhost:8000?",
+    "front-ng": "http-server public-ng -p 8000 -P http://localhost:8000?"
   }
 }
