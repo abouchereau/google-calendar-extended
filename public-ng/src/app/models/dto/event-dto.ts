@@ -1,7 +1,7 @@
 export interface EventDto {
     id: number;
     event_id: string;
-    id_cal: number;
+    cal_id: number;
     summary: string;    
     date_start: string;
     date_end: string;
@@ -37,9 +37,11 @@ export interface EventDto {
     tempsChargementMinutes:number;
     infoSets:string;
     vehicule:number;  
-    dateDepartCrafter:Date;
-    dateRetourCrafter:Date;
+    dateDepartCrafter:string;
+    dateRetourCrafter:string;
     vehiculesPerso:string;
+    location: string;
+    train:string;
     adresseArrivee:string;
     distanceKm:number;
     dureeMinutes:number;
@@ -55,4 +57,5 @@ export interface EventDto {
     afficherSite:boolean;
     frequentation:number;
     precisions:string;
+    transports:string;
 }

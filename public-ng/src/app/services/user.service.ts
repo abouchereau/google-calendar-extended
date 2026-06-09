@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { User } from '../models/entity/user';
-import { signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +7,22 @@ import { signal } from '@angular/core';
 export class UserService {
 
   currentUser = signal<User | null>(null);
+
+  constructor() {
+    this.restore();
+  }
+
+  private restore(): void {
+
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+
+    if (!token || !username) {
+      return;
+    }
+
+    this.currentUser.set(new User(username, token, localStorage.getItem('write') === '1'));
+  }
 
   register(user: User): void {
     this.currentUser.set(user);
@@ -21,10 +36,10 @@ export class UserService {
   }
 
   unregister() {
-        ["token","username","write"].forEach(a=>localStorage.removeItem(a));
-        this.currentUser()!.destroy();
-        this.currentUser.set(null);
-    }
+      ["token","username","write"].forEach(a=>localStorage.removeItem(a));
+      this.currentUser()!.destroy();
+      this.currentUser.set(null);
+  }
 
 
   isAuthenticated(): boolean {

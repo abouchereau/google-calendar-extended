@@ -11,14 +11,74 @@
 
             @for (item of monthList; track item.id) {
                 <div class="row mb-4">
+
                     <div class="col-1 d-flex align-items-center text-center p-0 hint--top-right hint--rounded {{ statutClass(item.suiviDevisContrat, item.sync_google) }}" aria-label="{{ statutText(item.suiviDevisContrat) }}">
                         <div class="w-100 text-center" [innerHTML]="dayFullName(item.date_start, item.date_end)"></div>
                     </div> 
+
+                    <div class="col-11 date-block" (click)="calNameFromId(item.id,$event)">
+                        <div class="row">
+
+                            <div class="col-auto">
+
+                                <div class="row mb-1">
+                                    <div class="col-12">
+                                    <span class="fw-light fs-xs badge" [style.background-color]="item.color_back"  [style.color]="item.color_front">{{ item.cal_summary }}</span>
+                                    @if (item.formule && displayFormule[item.cal_id]) {
+                                        <span class="ms-2 badge bg-secondary">{{ item.formule.substring(0,7) }}</span>
+                                    }
+                                    </div>
+                                </div>
+
+                                <div class="row mb-1">
+                                <div class="col-12">            
+                                    <h6><b>{{ item.ville }}</b></h6>
+                                </div>  
+                                </div>  
+
+                            </div>
+
+                            
+                            <div class="col text-end">
+                                @if (item.heureDepart  && !item.isPast)  {
+                                    <div class="row">
+                                        <div class="col text-danger">
+                                            <i class="fa fa-clock"></i>&nbsp;<span style="font-size: 70%;">RDV</span>&nbsp;<b>{{ item.heureDepart }}</b>
+                                        </div>
+                                    </div>
+                                }
+                                <panel-transports [item]="item" />
+                            </div>
+                        
+                        </div>
+
+                        @if (item.equipeMusiciens) {                            
+                            <div class="row mt-1">
+                                <div class="col-12 text-end" >
+                                    @for (musicien of item.equipeMusiciens; track musicien.name) {
+                                        <span class="badge me-1 mb-1"
+                                                [class.bg-success]="musicien.is_holder === Holder.TITULAIRE"
+                                                [class.bg-danger]="musicien.is_holder === Holder.EXTERNE"
+                                                [class.bg-warning]="musicien.is_holder === Holder.REMPLACANT">
+                                            @if (musicien.icon) {
+                                                <img src="/images/instru/{{ musicien.icon }}" [alt]="musicien.icon" class="instru-img"/> 
+                                            }
+                                            @if (isMobile) {
+                                               <span>{{ initials(musicien.name) }}</span>
+                                            } @else {
+                                                <span>{{ musicien.name }}</span>
+                                            }
+                                        </span>
+                                    }
+                                </div>               
+                            </div>
+                        }
+
+                    </div>
                 </div>
             }
-
         </section>
     }
 </div>
 
-
+<panel-footer (onReload)="reloadList()" (onShowModalFiltres)="openModalFiltres()" />

@@ -1,0 +1,49 @@
+@if (item().transports) {
+
+    @if (item().isCrafter) {
+        <div class="row" [class.border]="item().crafterOverlap" [class.border-danger]="item().crafterOverlap" [class.bg-danger-subtle]="item().crafterOverlap">
+            <div class="col vehicule align-items-center">
+                @if (!item().isPast) {
+                    <div class="text-start small-font"> ▸ {{ dayCrafter(item().dateDepartCrafter)}} <br/> ◂ {{ dayCrafter(item().dateRetourCrafter)}}  
+                        @if (item().crafterOverlap) {      
+                            <div class="text-danger">
+                                <i class="fa fa-triangle-exclamation"></i> chevauchement avec un autre déplacement !
+                            </div>
+                        }
+                    </div>        
+                }
+                <div>
+                    <i class="fa-solid fa-van-shuttle fa-big text-primary mb-1 no-padding"></i>
+                </div>                
+            </div>
+        </div>
+    }
+    
+    @if (item().isVehPerso) {
+        <div class="row">
+            <div class="col vehicule align-items-center">
+                <div class="small-font">{{ item().vehiculesPerso }}</div>
+                <div><i class="fa-solid fa-car-side fa-big text-info mb-1 no-padding"></i></div>
+            </div>
+        </div>
+    }
+
+    @if (item().isLocation) {
+        <div class="row">    
+            <div class="col vehicule align-items-center">
+                <div class="small-font">{{ item().location }}</div>
+                <div><i class="fa-solid fa-ambulance fa-big text-warning mb-1 no-padding"></i></div>
+            </div>
+        </div>
+    }
+    
+    @if (item().isTrain) {
+        <div class="row">      
+            <div class="col vehicule align-items-center">
+                <div class="small-font">{{ item().train }}</div>
+                <div><i class="fa-solid fa-train fa-big text-success mb-1 no-padding"></i></div>
+            </div>
+        </div>
+    }
+
+}

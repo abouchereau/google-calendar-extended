@@ -46,7 +46,6 @@ export const listResolver: ResolveFn<any> = async (route, state) => {
         list[month].push(item);
     });     
 
-    console.log(list);
     return {
         list, 
         displayFormule

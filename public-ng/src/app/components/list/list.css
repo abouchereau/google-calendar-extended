@@ -23,6 +23,17 @@ tr.border-harder {
 .instru-img {
   height: 20px;
   margin-right:2px;
+  display: inline-block;
+}
+.date-block {
+  background-color: rgba(255,255,255,0.7);
+  padding-top:6px;
+  padding-bottom:6px;
+  cursor: pointer;
+  transition: background-color .2s;
+}
+.date-block:hover {
+  background-color: rgba(255,255,255,1);
 }
 
 

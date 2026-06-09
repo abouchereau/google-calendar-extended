@@ -2,13 +2,12 @@ import { EnvoiKitCom } from '../enum/envoi-kit-com.enum';
 import { Repas } from '../enum/repas.enum';
 import { SuiviDevisContrat } from '../enum/suivi-devis-contrat.enum';
 import { TeamMember } from './team-member';
-import { Musician } from './musician';
 import { Vehicule } from '../enum/vehicule.enum';
 
 export interface Event {
     id: number;
     event_id: string;
-    id_cal: number;
+    cal_id: number;
     summary: string;    
     date_start: Date | null;
     date_end: Date | null;
@@ -41,9 +40,11 @@ export interface Event {
     tempsChargementMinutes:number;
     infoSets:string;
     vehicule:Vehicule;  
-    dateDepartCrafter:Date;
-    dateRetourCrafter:Date;
+    dateDepartCrafter:string;
+    dateRetourCrafter:string;
     vehiculesPerso:string;
+    location: string;
+    train:string;
     adresseDepart:string;
     adresseArrivee:string;
     distanceKm:number;
@@ -61,5 +62,10 @@ export interface Event {
     nomAfficherSite:string
     frequentation:number;
     precisions:string;
+    transports:string;
+    isCrafter:boolean;
+    isVehPerso:boolean;
+    isLocation:boolean;
+    isTrain:boolean;
 }
 
