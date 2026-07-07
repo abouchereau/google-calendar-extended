@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalInstall } from './modal-install';
+import { Event } from './event';
 
-describe('ModalInstall', () => {
-  let component: ModalInstall;
-  let fixture: ComponentFixture<ModalInstall>;
+describe('Event', () => {
+  let component: Event;
+  let fixture: ComponentFixture<Event>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalInstall],
+      imports: [Event],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalInstall);
+    fixture = TestBed.createComponent(Event);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

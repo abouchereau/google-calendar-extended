@@ -11,19 +11,13 @@
 
             @if (user.write) {
                 <div class="col text-center">              
-                    <a routerLink="/admin/person/list" class="no-underline">
+                    <a [routerLink]="['/admin', 'person', 'list']" class="no-underline">
                         <i class="fa-solid fa-cogs fa-big"></i>
                         <div class="small">Administration</div>
                     </a>              
                 </div>
             }
 
-            <div class="col text-center">
-                <a href="#" (click)="refreshDates()" class="no-underline">
-                    <i class="fa-solid fa-arrows-rotate fa-big"></i>
-                    <div class="small">Recharger</div>
-                </a>
-            </div>
 
         }        
         
@@ -54,5 +48,3 @@
         </div>
     </div>   
 </footer>
-
-<modal-install ref="modal-install"></modal-install>

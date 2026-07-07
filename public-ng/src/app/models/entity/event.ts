@@ -67,5 +67,9 @@ export interface Event {
     isVehPerso:boolean;
     isLocation:boolean;
     isTrain:boolean;
+    date_envoi: string;
+    cachet: number;
+    code_postal: string;
+    description: string;
 }
 

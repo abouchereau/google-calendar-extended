@@ -1,0 +1,13 @@
+
+.img-instru {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+
+.img-instru:hover {
+  transform: scale(1.1);
+}

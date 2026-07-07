@@ -1,33 +1,48 @@
-import { Component, inject, OnInit, HostListener } from '@angular/core';
+import { Component, inject, OnInit, HostListener, ViewChild } from '@angular/core';
 import { Event } from '../../models/entity/event';
-import { KeyValuePipe } from '@angular/common';
+import { KeyValuePipe, KeyValue } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SuiviDevisContrat, SuiviDevisContratLabels } from '../../models/enum/suivi-devis-contrat.enum';
 import { Lov } from '../../core/lov';
 import { Holder } from '../../models/enum/holder.enum';
 import { PanelTransports } from '../panel-transports/panel-transports';
 import { PanelFooter } from '../panel-footer/panel-footer';
+import { ModalFiltres } from '../modal-filtres/modal-filtres';
+import { ModalPwa } from '../modal-pwa/modal-pwa';
+import { ExcelService } from '../../services/excel.service';
 
 @Component({
   selector: 'app-list',
-  imports: [KeyValuePipe, PanelTransports, PanelFooter],
+  imports: [KeyValuePipe, PanelTransports, PanelFooter, ModalFiltres, ModalPwa],
   templateUrl: './list.html',
   styleUrl: './list.css',
 })
 export class List implements OnInit {
+
+  excelService:ExcelService = inject(ExcelService);
 
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   isMobile: boolean = true;
   list: Record<string, Event[]> = {};
+  allEvents: Event[] = [];
   displayFormule: Record<string, boolean> = {};
   Holder = Holder;
 
+  @ViewChild(ModalFiltres)
+  modalFiltres!: ModalFiltres;
+
+  @ViewChild(ModalPwa)
+  modalPwa!: ModalPwa;
+
   ngOnInit(): void {
     this.updateScreenSize();
-    this.list = this.route.snapshot.data['data']['list'];
-    this.displayFormule = this.route.snapshot.data['data']['displayFormule'];
+    this.route.data.subscribe(({ data }) => {
+      this.list = data.list;
+      this.displayFormule = data.displayFormule;
+      this.allEvents = data.allEvents;
+    });
   }
 
   @HostListener('window:resize')
@@ -101,7 +116,19 @@ export class List implements OnInit {
   }
 
   openModalFiltres() {
-    console.log("TODO");
+    this.modalFiltres.openModal();
+  }
+
+  openModalPwa() {
+    this.modalPwa.openModal();
+  }
+
+  keepOrder(a: KeyValue<string, Event[]>, b: KeyValue<string, Event[]>) {//sinon la liste est triée sur les clés
+    return 0;
+  }
+
+  exportExcel() {
+      this.excelService.export(this.allEvents);
   }
 
 }

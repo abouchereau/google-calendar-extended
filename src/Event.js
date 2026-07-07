@@ -61,6 +61,9 @@ export default class Event {
                 groupe = "Balluche Sound System";
             }       
         }
+		else if (groupe.toUpperCase().indexOf("GANG") >-1) {
+            groupe = "Gang of Musette";
+        }
         else if (groupe.toUpperCase().indexOf("FANFARE") >-1) {
             groupe = "La Fanfare Saugrenue";
         }

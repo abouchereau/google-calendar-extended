@@ -1,0 +1,88 @@
+<div class="container mb-4">
+  <div class="row sticky-title bg-primary text-white">
+    <div class="col">
+      <h5 class="p-2 text-center">Postes</h5>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-sm-12 col-lg-6 offset-lg-3">
+      <div class="card my-2">
+        <div class="card-header">
+          <select class="form-select" [(ngModel)]="curCal">
+            @for (cal of calList; track cal) {
+              <option [ngValue]="cal">{{ cal }}</option>
+            }
+          </select>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          @for (job of cals[curCal]; track job.id) {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>
+                @if (job.icon) {
+                  <img [src]="'/images/instru/' + job.icon" [alt]="job.icon" style="height: 30px;" />
+                }
+                <span>{{ job.label }}</span>
+              </span>
+
+              @if (job.nb === 0) {
+                <button type="button" class="btn btn-danger btn-sm hint--top hint--rounded" (click)="deleteJob(job.id)" aria-label="Supprimer">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              }
+            </li>
+          }
+
+          <li class="list-group-item">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Nom de l'instrument" [(ngModel)]="newJob">
+              <button class="btn btn-outline-secondary" type="button" title="Choisir une icône" style="width:190px;" (click)="openIconsModal()">
+                @if (choosenIcon) {
+                  <img [src]="'/images/instru/' + choosenIcon" alt="Icône" title="Choisir une icône" style="height:32px;" />
+                } @else {
+                  <div>
+                    <span class="fa-solid fa-image fa-lg text-secondary" title="Choisir une icône" style="cursor:pointer;"></span>
+                    Choisir une icône
+                  </div>
+                }
+              </button>
+              <button class="btn btn-outline-success" type="button" (click)="addJob()">Ajouter</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div #modalIcons class="modal modal-lg fade" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-info">
+          <h5 class="modal-title text-white">Choisir une icône</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            @for (icon of iconList; track icon) {
+              <div class="col-auto mb-4">
+                <div
+                  [class.text-center]="true"
+                  class="p-1 border-3 border rounded"
+                  [class.border-light]="icon !== choosenIcon"
+                  [class.border-success]="icon === choosenIcon"
+                  (click)="chooseIcon(icon)">
+                  <img [src]="'/images/instru/' + icon" [alt]="icon" [title]="icon" class="mb-2 img-instru" />
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<admin-footer />

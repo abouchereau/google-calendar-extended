@@ -32,23 +32,24 @@ export const listResolver: ResolveFn<any> = async (route, state) => {
     EventMapper.setJobs(allJobs);
     let allEvents: Event[] = (await firstValueFrom(eventService.loadAllEvents(filter)))
         .map(e=>EventMapper.toEvent(e));
-
     if (!filter.displayDeleted) {
         allEvents = allEvents.filter(a=>a.sync_google && a.suiviDevisContrat!=SuiviDevisContrat.ANNULE_SUPPRIME);
     }      
 
-    const list: Record<string, Event[]> = {}; 
-    allEvents.forEach((item,i)=>{
-        const month = Lov.monthList[item.date_start!.getMonth()]+' '+item.date_start!.getFullYear();
-        if (list[month] == null) {
-            list[month] = [];
-        }
-        list[month].push(item);
-    });     
+    allEvents.sort((a, b) => a.date_start!.getTime() - b.date_start!.getTime());
 
+    const list: Map<string, Event[]> = new Map<string, Event[]>; 
+    allEvents.forEach((item,i)=>{
+        const month = Lov.monthList[item.date_start!.getMonth()]+" "+item.date_start!.getFullYear();
+        if (!list.has(month)) {
+            list.set(month, []);
+        }
+        list.get(month)!.push(item);
+    });     
     return {
         list, 
-        displayFormule
+        displayFormule,
+        allEvents
     };
 }
 

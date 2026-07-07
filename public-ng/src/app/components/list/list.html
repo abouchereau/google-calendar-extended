@@ -1,5 +1,5 @@
 <div class="container content">
-    @for (entry of list | keyvalue; track entry.key) {
+    @for (entry of list | keyvalue : keepOrder; track entry.key) {
         @let monthList = entry.value;
 
         <section>        
@@ -81,4 +81,6 @@
     }
 </div>
 
-<panel-footer (onReload)="reloadList()" (onShowModalFiltres)="openModalFiltres()" />
+<panel-footer (onReload)="reloadList()" (onShowModalFiltres)="openModalFiltres()" (onExportExcel)="exportExcel()"  (onShowModalPwa)="openModalPwa()" />
+<modal-filtres (onChange)="reloadList()"></modal-filtres> 
+<modal-pwa></modal-pwa> 

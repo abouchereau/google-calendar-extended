@@ -1,0 +1,79 @@
+<div class="container my-4">
+  @if (person) {
+    <div class="row">
+      <div class="col-12 col-lg-3 mb-3 mb-lg-0">
+        <button type="button" class="btn btn-success btn-lg hint--bottom hint--rounded" aria-label="Retour" (click)="goBack()">
+          <span class="fa fa-arrow-left fa-big"></span>
+        </button>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="card my-2">
+          <div class="card-header">
+            <div class="input-group">
+              <input type="text" class="form-control" [(ngModel)]="person.firstname" placeholder="Prénom" />
+              <input type="text" class="form-control" [(ngModel)]="person.lastname" placeholder="Nom" />
+              <button class="btn btn-outline-success" type="button" (click)="updatePerson()">Modifier le nom</button>
+            </div>
+          </div>
+
+          <div class="card-body p-0">
+            <h4 class="text-center pt-3">Postes</h4>
+
+            <ul class="list-group list-group-flush">
+              @for (item of personJobs; track item.id) {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span [class.text-info]="item.is_holder === Holder.TITULAIRE" [class.text-warning]="item.is_holder === Holder.REMPLACANT">
+                    {{ item.job }} ({{ item.group }})
+                  </span>
+                  <button type="button" title="Supprimer" class="btn btn-danger btn-sm hint--top hint--rounded" (click)="deleteJob(item.id)" aria-label="Supprimer">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </li>
+              }
+
+              <li class="list-group-item">
+                <div class="row align-items-center pt-3 pb-1">
+                  <div class="col text-center">
+                    <small>Ajouter un poste :</small>
+                  </div>
+                </div>
+
+                <div class="row align-items-center pb-3">
+                  <div class="col-12 col-md-4 mb-2 mb-md-0">
+                    <div class="input-group">
+                      <input type="radio" class="btn-check" name="is_holder" id="is_holder_titulaire" [(ngModel)]="isHolder" [value]="Holder.TITULAIRE">
+                      <label class="btn btn-outline-info rounded-start" for="is_holder_titulaire">Titulaire</label>
+                      <input type="radio" class="btn-check" name="is_holder" id="is_holder_remplacant" [(ngModel)]="isHolder" [value]="Holder.REMPLACANT">
+                      <label class="btn btn-outline-warning" for="is_holder_remplacant">Remplaçant</label>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-8">
+                    <div class="input-group">
+                      <select class="form-control" [(ngModel)]="newJob">
+                        <option [ngValue]="-1" disabled>Choisir un poste</option>
+                        @for (job of jobs; track job.id) {
+                          <option [ngValue]="job.id">{{ job.label }}</option>
+                        }
+                      </select>
+                      <button class="btn btn-outline-success" type="button" (click)="addJob()" [disabled]="newJob === -1 || jobs.length === 0">Ajouter</button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="row">
+      <div class="col text-center py-5">
+        <div class="alert alert-warning mb-0">Utilisateur introuvable</div>
+      </div>
+    </div>
+  }
+</div>
+
+<admin-footer />

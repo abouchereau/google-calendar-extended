@@ -58,4 +58,8 @@ export interface EventDto {
     frequentation:number;
     precisions:string;
     transports:string;
+    date_envoi: string;
+    cachet: number;
+    code_postal: string;
+    description: string;
 }

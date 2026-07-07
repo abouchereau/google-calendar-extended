@@ -11,5 +11,9 @@ declare global {
       isNativePlatform(): boolean;
     };
   }
+
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
   
 }

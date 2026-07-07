@@ -1,0 +1,61 @@
+<div class="container mb-5">
+  <div class="row sticky-title bg-primary text-white">
+    <div class="col">
+      <h5 class="p-2 text-center">Formules</h5>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-lg-8 offset-lg-2">
+      <div class="card my-2">
+        <div class="card-header">
+          <select class="form-select" [(ngModel)]="curCal" (change)="loadFormulas()">
+            @for (cal of cals; track cal.cal_id) {
+              <option [value]="cal.cal_id">{{ cal.summary }}</option>
+            }
+          </select>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          @if (curCal) {
+            <li class="list-group-item">
+              <div class="input-group">
+                <input type="text" class="form-control text-secondary border-0" value="Nom Formule" />
+                <input type="text" class="form-control text-secondary border-0" value="Chargement (minutes)" />
+                <input type="text" class="form-control text-secondary border-0" value="Marge trajet (%)" />
+                <button class="btn invisible" type="button">Modifier</button>
+              </div>
+            </li>
+          }
+
+          @for (formula of formulas; track formula.id) {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="formula.formule" />
+                <input type="number" class="form-control" [(ngModel)]="formula.loading_time" />
+                <input type="number" class="form-control" [(ngModel)]="formula.slow_pct" />
+                <button class="btn btn-outline-primary" type="button" (click)="editFormula(formula)">Enregistrer</button>
+                <button class="btn btn-outline-danger btn-sm hint--top hint--rounded" type="button" (click)="deleteFormula(formula)" aria-label="Supprimer">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </li>
+          }
+
+          @if (curCal) {
+            <li class="list-group-item">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Nouvelle Formule" [(ngModel)]="newFormula" />
+                <button class="btn btn-outline-success" type="button" (click)="addFormula()">Ajouter</button>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal-info />
+
+<admin-footer />

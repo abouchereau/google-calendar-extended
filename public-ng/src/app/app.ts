@@ -37,6 +37,10 @@ export class App {
 
     });
 
+    if ('serviceWorker' in navigator && window.location.href.indexOf("localhost") == -1) {
+        navigator.serviceWorker.register('service-worker.js');
+    }
+
   }
 
   protected readonly title = signal('Dates Saugrenue');
