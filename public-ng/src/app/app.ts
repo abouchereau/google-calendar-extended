@@ -8,7 +8,7 @@ import {
   NavigationError
 } from '@angular/router';
 
-import { Spinner } from './components/spinner/spinner';
+import { Spinner } from './components/partials/spinner/spinner';
 
 import { AsyncPipe } from '@angular/common';
 import { LoaderService } from './services/loader.service';

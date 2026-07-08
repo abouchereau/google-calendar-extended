@@ -1,0 +1,38 @@
+<div class="card my-3" *ngIf="event">
+  <div class="card-header text-white bg-primary text-center sticky-title">
+    Équipe
+  </div>
+
+  <div class="card-body">
+    <div class="row align-items-center" *ngFor="let job of jobs">
+      <!-- Job Icon -->
+      <div class="col-1 py-1">
+        <img
+          *ngIf="job.icon"
+          [src]="'/images/instru/' + job.icon"
+          [alt]="job.icon"
+          style="height: 35px"
+        />
+      </div>
+
+      <!-- Job Label -->
+      <div class="col-2 py-1">
+        <label>{{ job.label }}</label>
+      </div>
+
+      <!-- Multiselect Component -->
+      <div class="col-9 py-1">
+        <app-equipe-multiselect
+          [options]="getJobMusicienOptions(job.id)"
+          [selected]="getSelectedMusiciens(job.id)"
+          [disabled]="!editable"
+          placeholder="Choisis un musicien dans la liste ou ajoute un nom"
+          tagPlaceholder="Appuie sur Entrée pour valider le nom"
+          (select)="onSelectMusicien($event, job)"
+          (remove)="onRemoveMusicien($event, job)"
+          (addTag)="onAddTag($event, job)"
+        />
+      </div>
+    </div>
+  </div>
+</div>

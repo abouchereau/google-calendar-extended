@@ -1,0 +1,66 @@
+<div class="container content" [attr.id]="'event'" [attr.key]="refreshKey">
+  <div class="row" *ngIf="event">
+    <div class="col">
+      <app-general
+        [event]="event"
+        [editable]="editable"
+        (targetHeurDepart)="onTargetHeureDepart()">
+      </app-general>
+
+      <app-horaires
+        [event]="event"
+        [editable]="editable"
+        [isMobile]="isMobile"
+        (targetHeurDepart)="onTargetHeureDepart()"
+        #eventHoraireMobile>
+      </app-horaires>
+
+      <app-equipe
+        [event]="event"
+        [editable]="editable">
+      </app-equipe>
+
+      <app-transport
+        [event]="event"
+        [editable]="editable">
+      </app-transport>
+
+      <app-trajet
+        [event]="event"
+        [editable]="editable"
+        (targetHeurDepart)="onTargetHeureDepart()">
+      </app-trajet>
+
+      <app-hebergement
+        [event]="event"
+        [editable]="editable">
+      </app-hebergement>
+
+      <app-contacts
+        [event]="event"
+        [editable]="editable">
+      </app-contacts>
+
+      <app-communication
+        [event]="event"
+        [editable]="editable">
+      </app-communication>
+
+      <app-precision
+        [event]="event"
+        [editable]="editable">
+      </app-precision>
+
+      <app-repas
+        [event]="event"
+        [editable]="editable">
+      </app-repas>
+    </div>
+  </div>
+</div>
+
+<app-footer
+  [event]="event"
+  [editable]="editable"
+  (updateEvent)="updateEvent()">
+</app-footer>

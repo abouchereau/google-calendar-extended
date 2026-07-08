@@ -1,0 +1,51 @@
+<div class="card my-3" *ngIf="event">
+  <div class="card-header text-white bg-primary sticky-title text-center">
+    Horaires
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-sm-12 py-1">
+        <label>Précisions</label>
+        <textarea rows="5" [disabled]="!editable" id="precisions" [(ngModel)]="event.precisions" class="form-control"></textarea>
+      </div>
+
+      <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+        <label>Lieu RDV</label>
+        <input [disabled]="!editable" id="lieuRdv" type="text" [(ngModel)]="event.lieuRdv" class="form-control" />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label>Heure RDV</label>
+        <input [disabled]="!editable" id="heureDepart" type="time" step="300" [(ngModel)]="event.heureDepart" class="form-control" />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label *ngIf="editable">&nbsp;</label>
+        <button *ngIf="editable" (click)="computeHeureDepart()" class="btn btn-success w-100">Calculer l'heure de RDV</button>
+        <label *ngIf="editable || event.heureArrivee">Heure Arrivée</label>
+        <input *ngIf="editable || event.heureArrivee" [disabled]="!editable" id="heureArrivee" type="time" step="300" [(ngModel)]="event.heureArrivee" (blur)="onHeureArrivalChange()" class="form-control" />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1" *ngIf="editable || event.heureBalance">
+        <label>Heure Balances</label>
+        <input [disabled]="!editable" id="heureBalance" type="time" step="300" [(ngModel)]="event.heureBalance" class="form-control" />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1" *ngIf="editable || event.heureRdvRepas">
+        <label>Heure RDV Repas</label>
+        <input [disabled]="!editable" id="heureRdvRepas" type="time" step="300" [(ngModel)]="event.heureRdvRepas" class="form-control" />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1" *ngIf="editable || event.heureDebutConcert">
+        <label>Heure Début Concert</label>
+        <input [disabled]="!editable" id="heureDebutConcert" type="time" step="300" [(ngModel)]="event.heureDebutConcert" class="form-control" />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1" *ngIf="editable || event.heureRetour">
+        <label>Heure Retour</label>
+        <input [disabled]="!editable" id="heureRetour" type="time" step="300" [(ngModel)]="event.heureRetour" class="form-control" />
+      </div>
+    </div>
+  </div>
+</div>

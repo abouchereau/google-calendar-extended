@@ -1,0 +1,137 @@
+.multiselect-container {
+  position: relative;
+  width: 100%;
+}
+
+.multiselect-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 6px 12px;
+  background-color: #fff;
+  cursor: pointer;
+  min-height: 38px;
+}
+
+.multiselect-input-wrapper:hover {
+  border-color: #80bdff;
+  background-color: #f8f9fa;
+}
+
+.multiselect-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+  align-items: center;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tag.bg-success {
+  background-color: #28a745;
+}
+
+.tag.bg-warning {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.tag.bg-danger {
+  background-color: #dc3545;
+}
+
+.close-x {
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.close-x:hover {
+  opacity: 1;
+}
+
+.multiselect-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 100px;
+  padding: 4px 0;
+  font-size: 14px;
+}
+
+.placeholder {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.multiselect-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.option-item:last-child {
+  border-bottom: none;
+}
+
+.option-item:hover {
+  background-color: #e7f3ff;
+  color: #0066cc;
+}
+
+.holder-badge {
+  font-size: 11px;
+  color: #6c757d;
+  margin-left: 4px;
+}
+
+.no-results {
+  padding: 10px 12px;
+  color: #6c757d;
+  text-align: center;
+  font-size: 13px;
+}

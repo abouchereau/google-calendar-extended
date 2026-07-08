@@ -1,0 +1,27 @@
+<footer class="footer bg-primary">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col text-center">
+        <a routerLink="/" class="no-underline">
+          <i class="fa-solid fa-house fa-big"></i>
+          <div class="small">Accueil</div>
+        </a>
+      </div>
+      <div class="col text-center" *ngIf="editable">
+        <a
+          href="#"
+          (click)="$event.preventDefault(); onUpdateEvent()"
+          [ngClass]="{'no-underline':true, 'text-success': hasChanges, 'link-disabled': !hasChanges}">
+          <i class="fa-solid fa-floppy-disk fa-big"></i>
+          <div class="small">Enregistrer</div>
+        </a>
+      </div>
+      <div class="col text-center">
+        <a href="#" (click)="$event.preventDefault(); logout()" class="no-underline hint--top-left hint--rounded">
+          <i class="fa-solid fa-right-from-bracket fa-big"></i>
+          <div class="small">Déconnexion</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

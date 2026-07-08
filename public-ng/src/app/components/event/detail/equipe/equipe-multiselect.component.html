@@ -1,0 +1,51 @@
+<div class="multiselect-container">
+  <div class="multiselect-input-wrapper" (click)="toggleDropdown()">
+    <div class="multiselect-tags">
+      <span
+        *ngFor="let item of selected"
+        [ngClass]="getTagClass(item)"
+      >
+        {{ item.name }}
+        <span
+          class="close-x"
+          (click)="onRemoveTag(item)"
+          *ngIf="!disabled"
+        >
+          ×
+        </span>
+      </span>
+      <input
+        *ngIf="!disabled"
+        type="text"
+        class="multiselect-input"
+        [(ngModel)]="inputValue"
+        [placeholder]="selected.length === 0 ? placeholder : tagPlaceholder"
+        (input)="onSearch($event.target.value)"
+        (keypress)="onKeyPress($event)"
+        [disabled]="disabled"
+      />
+      <span *ngIf="disabled && selected.length === 0" class="placeholder">
+        {{ placeholder }}
+      </span>
+    </div>
+    <span class="dropdown-arrow" [class.open]="isOpen">▼</span>
+  </div>
+
+  <div *ngIf="isOpen && !disabled" class="multiselect-dropdown">
+    <div *ngIf="filteredOptions.length > 0" class="options-list">
+      <div
+        *ngFor="let option of filteredOptions"
+        class="option-item"
+        (click)="onOptionClick(option)"
+      >
+        {{ option.name }}
+        <span *ngIf="option.is_holder === 0" class="holder-badge">
+          (Remplaçant)
+        </span>
+      </div>
+    </div>
+    <div *ngIf="filteredOptions.length === 0 && searchText" class="no-results">
+      No matching options
+    </div>
+  </div>
+</div>

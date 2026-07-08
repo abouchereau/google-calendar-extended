@@ -1,0 +1,35 @@
+/* Styles pour le composant Equipe */
+.card-header.sticky-title {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .col-1,
+  .col-2,
+  .col-9 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  label {
+    margin-top: 8px;
+    display: block;
+  }
+}
