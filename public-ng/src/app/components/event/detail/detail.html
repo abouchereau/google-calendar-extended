@@ -1,4 +1,9 @@
-<div class="container content" [attr.id]="'event'" [attr.key]="refreshKey">
+<div
+  class="container content"
+  [attr.id]="'event'"
+  [attr.key]="refreshKey"
+  (input)="markDirty()"
+  (change)="markDirty()">
   <div class="row" *ngIf="event">
     <div class="col">
       <app-general
@@ -17,33 +22,39 @@
 
       <app-equipe
         [event]="event"
-        [editable]="editable">
+        [editable]="editable"
+        (changed)="markDirty()">
       </app-equipe>
 
       <app-transport
         [event]="event"
-        [editable]="editable">
+        [editable]="editable"
+        (changed)="markDirty()">
       </app-transport>
 
       <app-trajet
         [event]="event"
         [editable]="editable"
+        (changed)="markDirty()"
         (targetHeurDepart)="onTargetHeureDepart()">
       </app-trajet>
 
       <app-hebergement
         [event]="event"
-        [editable]="editable">
+        [editable]="editable"
+        (changed)="markDirty()">
       </app-hebergement>
 
       <app-contacts
         [event]="event"
-        [editable]="editable">
+        [editable]="editable"
+        (changed)="markDirty()">
       </app-contacts>
 
       <app-communication
         [event]="event"
-        [editable]="editable">
+        [editable]="editable"
+        (changed)="markDirty()">
       </app-communication>
 
       <app-precision
@@ -51,10 +62,6 @@
         [editable]="editable">
       </app-precision>
 
-      <app-repas
-        [event]="event"
-        [editable]="editable">
-      </app-repas>
     </div>
   </div>
 </div>
@@ -62,5 +69,6 @@
 <app-footer
   [event]="event"
   [editable]="editable"
+  [hasChanges]="hasChanges"
   (updateEvent)="updateEvent()">
 </app-footer>

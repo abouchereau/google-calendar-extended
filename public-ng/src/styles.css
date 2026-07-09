@@ -242,3 +242,8 @@ body, html {
   font-variant: small-caps;
   font-size: 250%;
 }
+app-detail {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

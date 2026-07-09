@@ -8,6 +8,7 @@ import { SuiviDevisContrat } from '../models/enum/suivi-devis-contrat.enum';
 import { EventUtils } from '../utils/event-utils';
 import { Job } from '../models/entity/job';
 import { Holder } from '../models/enum/holder.enum';
+import { parseEquipeMusiciens } from '../utils/equipe-musiciens.codec';
 
 
 export class EventMapper {
@@ -44,15 +45,14 @@ export class EventMapper {
             isTrain: transports.includes(4)
         };
 
-       if (dto.equipeMusiciens) {          
-            dto.equipeMusiciens.split("||").forEach(a=>{
-                a.split("|").forEach(b=> {
-                    const t = b.split(",");
-                    const icon = EventMapper.jobs.find(j=>j.id==Number(t[0]))?.icon || null;
-                    event.equipeMusiciens.push({"name": EventUtils.nameAbrev(t[2]), "is_holder": Number(t[3]) as Holder, "icon": icon});
-                });   
-            });          
-        }
+       parseEquipeMusiciens(dto.equipeMusiciens).forEach((member) => {
+            const icon = EventMapper.jobs.find(j => j.id == member.jobId)?.icon || null;
+            event.equipeMusiciens.push({
+                name: EventUtils.nameAbrev(member.name),
+                is_holder: Number(member.isHolder) as Holder,
+                icon,
+            });
+       });
 
         return event;
     }

@@ -36,7 +36,7 @@ export class EventService {
 
   async updateEvent(id: number | string, event: Event): Promise<Event> {
     return firstValueFrom(
-      this.http.put<Event>(Config.BASE_API + "/updateEvent/" + id, event)
+      this.http.post<Event>(Config.BASE_API + "/updateEvent/" + id, event)
     );
   }
 

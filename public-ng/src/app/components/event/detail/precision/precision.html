@@ -1,8 +1,13 @@
 <div class="card my-3" *ngIf="event">
   <div class="card-header text-white bg-primary text-center sticky-title">
-    Précisions
+    Infos set
   </div>
+
   <div class="card-body">
-    <p>Précisions - À implémenter</p>
+    <div class="row">
+      <div class="col-sm-12 py-1">
+        <div class="alert alert-light border border-info" role="alert" [innerHTML]="nl2br(event.description)"></div>
+      </div>
+    </div>
   </div>
 </div>

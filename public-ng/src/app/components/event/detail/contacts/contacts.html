@@ -2,7 +2,50 @@
   <div class="card-header text-white bg-primary text-center sticky-title">
     Contacts
   </div>
+
   <div class="card-body">
-    <p>Contacts - À implémenter</p>
+    <div class="row">
+      <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+        <label for="contactAccueil">Contact Accueil</label>
+        <textarea
+          *ngIf="editable"
+          rows="3"
+          id="contactAccueil"
+          [(ngModel)]="event.contactAccueil"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control"
+          (input)="onFieldChange()"
+        ></textarea>
+        <div [innerHTML]="linkifyPhoneNumbers(event.contactAccueil)"></div>
+      </div>
+
+      <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+        <label for="contactTechnique">Contact Technique</label>
+        <textarea
+          *ngIf="editable"
+          rows="3"
+          id="contactTechnique"
+          [(ngModel)]="event.contactTechnique"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control"
+          (input)="onFieldChange()"
+        ></textarea>
+        <div [innerHTML]="linkifyPhoneNumbers(event.contactTechnique)"></div>
+      </div>
+
+      <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+        <label for="contactOrga">Contact Organisation</label>
+        <textarea
+          *ngIf="editable"
+          rows="3"
+          id="contactOrga"
+          [(ngModel)]="event.contactOrga"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control"
+          (input)="onFieldChange()"
+        ></textarea>
+        <div [innerHTML]="linkifyPhoneNumbers(event.contactOrga)"></div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, HostListener, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -14,7 +14,6 @@ import { Hebergement } from './hebergement/hebergement';
 import { Contacts } from './contacts/contacts';
 import { Communication } from './communication/communication';
 import { Precision } from './precision/precision';
-import { Repas } from './repas/repas';
 import { Footer } from './footer/footer';
 
 @Component({
@@ -31,7 +30,6 @@ import { Footer } from './footer/footer';
     Contacts,
     Communication,
     Precision,
-    Repas,
     Footer
   ],
   templateUrl: './detail.html',
@@ -42,10 +40,12 @@ export class Detail implements OnInit {
   private readonly router = inject(Router);
   private readonly eventService = inject(EventService);
   private readonly userService = inject(UserService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   editable: boolean = false;
   isMobile: boolean = true;
   event: Event | null = null;
+  hasChanges: boolean = false;
   refreshKey: number = 0;
 
   @ViewChild('eventHoraireMobile')
@@ -58,6 +58,7 @@ export class Detail implements OnInit {
     // Get the mode from route data (view or edit)
     this.route.data.subscribe(({ data }) => {
       this.event = data.event;
+      this.hasChanges = false;
       const mode = this.route.snapshot.data['mode'];
       
       // Vérifier les droits d'accès
@@ -73,6 +74,7 @@ export class Detail implements OnInit {
       
       this.editable = mode === 'edit';
       this.refreshKey++;
+      this.cdr.detectChanges();
     });
   }
 
@@ -91,6 +93,10 @@ export class Detail implements OnInit {
     }
   }
 
+  markDirty(): void {
+    this.hasChanges = true;
+  }
+
   async updateEvent(): Promise<void> {
     if (!this.event) return;
 
@@ -99,6 +105,7 @@ export class Detail implements OnInit {
       if (!id) return;
 
       await this.eventService.updateEvent(id, this.event);
+      this.hasChanges = false;
       // Optionally show a success message
       // this.showSpinner() / this.hideSpinner() equivalent
     } catch (error) {
@@ -106,4 +113,3 @@ export class Detail implements OnInit {
     }
   }
 }
-

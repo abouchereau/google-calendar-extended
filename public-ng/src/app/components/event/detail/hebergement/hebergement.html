@@ -2,7 +2,47 @@
   <div class="card-header text-white bg-primary text-center sticky-title">
     Hébergement
   </div>
+
   <div class="card-body">
-    <p>Hébergement - À implémenter</p>
+    <div class="row">
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label for="dateArriveeHebergement">Date Arrivée Hébergement</label>
+        <input
+          [disabled]="!editable"
+          id="dateArriveeHebergement"
+          type="datetime-local"
+          class="form-control"
+          [(ngModel)]="dateArriveeHebergementValue"
+          [ngModelOptions]="{ standalone: true }"
+          (input)="onFieldChange()"
+        />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label for="contactHebergement">Contact Hébergement</label>
+        <input
+          [disabled]="!editable"
+          id="contactHebergement"
+          type="text"
+          [(ngModel)]="event.contactHebergement"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control"
+          (input)="onFieldChange()"
+        />
+      </div>
+
+      <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+        <label for="adresseHebergement">Adresse Hébergement</label>
+        <textarea
+          rows="3"
+          [disabled]="!editable"
+          id="adresseHebergement"
+          [(ngModel)]="event.adresseHebergement"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control"
+          (input)="onFieldChange()"
+        ></textarea>
+      </div>
+    </div>
   </div>
 </div>

@@ -2,7 +2,139 @@
   <div class="card-header text-white bg-primary text-center sticky-title">
     Transport
   </div>
+
   <div class="card-body">
-    <p>Transport - À implémenter</p>
+    <div class="row">
+      <div class="col-xl-4 col-lg-4 col-sm-12 py-1 my-auto">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [disabled]="!editable"
+            type="checkbox"
+            [(ngModel)]="isCrafter"
+            [ngModelOptions]="{ standalone: true }"
+            id="isCrafter"
+            (change)="onTransportChange()"
+          />
+          <label class="form-check-label" for="isCrafter">Crafter</label>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-sm-12 py-1" *ngIf="isCrafter">
+        <label for="dateDepartCrafter">Départ Crafter</label>
+        <input
+          type="datetime-local"
+          id="dateDepartCrafter"
+          [(ngModel)]="event.dateDepartCrafter"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="!editable"
+          class="form-control"
+          (input)="onFieldChange()"
+        />
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-sm-12 py-1" *ngIf="isCrafter">
+        <label for="dateRetourCrafter">Retour Crafter</label>
+        <input
+          type="datetime-local"
+          id="dateRetourCrafter"
+          [(ngModel)]="event.dateRetourCrafter"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="!editable"
+          class="form-control"
+          (input)="onFieldChange()"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-4 col-lg-4 col-sm-12 py-1 my-auto">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [disabled]="!editable"
+            type="checkbox"
+            [(ngModel)]="isVehPerso"
+            [ngModelOptions]="{ standalone: true }"
+            id="isVehPerso"
+            (change)="onTransportChange()"
+          />
+          <label class="form-check-label" for="isVehPerso">Véhicule(s) Perso</label>
+        </div>
+      </div>
+
+      <div class="col-xl-8 col-lg-8 col-sm-12 py-1" *ngIf="isVehPerso">
+        <label for="vehiculesPerso">Véhicule(s) Perso</label>
+        <input
+          type="text"
+          id="vehiculesPerso"
+          [(ngModel)]="event.vehiculesPerso"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="!editable"
+          class="form-control"
+          (input)="onFieldChange()"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-4 col-lg-4 col-sm-12 py-1 my-auto">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [disabled]="!editable"
+            type="checkbox"
+            [(ngModel)]="isLocation"
+            [ngModelOptions]="{ standalone: true }"
+            id="isLocation"
+            (change)="onTransportChange()"
+          />
+          <label class="form-check-label" for="isLocation">Location</label>
+        </div>
+      </div>
+
+      <div class="col-xl-8 col-lg-8 col-sm-12 py-1" *ngIf="isLocation">
+        <label for="location">Location</label>
+        <input
+          type="text"
+          id="location"
+          [(ngModel)]="event.location"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="!editable"
+          class="form-control"
+          (input)="onFieldChange()"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-4 col-lg-4 col-sm-12 py-1 my-auto">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            [disabled]="!editable"
+            type="checkbox"
+            [(ngModel)]="isTrain"
+            [ngModelOptions]="{ standalone: true }"
+            id="isTrain"
+            (change)="onTransportChange()"
+          />
+          <label class="form-check-label" for="isTrain">Train</label>
+        </div>
+      </div>
+
+      <div class="col-xl-8 col-lg-8 col-sm-12 py-1" *ngIf="isTrain">
+        <label for="train">Billets de train</label>
+        <input
+          type="text"
+          id="train"
+          [(ngModel)]="event.train"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="!editable"
+          class="form-control"
+          (input)="onFieldChange()"
+        />
+      </div>
+    </div>
   </div>
 </div>

@@ -2,7 +2,92 @@
   <div class="card-header text-white bg-primary text-center sticky-title">
     Communication
   </div>
+
   <div class="card-body">
-    <p>Communication - À implémenter</p>
+    <div class="row">
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label for="afficherSite">Afficher sur le site ?</label>
+        <div class="form-check form-switch">
+          <input
+            id="afficherSite"
+            type="checkbox"
+            class="form-check-input"
+            [disabled]="!editable"
+            [(ngModel)]="event.afficherSite"
+            [ngModelOptions]="{ standalone: true }"
+            (change)="onAfficherSiteChange()"
+          />
+        </div>
+      </div>
+
+      <div class="col-xl-6 col-lg-8 col-sm-12 py-1">
+        <label for="nomAfficherSite">Nom à afficher sur le site</label>
+        <input
+          id="nomAfficherSite"
+          type="text"
+          class="form-control"
+          [disabled]="!editable"
+          [(ngModel)]="event.nomAfficherSite"
+          [ngModelOptions]="{ standalone: true }"
+          (input)="onFieldChange()"
+        />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label for="lien">Lien</label>
+        <input
+          id="lien"
+          type="url"
+          class="form-control"
+          [disabled]="!editable"
+          [(ngModel)]="event.lien"
+          [ngModelOptions]="{ standalone: true }"
+          (input)="onFieldChange()"
+        />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label for="envoiKitCom">Kit Com</label>
+        <select
+          id="envoiKitCom"
+          class="form-select"
+          [disabled]="!editable"
+          [(ngModel)]="event.envoiKitCom"
+          [ngModelOptions]="{ standalone: true }"
+          (change)="onFieldChange()">
+          <option [ngValue]="EnvoiKitCom.VIDE"></option>
+          <option [ngValue]="EnvoiKitCom.A_ENVOYER">{{ EnvoiKitComLabels[EnvoiKitCom.A_ENVOYER] }}</option>
+          <option [ngValue]="EnvoiKitCom.ENVOYE">{{ EnvoiKitComLabels[EnvoiKitCom.ENVOYE] }}</option>
+        </select>
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label for="contactCom">Contact Com</label>
+        <input
+          id="contactCom"
+          type="text"
+          class="form-control"
+          [disabled]="!editable"
+          [(ngModel)]="event.contactCom"
+          [ngModelOptions]="{ standalone: true }"
+          (input)="onFieldChange()"
+        />
+      </div>
+
+      <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
+        <label for="frequentation">Fréquentation</label>
+        <input
+          id="frequentation"
+          type="number"
+          class="form-control"
+          [disabled]="!editable"
+          [(ngModel)]="event.frequentation"
+          [ngModelOptions]="{ standalone: true }"
+          step="10"
+          min="0"
+          (input)="onFieldChange()"
+        />
+      </div>
+    </div>
   </div>
 </div>
