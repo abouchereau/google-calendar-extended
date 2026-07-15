@@ -13,7 +13,7 @@ import { SuiviDevisContratLabels } from '../../../../models/enum/suivi-devis-con
 export class General implements OnInit {
   @Input() event: Event | null = null;
   @Input() editable: boolean = false;
-  @Output() targetHeurDepart = new EventEmitter<void>();
+  @Output() requestHeureDepartRecalculation = new EventEmitter<void>();
 
   formules: string[] = [];
   refreshFormule: number = 0;
@@ -25,7 +25,7 @@ export class General implements OnInit {
   }
 
   onFormuleChange(): void {
-    this.targetHeurDepart.emit();
+    this.requestHeureDepartRecalculation.emit();
   }
 
   // TODO: Implement method to load formules
@@ -35,4 +35,3 @@ export class General implements OnInit {
   //   }
   // }
 }
-

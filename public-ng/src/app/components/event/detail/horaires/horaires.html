@@ -22,9 +22,9 @@
 
       <div class="col-xl-3 col-lg-4 col-sm-12 py-1">
         <label *ngIf="editable">&nbsp;</label>
-        <button *ngIf="editable" (click)="computeHeureDepart()" class="btn btn-success w-100">Calculer l'heure de RDV</button>
+        <button *ngIf="editable" (click)="openHeureDepartModal()" class="btn btn-success w-100">Calculer l'heure de RDV</button>
         <label *ngIf="editable || event.heureArrivee">Heure Arrivée</label>
-        <input *ngIf="editable || event.heureArrivee" [disabled]="!editable" id="heureArrivee" type="time" step="300" [(ngModel)]="event.heureArrivee" (blur)="onHeureArrivalChange()" class="form-control" />
+        <input *ngIf="editable || event.heureArrivee" [disabled]="!editable" id="heureArrivee" type="time" step="300" [(ngModel)]="event.heureArrivee" (blur)="openHeureDepartModal()" class="form-control" />
       </div>
 
       <div class="col-xl-3 col-lg-4 col-sm-12 py-1" *ngIf="editable || event.heureBalance">
@@ -49,3 +49,9 @@
     </div>
   </div>
 </div>
+
+<app-modale-route
+  #modalRoute
+  [event]="event"
+  (acceptHeureDepart)="onAcceptHeureDepart($event)">
+</app-modale-route>

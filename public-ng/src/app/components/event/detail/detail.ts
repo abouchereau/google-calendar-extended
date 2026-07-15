@@ -49,7 +49,7 @@ export class Detail implements OnInit {
   refreshKey: number = 0;
 
   @ViewChild('eventHoraireMobile')
-  eventHoraireMobile: any;
+  eventHoraireMobile?: Horaires;
 
   ngOnInit(): void {
     this.updateScreenSize();
@@ -87,9 +87,9 @@ export class Detail implements OnInit {
     this.isMobile = window.innerWidth < 576;
   }
 
-  onTargetHeureDepart(): void {
+  onHeureDepartRecalculationRequested(): void {
     if (this.eventHoraireMobile) {
-      this.eventHoraireMobile.computeHeureDepart?.();
+      this.eventHoraireMobile.openHeureDepartModal();
     }
   }
 

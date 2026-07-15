@@ -9,14 +9,13 @@
       <app-general
         [event]="event"
         [editable]="editable"
-        (targetHeurDepart)="onTargetHeureDepart()">
+        (requestHeureDepartRecalculation)="onHeureDepartRecalculationRequested()">
       </app-general>
 
       <app-horaires
         [event]="event"
         [editable]="editable"
-        [isMobile]="isMobile"
-        (targetHeurDepart)="onTargetHeureDepart()"
+        (changed)="markDirty()"
         #eventHoraireMobile>
       </app-horaires>
 
@@ -36,7 +35,7 @@
         [event]="event"
         [editable]="editable"
         (changed)="markDirty()"
-        (targetHeurDepart)="onTargetHeureDepart()">
+        (requestHeureDepartRecalculation)="onHeureDepartRecalculationRequested()">
       </app-trajet>
 
       <app-hebergement

@@ -16,7 +16,7 @@ import { Vehicule } from '../../../../models/enum/vehicule.enum';
 export class Trajet implements OnInit, OnChanges {
   @Input() event: Event | null = null;
   @Input() editable: boolean = false;
-  @Output() targetHeurDepart = new EventEmitter<void>();
+  @Output() requestHeureDepartRecalculation = new EventEmitter<void>();
   @Output() changed = new EventEmitter<void>();
 
   private readonly routeService = inject(RouteService);
@@ -61,7 +61,7 @@ export class Trajet implements OnInit, OnChanges {
 
       this.event.distanceKm = route.distance;
       this.event.dureeMinutes = route.duree;
-      this.targetHeurDepart.emit();
+      this.requestHeureDepartRecalculation.emit();
       this.changed.emit();
     } catch (error) {
       console.error('Error calculating route:', error);
