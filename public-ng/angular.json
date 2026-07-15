@@ -22,6 +22,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "manifest.json",
+                "input": ".",
+                "output": "/"
+              },
+              {
+                "glob": "service-worker.js",
+                "input": ".",
+                "output": "/"
               }
             ],
             "styles": [ 
@@ -32,6 +42,12 @@
           },
           "configurations": {
             "production": {
+               "sourceMap": {
+                "scripts": true,
+                "styles": false,
+                "vendor": true,
+                "hidden": false
+              },
               "budgets": [
                 {
                   "type": "initial",

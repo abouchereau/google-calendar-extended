@@ -37,8 +37,15 @@ export class App {
 
     });
 
-    if ('serviceWorker' in navigator && window.location.href.indexOf("localhost") == -1) {
-        navigator.serviceWorker.register('service-worker.js');
+    const isLocalHost =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname === '::1';
+
+    if ('serviceWorker' in navigator && window.isSecureContext && !isLocalHost) {
+      navigator.serviceWorker.register('/service-worker.js').catch((err) => {
+        console.warn('Service worker registration skipped', err);
+      });
     }
 
   }

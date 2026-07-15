@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { User } from '../models/entity/user';
+import { browserStorage } from '../core/browser-storage';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,14 @@ export class UserService {
 
   private restore(): void {
 
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('username');
+    const token = browserStorage.getItem('token');
+    const username = browserStorage.getItem('username');
 
     if (!token || !username) {
       return;
     }
 
-    this.currentUser.set(new User(username, token, localStorage.getItem('write') === '1'));
+    this.currentUser.set(new User(username, token, browserStorage.getItem('write') === '1'));
   }
 
   register(user: User): void {
@@ -30,20 +31,20 @@ export class UserService {
   }
 
   store() {
-      localStorage.setItem('token', this.currentUser()!.token!);
-      localStorage.setItem('username', this.currentUser()!.username!);
-      localStorage.setItem('write', this.currentUser()!.write ? "1" : "0");
+      browserStorage.setItem('token', this.currentUser()!.token!);
+      browserStorage.setItem('username', this.currentUser()!.username!);
+      browserStorage.setItem('write', this.currentUser()!.write ? "1" : "0");
   }
 
   unregister() {
-      ["token","username","write"].forEach(a=>localStorage.removeItem(a));
+      ["token","username","write"].forEach(a=>browserStorage.removeItem(a));
       this.currentUser()!.destroy();
       this.currentUser.set(null);
   }
 
 
   isAuthenticated(): boolean {
-        const token:string|null = localStorage.getItem('token');
+        const token:string|null = browserStorage.getItem('token');
         if (!token) {
             return false;
         }
